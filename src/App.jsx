@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import StarfieldCanvas from './components/StarfieldCanvas';
 import CelestialPortal from './components/CelestialPortal';
 import CosmicNavbar from './components/CosmicNavbar';
@@ -10,10 +10,23 @@ import RSVPSection from './components/RSVPSection';
 import GiftRegistry from './components/GiftRegistry';
 import CosmicFooter from './components/CosmicFooter';
 import AudioControlBar from './components/AudioControlBar';
+import { cosmicAudio } from './utils/audioEngine';
 
 export default function App() {
   const [isUniverseOpened, setIsUniverseOpened] = useState(false);
   const [isWarping, setIsWarping] = useState(false);
+  const [beatPulse, setBeatPulse] = useState(0);
+
+  // Sync universe visual pulsation with 122 BPM kicks
+  useEffect(() => {
+    const unsub = cosmicAudio.subscribeBeat(({ isKick }) => {
+      if (isKick) {
+        setBeatPulse(1);
+        setTimeout(() => setBeatPulse(0), 120);
+      }
+    });
+    return unsub;
+  }, []);
 
   const handleEnterUniverse = (warpingActive) => {
     setIsWarping(warpingActive);
@@ -28,9 +41,9 @@ export default function App() {
   };
 
   return (
-    <div className="relative min-h-screen bg-[#030611] text-[#f4efe6] overflow-x-hidden selection:bg-[#d4af37]/30 selection:text-[#fcedb3]">
-      {/* 3D Realtime Starfield Canvas (always present in background) */}
-      <StarfieldCanvas isWarping={isWarping} />
+    <div className="relative min-h-screen bg-[#02040b] text-[#f4efe6] overflow-x-hidden selection:bg-[#38bdf8]/30 selection:text-[#fae084]">
+      {/* 3D Realtime Volumetric Nebula & Starfield Canvas */}
+      <StarfieldCanvas isWarping={isWarping} beatPulse={beatPulse} />
 
       {/* The 3D Celestial Portal Door */}
       {!isUniverseOpened && (

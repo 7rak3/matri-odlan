@@ -33,11 +33,11 @@ export default function CosmicNavbar({ onReopenPortal }) {
             </span>
           </div>
           <div>
-            <span className="font-cinzel text-sm sm:text-base tracking-[0.2em] font-semibold text-white group-hover:text-amber-200 transition-colors block">
+            <span className="font-cinzel text-sm sm:text-base tracking-[0.2em] font-semibold text-white group-hover:text-cyan-200 transition-colors block">
               JOSE & ODLAN
             </span>
-            <span className="font-garamond italic text-[11px] text-amber-200/70 tracking-widest block">
-              24 • 10 • 2026
+            <span className="font-montserrat text-[10px] text-cyan-300/80 tracking-widest block uppercase font-medium">
+              ASTRAL ODYSSEY • 122 BPM
             </span>
           </div>
         </a>
