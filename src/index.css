@@ -1,0 +1,176 @@
+@import "tailwindcss";
+
+@theme {
+  --font-cinzel: 'Cinzel', serif;
+  --font-cormorant: 'Cormorant Garamond', Georgia, serif;
+  --font-sans: 'Montserrat', system-ui, sans-serif;
+  --font-script: 'Great Vibes', cursive;
+
+  --color-gold-200: #fef08a;
+  --color-gold-300: #fae084;
+  --color-gold-400: #f5cf53;
+  --color-gold-500: #d4af37;
+  --color-gold-600: #b89125;
+  --color-gold-700: #8c6c14;
+  
+  --color-space-950: #02040b;
+  --color-space-900: #040817;
+  --color-space-850: #070d24;
+  --color-space-800: #0c1638;
+  --color-space-700: #142252;
+}
+
+:root {
+  color-scheme: dark;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  background-color: #030611;
+  color: #f6f3eb;
+  font-family: 'Montserrat', sans-serif;
+  overflow-x: hidden;
+}
+
+/* Custom Typography Helpers */
+.font-cinzel {
+  font-family: 'Cinzel', serif;
+}
+
+.font-garamond {
+  font-family: 'Cormorant Garamond', Georgia, serif;
+}
+
+.font-script {
+  font-family: 'Great Vibes', cursive;
+}
+
+.font-montserrat {
+  font-family: 'Montserrat', sans-serif;
+}
+
+/* Metallic Gold Gradients */
+.gold-gradient-text {
+  background: linear-gradient(135deg, #fff3c4 0%, #f7d268 30%, #d4af37 60%, #aa841c 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.gold-gradient-text-subtle {
+  background: linear-gradient(135deg, #ffffff 0%, #f9e7b2 50%, #d4af37 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.gold-border {
+  border-image: linear-gradient(135deg, rgba(245, 207, 83, 0.6), rgba(212, 175, 55, 0.2), rgba(245, 207, 83, 0.6)) 1;
+}
+
+/* Glassmorphism Cosmic Cards */
+.cosmic-glass {
+  background: rgba(8, 14, 32, 0.65);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(212, 175, 55, 0.2);
+  box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.7), 0 0 25px -5px rgba(212, 175, 55, 0.1);
+}
+
+.cosmic-glass-interactive {
+  background: rgba(10, 18, 40, 0.7);
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
+  border: 1px solid rgba(212, 175, 55, 0.25);
+  transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.cosmic-glass-interactive:hover {
+  border-color: rgba(245, 207, 83, 0.6);
+  box-shadow: 0 15px 35px -10px rgba(0, 0, 0, 0.8), 0 0 35px 2px rgba(212, 175, 55, 0.25);
+  transform: translateY(-3px);
+}
+
+/* Golden Glows */
+.gold-glow {
+  box-shadow: 0 0 35px rgba(212, 175, 55, 0.4);
+}
+
+.gold-glow-lg {
+  box-shadow: 0 0 60px rgba(212, 175, 55, 0.5), 0 0 100px rgba(212, 175, 55, 0.2);
+}
+
+.text-gold-glow {
+  text-shadow: 0 0 18px rgba(245, 207, 83, 0.5);
+}
+
+/* Animations */
+@keyframes portal-spin-cw {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+@keyframes portal-spin-ccw {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(-360deg); }
+}
+
+@keyframes float-subtle {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-8px); }
+}
+
+@keyframes pulse-ring {
+  0% { transform: scale(0.95); opacity: 0.8; }
+  50% { transform: scale(1.05); opacity: 1; filter: drop-shadow(0 0 15px rgba(212,175,55,0.7)); }
+  100% { transform: scale(0.95); opacity: 0.8; }
+}
+
+@keyframes shimmer-slide {
+  0% { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
+
+.animate-spin-slow {
+  animation: portal-spin-cw 60s linear infinite;
+}
+
+.animate-spin-reverse-slow {
+  animation: portal-spin-ccw 45s linear infinite;
+}
+
+.animate-float {
+  animation: float-subtle 6s ease-in-out infinite;
+}
+
+.animate-pulse-ring {
+  animation: pulse-ring 3s ease-in-out infinite;
+}
+
+/* Holographic Shimmer Effect for the Ticket */
+.hologram-shimmer {
+  background: linear-gradient(
+    115deg,
+    transparent 0%,
+    rgba(255, 255, 255, 0.03) 30%,
+    rgba(250, 224, 132, 0.25) 50%,
+    rgba(147, 197, 253, 0.15) 60%,
+    transparent 80%
+  );
+  background-size: 200% 200%;
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+}
+::-webkit-scrollbar-track {
+  background: #030611;
+}
+::-webkit-scrollbar-thumb {
+  background: #252b45;
+  border-radius: 4px;
+  border: 1px solid rgba(212, 175, 55, 0.2);
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #d4af37;
+}

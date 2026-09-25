@@ -1,0 +1,214 @@
+import React from 'react';
+import { MapPin, Navigation, Clock, Wine, GlassWater, Music, Utensils, Sparkles, AlertCircle, Shirt } from 'lucide-react';
+import { cosmicAudio } from '../utils/audioEngine';
+
+const SCHEDULE = [
+  {
+    time: '17:30',
+    title: 'Recepción Cósmica & Atardecer',
+    desc: 'Cóctel de bienvenida con cava de autor y bocados mientras el sol se despide tras la cordillera.',
+    icon: Wine,
+  },
+  {
+    time: '18:30',
+    title: 'La Ceremonia de las Estrellas',
+    desc: 'Bajo el roble centenario, Jose y Odlan unen sus almas en el intercambio de votos eternos.',
+    icon: Sparkles,
+  },
+  {
+    time: '19:45',
+    title: 'Banquete Real & Brindis',
+    desc: 'Cena gastronómica maridada en el gran salón de cristal con vista al cielo abierto.',
+    icon: Utensils,
+  },
+  {
+    time: '21:30',
+    title: 'Apertura de Pista & Fiesta Infinita',
+    desc: 'Barra premium de autor, DJ de gala y una celebración bailable sin gravedad.',
+    icon: Music,
+  },
+  {
+    time: '01:00',
+    title: 'Estación de Medianoche ("El Bajón")',
+    desc: 'Papas trufadas, mini burgers gourmet, churros calientes y recarga de energía.',
+    icon: GlassWater,
+  },
+  {
+    time: '03:30',
+    title: 'Despedida de Bengalas',
+    desc: 'Cierre mágico entre destellos luminosos para culminar una noche inolvidable.',
+    icon: Sparkles,
+  },
+];
+
+export default function ItineraryAndLocation() {
+  const address = 'Camino San José 450, Chicureo, Colina, Región Metropolitana';
+  const gmapsUrl = 'https://maps.google.com/?q=Casona+San+Jose+Chicureo';
+  const wazeUrl = 'https://waze.com/ul?q=Casona+San+Jose+Chicureo';
+
+  return (
+    <section id="itinerario" className="relative py-24 px-4 md:px-8 max-w-6xl mx-auto z-10">
+      {/* Section Header */}
+      <div className="text-center max-w-2xl mx-auto mb-20">
+        <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-amber-500/10 border border-amber-400/30 text-amber-300 text-xs tracking-[0.25em] uppercase mb-4 shadow-[0_0_20px_rgba(212,175,55,0.15)]">
+          <Clock className="w-3.5 h-3.5 text-amber-300" />
+          Coordenadas & Horarios
+        </div>
+
+        <h2 className="font-cinzel text-3xl md:text-5xl font-bold tracking-wider gold-gradient-text uppercase mb-4">
+          El Itinerario Celestial
+        </h2>
+
+        <div className="w-24 h-0.5 mx-auto bg-gradient-to-r from-transparent via-amber-400 to-transparent mb-6" />
+
+        <p className="font-garamond italic text-lg md:text-xl text-amber-100/80 leading-relaxed">
+          Cada minuto está diseñado para que disfrutes de una velada estelar llena de magia, amor y fiesta.
+        </p>
+      </div>
+
+      <div className="grid grid-cols-1 lg:grid-cols-12 gap-10">
+        {/* Left Column: Interactive Timeline */}
+        <div className="lg:col-span-7 space-y-6">
+          <div className="relative pl-6 md:pl-10 space-y-8 before:absolute before:left-3 md:before:left-5 before:top-3 before:bottom-3 before:w-0.5 before:bg-gradient-to-b before:from-amber-400 before:via-amber-500/40 before:to-transparent">
+            {SCHEDULE.map((item, idx) => {
+              const IconComponent = item.icon;
+              return (
+                <div key={idx} className="relative group text-left">
+                  {/* Glowing Node Dot */}
+                  <div className="absolute -left-[27px] md:-left-[35px] top-1.5 w-6 h-6 rounded-full bg-[#0a122e] border-2 border-amber-400 flex items-center justify-center shadow-[0_0_12px_rgba(212,175,55,0.5)] group-hover:scale-125 transition-transform duration-300">
+                    <div className="w-2 h-2 rounded-full bg-amber-300" />
+                  </div>
+
+                  {/* Schedule Card */}
+                  <div className="cosmic-glass p-5 rounded-2xl border border-amber-400/20 group-hover:border-amber-400/60 transition-all duration-300">
+                    <div className="flex items-center justify-between gap-3 mb-2">
+                      <span className="font-cinzel text-amber-400 font-bold text-lg md:text-xl tracking-wider">
+                        {item.time}
+                      </span>
+                      <div className="p-2 rounded-full bg-amber-500/10 text-amber-300 border border-amber-400/20">
+                        <IconComponent className="w-4 h-4" />
+                      </div>
+                    </div>
+
+                    <h4 className="font-cinzel text-base md:text-lg font-semibold text-white mb-1">
+                      {item.title}
+                    </h4>
+
+                    <p className="font-montserrat text-xs md:text-sm text-slate-300 font-light leading-relaxed">
+                      {item.desc}
+                    </p>
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+        </div>
+
+        {/* Right Column: Location Sanctuary & Navigation */}
+        <div className="lg:col-span-5 space-y-8">
+          {/* Location Box */}
+          <div className="cosmic-glass p-6 md:p-8 rounded-3xl border border-amber-400/30 text-left relative overflow-hidden">
+            <div className="absolute top-0 right-0 w-32 h-32 bg-amber-400/5 rounded-full blur-3xl pointer-events-none" />
+
+            <div className="flex items-center gap-2 text-xs font-montserrat tracking-widest text-amber-300 uppercase mb-3">
+              <MapPin className="w-4 h-4 text-amber-400" />
+              Santuario de la Celebración
+            </div>
+
+            <h3 className="font-cinzel text-2xl md:text-3xl font-bold text-white mb-2">
+              Casona San José
+            </h3>
+
+            <p className="font-garamond italic text-base text-amber-200/80 mb-4">
+              Chicureo, Santiago de Chile
+            </p>
+
+            <p className="font-montserrat text-xs md:text-sm text-slate-300 leading-relaxed mb-6 font-light">
+              {address}
+            </p>
+
+            {/* Direct Navigation Buttons */}
+            <div className="space-y-3">
+              <a
+                href={gmapsUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                onClick={() => cosmicAudio.playChime(1.2)}
+                className="w-full flex items-center justify-center gap-2 py-3 px-4 rounded-xl bg-gradient-to-r from-amber-500/20 via-amber-400/25 to-amber-500/20 border border-amber-400/50 text-amber-200 hover:text-white hover:border-amber-200 transition-all font-montserrat text-xs tracking-widest uppercase font-semibold shadow-md"
+              >
+                <MapPin className="w-4 h-4 text-amber-400" />
+                Abrir en Google Maps
+              </a>
+
+              <a
+                href={wazeUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                onClick={() => cosmicAudio.playChime(1.2)}
+                className="w-full flex items-center justify-center gap-2 py-3 px-4 rounded-xl bg-[#091535] border border-amber-400/30 text-amber-200 hover:text-white hover:border-amber-300 transition-all font-montserrat text-xs tracking-widest uppercase font-semibold shadow-md"
+              >
+                <Navigation className="w-4 h-4 text-cyan-400" />
+                Navegar con Waze
+              </a>
+            </div>
+
+            <div className="mt-6 pt-5 border-t border-amber-400/20 flex items-center gap-2.5 text-xs text-amber-200/70">
+              <AlertCircle className="w-4 h-4 text-amber-400 shrink-0" />
+              <span>Estacionamiento privado con guardias y valet parking en el recinto.</span>
+            </div>
+          </div>
+
+          {/* Dress Code Section */}
+          <div className="cosmic-glass p-6 md:p-8 rounded-3xl border border-amber-400/30 text-left">
+            <div className="flex items-center gap-2 text-xs font-montserrat tracking-widest text-amber-300 uppercase mb-3">
+              <Shirt className="w-4 h-4 text-amber-400" />
+              Código de Vestimenta
+            </div>
+
+            <h3 className="font-cinzel text-xl md:text-2xl font-bold text-white mb-2">
+              Celestial Glam & Black Tie
+            </h3>
+
+            <p className="font-garamond italic text-base text-amber-200/80 mb-4">
+              Elegancia estelar: Traje oscuro o esmoquin para ellos, vestido largo de gala para ellas.
+            </p>
+
+            {/* Color Palette Inspiration */}
+            <div className="mb-6">
+              <span className="text-[11px] font-montserrat tracking-wider uppercase text-slate-400 block mb-2.5">
+                Paleta de Inspiración Sugerida:
+              </span>
+              <div className="flex items-center gap-3">
+                {[
+                  { name: 'Azul Noche', color: '#09153a' },
+                  { name: 'Oro Estelar', color: '#d4af37' },
+                  { name: 'Esmeralda', color: '#0a3a2a' },
+                  { name: 'Borgoña', color: '#4a1224' },
+                  { name: 'Negro Gala', color: '#11131a' },
+                ].map((item) => (
+                  <div key={item.name} className="flex flex-col items-center gap-1 group">
+                    <div
+                      className="w-8 h-8 rounded-full border border-amber-400/40 shadow-md group-hover:scale-110 transition-transform"
+                      style={{ backgroundColor: item.color }}
+                      title={item.name}
+                    />
+                    <span className="text-[9px] text-slate-400 font-montserrat hidden md:block">
+                      {item.name}
+                    </span>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            <div className="p-3 rounded-xl bg-rose-950/20 border border-rose-500/30 text-xs text-rose-200/80 flex items-start gap-2.5">
+              <AlertCircle className="w-4 h-4 text-rose-400 shrink-0 mt-0.5" />
+              <span>
+                <strong>Nota con cariño:</strong> El color blanco y marfil está reservado con amor exclusivamente para la novia.
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}
