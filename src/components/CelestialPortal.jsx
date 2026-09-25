@@ -79,13 +79,13 @@ export default function CelestialPortal({ onEnterUniverse, isOpened }) {
           }`}
         >
           <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-amber-500/15 border border-amber-400/40 text-amber-200 text-xs tracking-[0.25em] uppercase mb-4 shadow-[0_0_25px_rgba(212,175,55,0.2)]">
-            <span>🚨</span>
-            <span className="font-bold">ALERTA DE MATRIMONIO</span>
+            <Sparkles className="w-3.5 h-3.5 text-amber-300" />
+            <span className="font-semibold">NUESTRO MATRIMONIO • SAVE THE DATE</span>
             <Sparkles className="w-3.5 h-3.5 text-amber-300" />
           </div>
 
           <p className="font-garamond italic text-xl md:text-2xl text-amber-100/90 mb-1 tracking-wide">
-            Nuestra historia continúa... Despegan juntos
+            Tenemos el honor de invitarte a celebrar la unión de
           </p>
 
           <h1 className="font-cinzel text-4xl sm:text-6xl md:text-7xl font-bold tracking-widest gold-gradient-text uppercase mb-2 drop-shadow-[0_8px_30px_rgba(0,0,0,0.9)]">

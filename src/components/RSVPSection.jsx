@@ -73,19 +73,19 @@ export default function RSVPSection() {
     <section id="rsvp" className="relative py-28 px-4 md:px-8 max-w-4xl mx-auto z-10">
       {/* Header */}
       <div className="text-center max-w-2xl mx-auto mb-16">
-        <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-rose-500/15 border border-rose-400/40 text-rose-300 text-xs tracking-[0.25em] uppercase mb-4 shadow-[0_0_20px_rgba(244,63,94,0.3)]">
-          <span>🚨</span>
-          <span className="font-bold">ALERTA DE MATRIMONIO • PRE-CONFIRMACIÓN</span>
+        <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-amber-500/10 border border-amber-400/30 text-amber-200 text-xs tracking-[0.25em] uppercase mb-4 shadow-[0_0_20px_rgba(212,175,55,0.15)]">
+          <Heart className="w-3.5 h-3.5 text-rose-400 fill-rose-400" />
+          <span>CONFIRMA TU ASISTENCIA • R.S.V.P.</span>
         </div>
 
         <h2 className="font-cinzel text-3xl md:text-5xl font-bold tracking-wider gold-gradient-text uppercase mb-4">
-          Confirma Tu Asistencia
+          Reserva Tu Lugar
         </h2>
 
         <div className="w-24 h-0.5 mx-auto bg-gradient-to-r from-transparent via-amber-400 to-transparent mb-6" />
 
         <p className="font-garamond italic text-lg md:text-xl text-amber-100/90 leading-relaxed">
-          Confírmanos la asistencia de ambos para que pronto podamos hacerles llegar la invitación formal. ¡Nos vemos pronto! ❤️
+          Confírmanos tu asistencia para que podamos preparar cada detalle de este día inolvidable junto a ti.
         </p>
       </div>
 
