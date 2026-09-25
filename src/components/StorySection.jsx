@@ -6,51 +6,51 @@ import HoloTiltCard from './HoloTiltCard';
 const CHAPTERS = [
   {
     id: 'origen',
-    tabName: '01 • El Primer Café',
-    period: 'Febrero 2021',
-    title: 'La Tarde en que el Destino Hizo Clic',
-    location: 'Barrio Lastarria, Santiago',
-    quote: '"Hay almas que se reconocen antes de haberse tocado."',
+    tabName: '01 • Cuando éramos bbys',
+    period: 'Inicios • Más de 7 años',
+    title: 'Nuestros Inicios y Primeras Sonrisas',
+    location: 'Donde todo comenzó',
+    quote: '"La primera foto, éramos unos bbys 🥺❤️"',
     story:
-      'Un café de viernes que se suponía duraría 45 minutos terminó extendiéndose por más de cinco horas. Hablamos de nuestros miedos, nuestros sueños de infancia y de lo difícil que era encontrar a alguien auténtico. Al despedirnos en la esquina, ambos supimos en silencio que nuestras vidas habían cambiado para siempre.',
+      'Pareciera que fue ayer que nos conocimos. Desde esos primeros días de risas y complicidad, supimos que habíamos encontrado no solo un amor, sino al compañero de vida ideal. Más de siete años después, esa misma chispa y ternura siguen brillando intactas.',
     details: [
-      { label: 'Primer tema de conversación', value: 'Los viajes y la música' },
-      { label: 'La señal indiscutible', value: 'La facilidad de reírnos juntos' },
-      { label: 'Desde entonces', value: 'No pasamos un solo día sin hablar' },
+      { label: 'Tiempo construyendo amor', value: 'Más de 7 años juntos' },
+      { label: 'Apodos del corazón', value: 'Mi 🤎 de melón, mi odlajo' },
+      { label: 'La certeza', value: 'Te amo infinito bb' },
     ],
-    image: 'https://images.unsplash.com/photo-1518199266791-5375a83190b7?auto=format&fit=crop&w=1000&q=80',
+    image: '/photos/foto-03.jpg',
   },
   {
     id: 'aventuras',
-    tabName: '02 • Las Aventuras',
-    period: '2022 — 2025',
-    title: 'Descubriendo el Mundo de la Mano',
-    location: '15+ Ciudades, Cumbres & Playas',
-    quote: '"Nuestro hogar no es una dirección fija; cabe entero en un abrazo."',
+    tabName: '02 • Mi Partner de Vuelo',
+    period: '2019 — 2026',
+    title: 'Viajando por el Mundo y las Nubes',
+    location: 'En el aire, en el mar y cada nuevo destino',
+    quote: '"Mi partner en la tierra, en el aire y en cada horizonte."',
     story:
-      'Maletas hechas a última hora, vuelos de madrugada, carreteras interminables y la complicidad de perdernos juntos sin importar el idioma. En cada viaje confirmamos que no solo éramos novios: éramos los mejores amigos, el mejor equipo y el refugio mutuo para cualquier tormenta.',
+      'Entre cabinas de avión, despegues a miles de pies de altura, playas cálidas y calles llenas de color, hemos descubierto que no hay mejor destino que estar juntos. Somos los mejores amigos, el refugio en la tormenta y el equipo más feliz.',
     details: [
-      { label: 'Destino favorito', value: 'Atardeceres frente al mar' },
-      { label: 'Mayor aprendizaje', value: 'Apoyarnos en los días difíciles' },
-      { label: 'El ritual sagrado', value: 'Un abrazo largo al llegar a casa' },
+      { label: 'Nuestra cabina favorita', value: 'Volando juntos a 35,000 pies' },
+      { label: 'El mayor aprendizaje', value: 'Apoyarnos en cada aterrizaje y despegue' },
+      { label: 'Familia completa', value: 'Nosotros y nuestro fiel perrito' },
     ],
-    image: 'https://images.unsplash.com/photo-1522673607200-164d1b6ce486?auto=format&fit=crop&w=1000&q=80',
+    image: '/photos/foto-10.jpg',
   },
   {
     id: 'propuesta',
-    tabName: '03 • El Gran "Sí"',
-    period: 'Diciembre 2025',
-    title: 'La Pregunta Más Hermosa del Universo',
-    location: 'Bajo el cielo estrellado del Valle del Elqui',
+    tabName: '03 • Hacia el Altar',
+    period: 'Octubre 2026',
+    title: 'El Comienzo de Toda una Vida',
+    location: 'Santiago de Chile',
     quote: '"Para siempre es solo el comienzo de nuestra historia."',
     story:
-      'Bajo el cielo más limpio del hemisferio sur, con un telescopio apuntando a la Vía Láctea y el silencio mágico del valle, Odlan tomó la mano temblorosa de Jose. Una rodilla en la tierra, una cajita que brillaba a la luz de las velas y la pregunta que selló nuestro destino. Entre lágrimas y abrazos interminables, el "SÍ" fue la palabra más dulce de nuestras vidas.',
+      'Después de más de 7 años de escribir páginas inolvidables, decidimos dar el paso sagrado que une nuestras vidas para siempre. Con la bendición de quienes más amamos y la alegría desbordando en el pecho, estamos listos para decir con orgullo: "Sí, Acepto".',
     details: [
-      { label: 'Testigos', value: 'Un millón de estrellas fugaces' },
-      { label: 'La reacción', value: 'Lágrimas de pura felicidad' },
-      { label: 'La promesa', value: 'Caminar juntos hasta la vejez' },
+      { label: 'La promesa sagrada', value: 'Caminar de la mano hasta la vejez' },
+      { label: 'Nuestra gran fecha', value: 'Sábado 24 de Octubre de 2026' },
+      { label: 'El sentimiento', value: 'Amor eterno y bendecido' },
     ],
-    image: 'https://images.unsplash.com/photo-1515934751635-c81c6bc9a2d8?auto=format&fit=crop&w=1000&q=80',
+    image: '/photos/foto-06.jpg',
   },
 ];
 
@@ -80,7 +80,7 @@ export default function StorySection() {
         <div className="w-24 h-0.5 mx-auto bg-gradient-to-r from-transparent via-amber-400 to-transparent mb-6" />
 
         <p className="font-garamond italic text-lg md:text-xl text-amber-100/90 leading-relaxed">
-          Tres momentos inolvidables que guiaron nuestros pasos hacia el altar.
+          Más de siete años caminando juntos, coleccionando risas y soñando con este gran día.
         </p>
       </div>
 

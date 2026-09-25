@@ -26,6 +26,20 @@ export default function HeroUniverse() {
           Con la bendición de nuestras familias y la alegría del corazón
         </p>
 
+        {/* Real Couple Portrait Medal */}
+        <div className="relative my-4 group">
+          <div className="relative w-28 h-28 sm:w-32 sm:h-32 rounded-full p-1 bg-gradient-to-tr from-amber-400 via-rose-400 to-amber-200 shadow-[0_0_35px_rgba(250,224,132,0.4)] group-hover:scale-105 transition-transform duration-500">
+            <img
+              src="/photos/foto-01.jpg"
+              alt="Jose & Odlan"
+              className="w-full h-full rounded-full object-cover border-2 border-[#02040b]"
+            />
+          </div>
+          <div className="absolute -bottom-2 left-1/2 -translate-x-1/2 px-3 py-0.5 rounded-full bg-[#04081c] border border-amber-400/50 text-[10px] font-montserrat uppercase tracking-widest text-amber-200 shadow-md whitespace-nowrap">
+            7+ Años Juntos
+          </div>
+        </div>
+
         {/* Grand Headline */}
         <h1 className="font-cinzel text-5xl sm:text-7xl md:text-8xl font-black tracking-widest gold-gradient-text uppercase mb-6 leading-tight drop-shadow-[0_12px_35px_rgba(0,0,0,0.9)]">
           Jose & Odlan

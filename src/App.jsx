@@ -4,6 +4,7 @@ import CelestialPortal from './components/CelestialPortal';
 import CosmicNavbar from './components/CosmicNavbar';
 import HeroUniverse from './components/HeroUniverse';
 import StorySection from './components/StorySection';
+import LoveStoryGallery from './components/LoveStoryGallery';
 import VIPTicketAndCountdown from './components/VIPTicketAndCountdown';
 import ItineraryAndLocation from './components/ItineraryAndLocation';
 import RSVPSection from './components/RSVPSection';
@@ -66,6 +67,7 @@ export default function App() {
         <main className="relative z-10">
           <HeroUniverse />
           <StorySection />
+          <LoveStoryGallery />
           <VIPTicketAndCountdown />
           <ItineraryAndLocation />
           <RSVPSection />

@@ -8,6 +8,7 @@ export default function CosmicNavbar({ onReopenPortal }) {
   // Clean, concise, luxury links without redundancy
   const navLinks = [
     { label: 'Historia', href: '#historia' },
+    { label: 'Galería', href: '#galeria' },
     { label: 'Invitación', href: '#invitacion' },
     { label: 'Itinerario', href: '#itinerario' },
     { label: 'Regalos', href: '#regalos' },
