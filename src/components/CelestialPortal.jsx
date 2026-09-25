@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Heart, Sparkles, Key } from 'lucide-react';
+import { Sparkles, Key } from 'lucide-react';
 import { cosmicAudio } from '../utils/audioEngine';
 import Rings3DCanvas from './Rings3DCanvas';
 
@@ -78,22 +78,22 @@ export default function CelestialPortal({ onEnterUniverse, isOpened }) {
             isUnsealing ? 'opacity-0 -translate-y-10' : 'opacity-100 translate-y-0'
           }`}
         >
-          <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-amber-500/15 border border-amber-400/40 text-amber-200 text-xs tracking-[0.3em] uppercase mb-4 shadow-[0_0_25px_rgba(212,175,55,0.2)]">
-            <Heart className="w-3.5 h-3.5 text-rose-400 fill-rose-400 animate-pulse" />
-            <span>NUESTRO MATRIMONIO</span>
+          <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-amber-500/15 border border-amber-400/40 text-amber-200 text-xs tracking-[0.25em] uppercase mb-4 shadow-[0_0_25px_rgba(212,175,55,0.2)]">
+            <span>🚨</span>
+            <span className="font-bold">ALERTA DE MATRIMONIO</span>
             <Sparkles className="w-3.5 h-3.5 text-amber-300" />
           </div>
 
           <p className="font-garamond italic text-xl md:text-2xl text-amber-100/90 mb-1 tracking-wide">
-            Tenemos el honor de invitarte a celebrar la unión de
+            Nuestra historia continúa... Despegan juntos
           </p>
 
           <h1 className="font-cinzel text-4xl sm:text-6xl md:text-7xl font-bold tracking-widest gold-gradient-text uppercase mb-2 drop-shadow-[0_8px_30px_rgba(0,0,0,0.9)]">
             Jose & Odlan
           </h1>
 
-          <p className="font-montserrat text-xs md:text-sm tracking-[0.3em] text-amber-200/80 uppercase mb-6 font-light">
-            SÁBADO 24 • OCTUBRE • 2026
+          <p className="font-montserrat text-xs md:text-sm tracking-[0.3em] text-amber-200/90 uppercase mb-6 font-semibold">
+            ✨ SÁBADO 20 • FEBRERO • 2027 ✨
           </p>
         </div>
 

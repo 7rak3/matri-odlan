@@ -37,8 +37,8 @@ export default function CosmicNavbar({ onReopenPortal }) {
             <span className="font-cinzel text-base tracking-[0.2em] font-bold text-white group-hover:text-amber-200 transition-colors block">
               JOSE & ODLAN
             </span>
-            <span className="font-montserrat text-[10px] text-amber-200/80 tracking-widest block uppercase font-light">
-              24 • OCTUBRE • 2026
+            <span className="font-montserrat text-[10px] text-amber-200/90 tracking-widest block uppercase font-medium">
+              20 • FEBRERO • 2027
             </span>
           </div>
         </a>

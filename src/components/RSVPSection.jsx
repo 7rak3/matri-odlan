@@ -73,9 +73,9 @@ export default function RSVPSection() {
     <section id="rsvp" className="relative py-28 px-4 md:px-8 max-w-4xl mx-auto z-10">
       {/* Header */}
       <div className="text-center max-w-2xl mx-auto mb-16">
-        <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-amber-500/10 border border-amber-400/30 text-amber-200 text-xs tracking-[0.25em] uppercase mb-4 shadow-[0_0_20px_rgba(212,175,55,0.15)]">
-          <Heart className="w-3.5 h-3.5 text-rose-400 fill-rose-400" />
-          R.S.V.P.
+        <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-rose-500/15 border border-rose-400/40 text-rose-300 text-xs tracking-[0.25em] uppercase mb-4 shadow-[0_0_20px_rgba(244,63,94,0.3)]">
+          <span>🚨</span>
+          <span className="font-bold">ALERTA DE MATRIMONIO • PRE-CONFIRMACIÓN</span>
         </div>
 
         <h2 className="font-cinzel text-3xl md:text-5xl font-bold tracking-wider gold-gradient-text uppercase mb-4">
@@ -85,7 +85,7 @@ export default function RSVPSection() {
         <div className="w-24 h-0.5 mx-auto bg-gradient-to-r from-transparent via-amber-400 to-transparent mb-6" />
 
         <p className="font-garamond italic text-lg md:text-xl text-amber-100/90 leading-relaxed">
-          Agradecemos confirmar antes del <strong>15 de Septiembre de 2026</strong> para preparar cada detalle de tu lugar en nuestra mesa.
+          Confírmanos la asistencia de ambos para que pronto podamos hacerles llegar la invitación formal. ¡Nos vemos pronto! ❤️
         </p>
       </div>
 
@@ -286,13 +286,13 @@ export default function RSVPSection() {
             <div>
               <label className="block text-xs font-montserrat tracking-widest uppercase text-amber-300 mb-2 flex items-center gap-1.5">
                 <MessageSquare className="w-3.5 h-3.5 text-amber-400" />
-                Un Mensaje o Bendición para Jose & Odlan
+                Un Mensaje para Jose & Odlan ✈️❤️
               </label>
               <textarea
                 rows={3}
                 value={formData.message}
                 onChange={(e) => setFormData({ ...formData, message: e.target.value })}
-                placeholder="Escribe unas palabras de cariño, bendiciones o un consejo para su nuevo matrimonio..."
+                placeholder="Escribe unas palabras de cariño, alegría o tus mejores deseos para su nuevo vuelo juntos..."
                 className="w-full bg-[#05091e] border border-amber-400/30 rounded-xl p-4 text-white placeholder-slate-500 focus:outline-none focus:border-amber-300 transition-colors font-montserrat text-sm resize-none"
               />
             </div>

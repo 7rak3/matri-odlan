@@ -12,8 +12,8 @@ const WEDDING_SCHEDULE = [
   },
   {
     time: '18:30',
-    title: 'La Ceremonia Sagrada & "Sí, Acepto"',
-    desc: 'El momento más emotivo: entrada de los novios, lectura de votos, intercambio de alianzas y la bendición de nuestra unión.',
+    title: 'La Ceremonia & "Sí, Acepto"',
+    desc: 'El momento más emotivo: entrada de los novios, lectura de votos, intercambio de alianzas y el despegue de nuestra nueva vida juntos.',
     icon: Heart,
     phase: 'El Momento Cumbre',
   },

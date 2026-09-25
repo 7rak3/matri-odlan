@@ -448,7 +448,7 @@ export default function LoveStoryGallery() {
 
                 <div className="flex items-center justify-between pt-2 text-[11px] text-slate-400 uppercase tracking-widest">
                   <span>20 de septiembre de 2025 • Santiago de Chile</span>
-                  <span className="text-amber-300 font-medium">Boda 24 Octubre 2026</span>
+                  <span className="text-amber-300 font-semibold">✨ 20.02.2027 ✨</span>
                 </div>
               </div>
             </div>
@@ -601,11 +601,11 @@ export default function LoveStoryGallery() {
                   </div>
                   <div className="flex justify-between text-slate-300">
                     <span className="text-slate-400">Pareja:</span>
-                    <span className="text-amber-200 font-medium">Jose & Odlan</span>
+                    <span className="text-amber-200 font-medium">Jose (Tripulante) & Odlan (Piloto)</span>
                   </div>
                   <div className="flex justify-between text-slate-300">
                     <span className="text-slate-400">Fecha de Boda:</span>
-                    <span className="text-amber-200 font-medium">24 de Octubre de 2026</span>
+                    <span className="text-amber-200 font-medium">20 de Febrero de 2027</span>
                   </div>
                 </div>
               </div>

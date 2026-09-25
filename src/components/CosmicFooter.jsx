@@ -27,9 +27,9 @@ export default function CosmicFooter() {
         </p>
 
         <p className="font-montserrat text-xs text-slate-400 max-w-md mx-auto leading-relaxed mb-8 font-light">
-          24 de Octubre de 2026 • Chicureo, Santiago de Chile.
+          20 de Febrero de 2027 • Santiago de Chile.
           <br />
-          Gracias por ser parte fundamental de nuestro viaje cósmico.
+          Piloto & Tripulante de Cabina ✈️ • Gracias por ser parte de nuestro viaje.
         </p>
 
         <div className="flex items-center gap-1.5 text-xs text-amber-300/80 mb-8 font-montserrat">

@@ -14,16 +14,17 @@ export default function HeroUniverse() {
   return (
     <section className="relative min-h-[94vh] flex items-center justify-center pt-24 pb-16 px-4 text-center z-10">
       <div className="max-w-4xl mx-auto flex flex-col items-center">
-        {/* Wedding Sacred Pill */}
-        <div className="inline-flex items-center gap-2.5 px-4 py-1.5 rounded-full bg-amber-500/15 border border-amber-400/40 text-amber-200 text-xs tracking-[0.3em] uppercase mb-8 shadow-[0_0_30px_rgba(250,224,132,0.25)] animate-float">
-          <Heart className="w-3.5 h-3.5 text-rose-400 fill-rose-400 animate-pulse" />
-          <span>¡NOS CASAMOS! • NUESTRA BODA SAGRADA</span>
-          <Sparkles className="w-3.5 h-3.5 text-amber-300" />
+        {/* Wedding Alert Aviation Pill */}
+        <div className="inline-flex items-center gap-2.5 px-4 py-1.5 rounded-full bg-amber-500/15 border border-amber-400/40 text-amber-200 text-xs tracking-[0.2em] uppercase mb-8 shadow-[0_0_30px_rgba(250,224,132,0.25)] animate-float">
+          <span>🚨</span>
+          <span className="font-bold">ALERTA DE MATRIMONIO</span>
+          <span className="text-amber-400">•</span>
+          <span className="text-amber-300 font-semibold">SAVE THE DATE ✨ 20.02.2027</span>
         </div>
 
         {/* Script Intro */}
         <p className="font-garamond italic text-2xl md:text-4xl text-amber-100/90 mb-3 tracking-wide">
-          Con la bendición de nuestras familias y la alegría del corazón
+          Nuestra historia continúa en un nuevo y maravilloso vuelo
         </p>
 
         {/* Real Couple Portrait Medal */}
@@ -35,8 +36,8 @@ export default function HeroUniverse() {
               className="w-full h-full rounded-full object-cover border-2 border-[#02040b]"
             />
           </div>
-          <div className="absolute -bottom-2 left-1/2 -translate-x-1/2 px-3 py-0.5 rounded-full bg-[#04081c] border border-amber-400/50 text-[10px] font-montserrat uppercase tracking-widest text-amber-200 shadow-md whitespace-nowrap">
-            7+ Años Juntos
+          <div className="absolute -bottom-2 left-1/2 -translate-x-1/2 px-3.5 py-0.5 rounded-full bg-[#04081c] border border-amber-400/50 text-[10px] font-montserrat uppercase tracking-widest text-amber-200 shadow-md whitespace-nowrap">
+            Piloto & Tripulante • 7+ Años
           </div>
         </div>
 
@@ -53,7 +54,7 @@ export default function HeroUniverse() {
         </div>
 
         <p className="font-montserrat text-sm md:text-base text-slate-200 max-w-2xl mx-auto leading-relaxed mb-10 font-light tracking-wide">
-          "Hay amores que están destinados a encontrarse desde antes de que existieran las estrellas. Hoy te invitamos a ser testigo del día en que prometemos amarnos y cuidarnos por toda la eternidad."
+          "Entre cabinas de avión, cielos abiertos y más de siete años volando juntos, aprendimos que el amor es el destino más hermoso de todos. Por favor, no hagan planes y reserven esta fecha: ¡nuestra historia continúa y queremos que vuelen con nosotros!"
         </p>
 
         {/* Action Pills */}
