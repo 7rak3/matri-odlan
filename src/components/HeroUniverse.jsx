@@ -1,5 +1,5 @@
 import React from 'react';
-import { ArrowDown, Heart, Sparkles, Mail, Feather } from 'lucide-react';
+import { ArrowDown, Heart, Sparkles, Mail } from 'lucide-react';
 import { cosmicAudio } from '../utils/audioEngine';
 
 export default function HeroUniverse() {
@@ -42,19 +42,19 @@ export default function HeroUniverse() {
           "Hay amores que están destinados a encontrarse desde antes de que existieran las estrellas. Hoy te invitamos a ser testigo del día en que prometemos amarnos y cuidarnos por toda la eternidad."
         </p>
 
-        {/* Googlebook-style Action Pills */}
-        <div className="flex flex-wrap items-center justify-center gap-3 w-full sm:w-auto">
+        {/* Action Pills */}
+        <div className="flex flex-wrap items-center justify-center gap-3.5 w-full sm:w-auto">
           <button
-            onClick={() => scrollTo('votos')}
-            className="px-6 py-3.5 rounded-full bg-gradient-to-r from-rose-500/25 via-amber-400/30 to-amber-500/25 border-2 border-amber-300/80 text-white font-cinzel text-xs md:text-sm tracking-[0.2em] uppercase font-semibold hover:border-amber-100 hover:shadow-[0_0_35px_rgba(250,224,132,0.5)] transition-all cursor-pointer transform hover:scale-105 active:scale-95 flex items-center gap-2"
+            onClick={() => scrollTo('historia')}
+            className="px-7 py-3.5 rounded-full bg-gradient-to-r from-amber-500/30 via-amber-400/40 to-amber-500/30 border-2 border-amber-300 text-white font-cinzel text-xs md:text-sm tracking-[0.2em] uppercase font-semibold hover:border-amber-100 hover:shadow-[0_0_35px_rgba(250,224,132,0.5)] transition-all cursor-pointer transform hover:scale-105 active:scale-95 flex items-center gap-2"
           >
-            <Feather className="w-4 h-4 text-amber-300" />
-            <span>Leer Nuestros Votos</span>
+            <Sparkles className="w-4 h-4 text-amber-300" />
+            <span>Descubrir Nuestro Viaje</span>
           </button>
 
           <button
             onClick={() => scrollTo('invitacion')}
-            className="px-6 py-3.5 rounded-full bg-slate-900/80 border border-amber-400/40 text-amber-200 font-cinzel text-xs md:text-sm tracking-[0.2em] uppercase hover:bg-amber-500/15 hover:border-amber-300 transition-all cursor-pointer flex items-center gap-2"
+            className="px-7 py-3.5 rounded-full bg-slate-900/80 border border-amber-400/40 text-amber-200 font-cinzel text-xs md:text-sm tracking-[0.2em] uppercase hover:bg-amber-500/15 hover:border-amber-300 transition-all cursor-pointer flex items-center gap-2"
           >
             <Mail className="w-4 h-4 text-amber-400" />
             <span>Ver Carta de Invitación</span>
@@ -62,7 +62,7 @@ export default function HeroUniverse() {
 
           <button
             onClick={() => scrollTo('rsvp')}
-            className="px-6 py-3.5 rounded-full bg-slate-900/80 border border-amber-400/40 text-amber-200 font-cinzel text-xs md:text-sm tracking-[0.2em] uppercase hover:bg-amber-500/15 hover:border-amber-300 transition-all cursor-pointer flex items-center gap-2"
+            className="px-7 py-3.5 rounded-full bg-slate-900/80 border border-amber-400/40 text-amber-200 font-cinzel text-xs md:text-sm tracking-[0.2em] uppercase hover:bg-amber-500/15 hover:border-amber-300 transition-all cursor-pointer flex items-center gap-2"
           >
             <Heart className="w-4 h-4 text-rose-400" />
             <span>Confirmar Asistencia</span>
@@ -71,11 +71,11 @@ export default function HeroUniverse() {
 
         {/* Down Indicator */}
         <div
-          onClick={() => scrollTo('votos')}
+          onClick={() => scrollTo('historia')}
           className="mt-16 inline-flex flex-col items-center gap-2 text-amber-300/70 hover:text-amber-300 transition-colors cursor-pointer"
         >
           <span className="text-[10px] font-montserrat uppercase tracking-[0.3em]">
-            Desliza para vivir nuestro amor
+            Desliza para comenzar el viaje
           </span>
           <ArrowDown className="w-4 h-4 animate-bounce text-amber-400" />
         </div>

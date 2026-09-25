@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Heart, Sparkles, Key } from 'lucide-react';
 import { cosmicAudio } from '../utils/audioEngine';
+import Rings3DCanvas from './Rings3DCanvas';
 
 export default function CelestialPortal({ onEnterUniverse, isOpened }) {
   const [openingState, setOpeningState] = useState('idle'); // 'idle' | 'unsealing' | 'swinging' | 'warping' | 'opened'
@@ -9,21 +10,21 @@ export default function CelestialPortal({ onEnterUniverse, isOpened }) {
     if (openingState !== 'idle') return;
 
     setOpeningState('unsealing');
-    // Emotional piano glissando & bell
-    cosmicAudio.playWeddingPortalOpen();
+    // Trigger electronic noise riser + sub drop
+    cosmicAudio.playPortalElectronicDrop();
 
-    // Stage 1: Doors swing open in 3D
+    // Stage 1: Doors swing & 3D rings split
     setTimeout(() => {
       setOpeningState('swinging');
     }, 900);
 
-    // Stage 2: Smooth camera dive into golden light
+    // Stage 2: Hyperspace warp dive on the drop
     setTimeout(() => {
       setOpeningState('warping');
       onEnterUniverse(true);
     }, 1800);
 
-    // Stage 3: Arrive at wedding universe, start emotional romantic piano
+    // Stage 3: Land in universe, start 122 BPM Melodic Deep House
     setTimeout(() => {
       setOpeningState('opened');
       cosmicAudio.startMusicLoop();
@@ -46,20 +47,20 @@ export default function CelestialPortal({ onEnterUniverse, isOpened }) {
       }`}
       style={{
         perspective: '1200px',
-        background: 'radial-gradient(ellipse at center, rgba(35,22,12,0.92) 0%, rgba(3,5,15,0.98) 75%)',
+        background: 'radial-gradient(ellipse at center, rgba(20,12,38,0.94) 0%, rgba(2,4,11,0.98) 75%)',
         transition: 'transform 1.4s cubic-bezier(0.16, 1, 0.3, 1), opacity 1s ease',
         transform: isWarping ? 'scale(3.2)' : 'scale(1)',
       }}
     >
-      {/* Background Sacred Concentric Rings & Golden Starlight */}
+      {/* Background Volumetric Glows & Sacred Rings */}
       <div className="absolute inset-0 flex items-center justify-center pointer-events-none overflow-hidden">
-        {/* Soft Golden Halo */}
-        <div className="w-[500px] h-[500px] md:w-[700px] md:h-[700px] rounded-full bg-amber-500/10 blur-3xl animate-pulse" />
+        {/* Soft Golden Nebula Glow */}
+        <div className="w-[520px] h-[520px] md:w-[720px] md:h-[720px] rounded-full bg-amber-500/10 blur-3xl animate-pulse" />
 
         {/* Outer Filigree Ring */}
         <div
           className={`w-[480px] h-[480px] md:w-[680px] md:h-[680px] rounded-full border border-amber-300/25 border-dashed animate-spin-slow transition-all duration-1000 ${
-            isUnsealing ? 'scale-110 border-amber-200/70 shadow-[0_0_80px_rgba(250,224,132,0.5)]' : ''
+            isUnsealing ? 'scale-115 border-amber-200/70 shadow-[0_0_80px_rgba(250,224,132,0.5)]' : ''
           }`}
         />
         {/* Middle Sacred Ring */}
@@ -96,17 +97,17 @@ export default function CelestialPortal({ onEnterUniverse, isOpened }) {
           </p>
         </div>
 
-        {/* 3D Wedding Sanctuary Arch Doors */}
+        {/* 3D Real Three.js Golden Wedding Rings Monument */}
         <div
-          className="relative w-64 h-80 md:w-80 md:h-96 my-2 rounded-t-[150px] p-2.5 bg-gradient-to-b from-amber-300/35 via-amber-900/20 to-transparent border-2 border-amber-400/60 shadow-[0_0_70px_rgba(212,175,55,0.3)]"
+          className="relative w-64 h-72 md:w-80 md:h-88 my-2 rounded-t-[150px] p-2 bg-gradient-to-b from-amber-300/35 via-amber-900/15 to-transparent border-2 border-amber-400/60 shadow-[0_0_70px_rgba(212,175,55,0.3)] flex items-center justify-center overflow-hidden"
           style={{ transformStyle: 'preserve-3d', perspective: '1000px' }}
         >
-          {/* Internal Warm Candlelight / Golden Glow behind doors */}
+          {/* Inside Glow */}
           <div
             className={`absolute inset-2 rounded-t-[145px] overflow-hidden flex items-center justify-center transition-all duration-1000 ${
               isSwinging
                 ? 'bg-gradient-to-t from-amber-200 via-amber-100 to-white shadow-[0_0_150px_rgba(255,245,214,1)]'
-                : 'bg-[#080d24]'
+                : 'bg-[#080d24]/90'
             }`}
           >
             {isSwinging && (
@@ -115,62 +116,13 @@ export default function CelestialPortal({ onEnterUniverse, isOpened }) {
             <div className="absolute w-40 h-40 rounded-full bg-gradient-to-tr from-amber-500/30 via-rose-400/20 to-amber-200/40 blur-2xl animate-pulse" />
           </div>
 
-          {/* Left Door Wing */}
-          <div
-            className="absolute top-2 left-2 bottom-2 w-[calc(50%-8px)] rounded-tl-[145px] bg-gradient-to-b from-[#0c1228] to-[#050817] border-r border-amber-400/40 border-l border-t border-b border-amber-500/50 shadow-2xl flex flex-col items-end justify-center pr-3 transition-transform duration-1000 origin-left"
-            style={{
-              transform: isSwinging ? 'rotateY(-115deg)' : 'rotateY(0deg)',
-              transformStyle: 'preserve-3d',
-              backgroundImage: 'radial-gradient(circle at 100% 50%, rgba(212,175,55,0.2), transparent 70%)',
-            }}
-          >
-            <div className="w-1.5 h-16 rounded-full bg-gradient-to-b from-transparent via-amber-400/80 to-transparent" />
-            <div className="text-[11px] tracking-widest text-amber-300/70 font-cinzel rotate-90 my-4 select-none">
-              JOSE
-            </div>
-            <div className="w-1.5 h-16 rounded-full bg-gradient-to-b from-transparent via-amber-400/80 to-transparent" />
-          </div>
-
-          {/* Right Door Wing */}
-          <div
-            className="absolute top-2 right-2 bottom-2 w-[calc(50%-8px)] rounded-tr-[145px] bg-gradient-to-b from-[#0c1228] to-[#050817] border-l border-amber-400/40 border-r border-t border-b border-amber-500/50 shadow-2xl flex flex-col items-start justify-center pl-3 transition-transform duration-1000 origin-right"
-            style={{
-              transform: isSwinging ? 'rotateY(115deg)' : 'rotateY(0deg)',
-              transformStyle: 'preserve-3d',
-              backgroundImage: 'radial-gradient(circle at 0% 50%, rgba(212,175,55,0.2), transparent 70%)',
-            }}
-          >
-            <div className="w-1.5 h-16 rounded-full bg-gradient-to-b from-transparent via-amber-400/80 to-transparent" />
-            <div className="text-[11px] tracking-widest text-amber-300/70 font-cinzel -rotate-90 my-4 select-none">
-              ODLAN
-            </div>
-            <div className="w-1.5 h-16 rounded-full bg-gradient-to-b from-transparent via-amber-400/80 to-transparent" />
-          </div>
-
-          {/* Center Emblem: Two Interlocked 3D Golden Wedding Rings */}
-          <div
-            className={`absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-20 transition-all duration-700 ${
-              isSwinging
-                ? 'scale-150 opacity-0 filter blur-sm rotate-45'
-                : isUnsealing
-                ? 'scale-125 shadow-[0_0_80px_#fae084]'
-                : 'scale-100'
-            }`}
-          >
-            <div className="relative flex items-center justify-center">
-              {/* Left Ring */}
-              <div className="w-12 h-12 md:w-14 md:h-14 rounded-full border-4 border-amber-300 shadow-[0_0_20px_rgba(250,224,132,0.8)] -mr-4 bg-transparent animate-spin-slow" />
-              {/* Right Ring */}
-              <div className="w-12 h-12 md:w-14 md:h-14 rounded-full border-4 border-amber-200 shadow-[0_0_20px_rgba(250,224,132,0.8)] bg-transparent animate-spin-reverse-slow" />
-              {/* Heart Sparkle in Center */}
-              <div className="absolute inset-0 flex items-center justify-center">
-                <Heart className="w-5 h-5 text-rose-400 fill-rose-400 drop-shadow-[0_0_8px_#fb7185] animate-pulse" />
-              </div>
-            </div>
+          {/* Three.js Real 3D Interlocking Rings */}
+          <div className="relative z-20">
+            <Rings3DCanvas isOpening={isUnsealing || isSwinging} />
           </div>
         </div>
 
-        {/* Action Button: Abrir las Puertas de Nuestra Boda */}
+        {/* Action Button: Abrir Nuestra Boda */}
         <div
           className={`mt-6 transition-all duration-700 ${
             isUnsealing ? 'opacity-0 translate-y-8' : 'opacity-100 translate-y-0'
@@ -192,7 +144,7 @@ export default function CelestialPortal({ onEnterUniverse, isOpened }) {
           </button>
 
           <p className="font-garamond italic text-sm md:text-base text-amber-200/80 mt-3 tracking-wider">
-            Toca el sello para abrir las puertas y comenzar la experiencia con música en vivo
+            Toca el botón para abrir las puertas e iniciar la experiencia
           </p>
         </div>
       </div>

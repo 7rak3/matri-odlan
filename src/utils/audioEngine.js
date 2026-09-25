@@ -1,55 +1,55 @@
-// Emotional Wedding Audio Engine - Piano, Romantic Strings & Organic Melodic Love
+// Authentic Melodic Deep House Audio Engine (122 BPM)
+// Pure electronic elegance inspired by Rüfüs Du Sol, Tale of Us, Afterlife, and Ben Böhmer
+// 0% Piano, 0% Video Game Chiptune - 100% Sophisticated Deep House & Atmospheric Club Sound
 
 class CosmicAudioEngine {
   constructor() {
     this.ctx = null;
     this.isMuted = false;
     this.isPlaying = false;
-    this.mode = 'ceremony'; // 'ceremony' (Emotional Piano & Strings) | 'fiesta' (Organic Melodic House)
 
-    // Audio Buses
+    // Buses
     this.masterGain = null;
-    this.pianoGain = null;
-    this.stringsGain = null;
     this.drumsGain = null;
     this.bassGain = null;
+    this.synthGain = null;
     this.sfxGain = null;
+    this.mainFilter = null;
 
-    // Clock
-    this.bpm = 118;
+    // 122 BPM Clock
+    this.bpm = 122;
     this.step = 0;
     this.timerId = null;
     this.listeners = new Set();
     this.beatListeners = new Set();
 
-    // Emotional Wedding Chord Progression (D Major / Romantic Harmony)
-    // Dmaj7 -> F#m7 -> Bm9 -> Gmaj7
+    // Emotional Melodic House Progression (F minor / Afterlife & Rüfüs harmonic scale)
+    // Fm9 -> Dbmaj7 -> Abmaj7 -> Eb
     this.chords = [
       {
-        name: 'Dmaj7',
-        root: 73.42, // D2
-        piano: [293.66, 369.99, 440.0, 554.37, 739.99], // D4, F#4, A4, C#5, F#5
-        pad: [146.83, 220.0, 277.18, 369.99],
+        root: 87.31, // F2
+        bassNotes: [87.31, 87.31, 103.83, 87.31], // F2, F2, Ab2, F2
+        padFreqs: [174.61, 207.65, 261.63, 311.13, 392.0], // F3, Ab3, C4, Eb4, G4 (Fm9)
       },
       {
-        name: 'F#m7',
-        root: 92.5, // F#2
-        piano: [277.18, 329.63, 369.99, 440.0, 659.25], // C#4, E4, F#4, A4, E5
-        pad: [185.0, 220.0, 277.18, 329.63],
+        root: 69.3, // Db2
+        bassNotes: [69.3, 69.3, 82.41, 69.3], // Db2, Db2, E2, Db2
+        padFreqs: [138.59, 174.61, 207.65, 261.63, 329.63], // Db3, F3, Ab3, C4, E4 (Dbmaj7)
       },
       {
-        name: 'Bm9',
-        root: 61.74, // B1
-        piano: [246.94, 293.66, 369.99, 440.0, 587.33], // B3, D4, F#4, A4, D5
-        pad: [123.47, 185.0, 220.0, 293.66],
+        root: 103.83, // Ab2
+        bassNotes: [103.83, 103.83, 116.54, 103.83], // Ab2, Ab2, Bb2, Ab2
+        padFreqs: [207.65, 261.63, 311.13, 392.0, 466.16], // Ab3, C4, Eb4, G4, Bb4 (Abmaj9)
       },
       {
-        name: 'Gmaj7',
-        root: 98.0, // G2
-        piano: [293.66, 369.99, 392.0, 440.0, 739.99], // D4, F#4, G4, A4, F#5
-        pad: [196.0, 246.94, 293.66, 369.99],
+        root: 77.78, // Eb2
+        bassNotes: [77.78, 77.78, 92.5, 77.78], // Eb2, Eb2, F#2, Eb2
+        padFreqs: [155.56, 196.0, 233.08, 311.13, 392.0], // Eb3, G3, Bb3, Eb4, G4 (Eb)
       },
     ];
+
+    // Rhythmic 16th-note rolling bass pattern (1 = note, 0 = rest)
+    this.bassPattern = [1, 0, 1, 0, 0, 1, 0, 1, 1, 0, 0, 1, 0, 1, 0, 0];
   }
 
   init() {
@@ -65,34 +65,33 @@ class CosmicAudioEngine {
 
     this.ctx = new AudioContextClass();
 
-    // Master Gain
+    // Master Bus
     this.masterGain = this.ctx.createGain();
-    this.masterGain.gain.setValueAtTime(0.8, this.ctx.currentTime);
+    this.masterGain.gain.setValueAtTime(0.85, this.ctx.currentTime);
     this.masterGain.connect(this.ctx.destination);
 
-    // Piano Channel
-    this.pianoGain = this.ctx.createGain();
-    this.pianoGain.gain.setValueAtTime(0.5, this.ctx.currentTime);
-    this.pianoGain.connect(this.masterGain);
+    // Warm Lowpass Filter for atmospheric synth sweep
+    this.mainFilter = this.ctx.createBiquadFilter();
+    this.mainFilter.type = 'lowpass';
+    this.mainFilter.frequency.setValueAtTime(950, this.ctx.currentTime);
+    this.mainFilter.Q.setValueAtTime(1.8, this.ctx.currentTime);
+    this.mainFilter.connect(this.masterGain);
 
-    // Warm Strings / Pad Channel
-    this.stringsGain = this.ctx.createGain();
-    this.stringsGain.gain.setValueAtTime(0.35, this.ctx.currentTime);
-    this.stringsGain.connect(this.masterGain);
-
-    // Drums Channel (for Fiesta mode)
+    // Channels
     this.drumsGain = this.ctx.createGain();
-    this.drumsGain.gain.setValueAtTime(0, this.ctx.currentTime);
+    this.drumsGain.gain.setValueAtTime(0.7, this.ctx.currentTime);
     this.drumsGain.connect(this.masterGain);
 
-    // Bass Channel
     this.bassGain = this.ctx.createGain();
-    this.bassGain.gain.setValueAtTime(0.3, this.ctx.currentTime);
+    this.bassGain.gain.setValueAtTime(0.65, this.ctx.currentTime);
     this.bassGain.connect(this.masterGain);
 
-    // SFX Channel
+    this.synthGain = this.ctx.createGain();
+    this.synthGain.gain.setValueAtTime(0.4, this.ctx.currentTime);
+    this.synthGain.connect(this.mainFilter);
+
     this.sfxGain = this.ctx.createGain();
-    this.sfxGain.gain.setValueAtTime(0.55, this.ctx.currentTime);
+    this.sfxGain.gain.setValueAtTime(0.6, this.ctx.currentTime);
     this.sfxGain.connect(this.masterGain);
   }
 
@@ -111,7 +110,7 @@ class CosmicAudioEngine {
       fn({
         isMuted: this.isMuted,
         isPlaying: this.isPlaying,
-        mode: this.mode,
+        bpm: this.bpm,
       })
     );
   }
@@ -123,113 +122,54 @@ class CosmicAudioEngine {
   toggleMute() {
     this.isMuted = !this.isMuted;
     if (this.masterGain && this.ctx) {
-      this.masterGain.gain.setTargetAtTime(this.isMuted ? 0 : 0.8, this.ctx.currentTime, 0.05);
+      this.masterGain.gain.setTargetAtTime(this.isMuted ? 0 : 0.85, this.ctx.currentTime, 0.05);
     }
     this.notify();
     return this.isMuted;
   }
 
-  setMode(newMode) {
-    this.mode = newMode;
-    if (this.drumsGain && this.ctx) {
-      this.drumsGain.gain.setTargetAtTime(newMode === 'fiesta' ? 0.5 : 0, this.ctx.currentTime, 0.3);
-    }
-    this.notify();
-  }
-
-  // --- Acoustic Romantic Piano Synthesis ---
-  playPianoNote(freq, time, velocity = 0.5, duration = 1.2) {
+  // --- Analog 808/House Kick ---
+  playHouseKick(time) {
     if (!this.ctx || this.isMuted) return;
-
-    // Harmonic multi-oscillator piano simulation
-    const osc1 = this.ctx.createOscillator();
-    const osc2 = this.ctx.createOscillator();
-    const filter = this.ctx.createBiquadFilter();
-    const gain = this.ctx.createGain();
-
-    osc1.type = 'triangle';
-    osc2.type = 'sine';
-
-    osc1.frequency.setValueAtTime(freq, time);
-    osc2.frequency.setValueAtTime(freq * 2, time); // 2nd harmonic sparkle
-
-    // Dynamic touch filter
-    filter.type = 'lowpass';
-    filter.frequency.setValueAtTime(freq * 4.5, time);
-    filter.frequency.exponentialRampToValueAtTime(freq * 1.2, time + duration);
-
-    // Natural piano attack & exponential decay
-    gain.gain.setValueAtTime(0.001, time);
-    gain.gain.linearRampToValueAtTime(velocity * 0.35, time + 0.02);
-    gain.gain.exponentialRampToValueAtTime(velocity * 0.12, time + 0.3);
-    gain.gain.exponentialRampToValueAtTime(0.0001, time + duration);
-
-    osc1.connect(filter);
-    osc2.connect(filter);
-    filter.connect(gain);
-    gain.connect(this.pianoGain);
-
-    osc1.start(time);
-    osc2.start(time);
-    osc1.stop(time + duration + 0.05);
-    osc2.stop(time + duration + 0.05);
-  }
-
-  // --- Warm Romantic Cello & Strings Pad ---
-  playRomanticPad(frequencies, time, duration = 4.2) {
-    if (!this.ctx || this.isMuted) return;
-
-    frequencies.forEach((freq, idx) => {
-      const osc = this.ctx.createOscillator();
-      const oscDetune = this.ctx.createOscillator();
-      const gain = this.ctx.createGain();
-
-      osc.type = 'sine';
-      oscDetune.type = 'triangle';
-
-      osc.frequency.setValueAtTime(freq, time);
-      oscDetune.frequency.setValueAtTime(freq * 1.002, time); // warm chorus
-
-      gain.gain.setValueAtTime(0.001, time);
-      gain.gain.linearRampToValueAtTime(0.05 / (idx + 1), time + 0.9);
-      gain.gain.setValueAtTime(0.05 / (idx + 1), time + duration - 0.9);
-      gain.gain.exponentialRampToValueAtTime(0.0001, time + duration);
-
-      osc.connect(gain);
-      oscDetune.connect(gain);
-      gain.connect(this.stringsGain);
-
-      osc.start(time);
-      oscDetune.start(time);
-      osc.stop(time + duration + 0.1);
-      oscDetune.stop(time + duration + 0.1);
-    });
-  }
-
-  // --- Soft Organic House Beat (Fiesta Mode) ---
-  playWarmKick(time) {
-    if (!this.ctx || this.isMuted || this.mode !== 'fiesta') return;
 
     const osc = this.ctx.createOscillator();
     const gain = this.ctx.createGain();
 
     osc.type = 'sine';
-    osc.frequency.setValueAtTime(120, time);
-    osc.frequency.exponentialRampToValueAtTime(45, time + 0.08);
+    // Deep punch pitch sweep
+    osc.frequency.setValueAtTime(140, time);
+    osc.frequency.exponentialRampToValueAtTime(48, time + 0.07);
+    osc.frequency.exponentialRampToValueAtTime(36, time + 0.28);
 
-    gain.gain.setValueAtTime(0.7, time);
-    gain.gain.exponentialRampToValueAtTime(0.001, time + 0.28);
+    gain.gain.setValueAtTime(0.95, time);
+    gain.gain.exponentialRampToValueAtTime(0.001, time + 0.32);
 
     osc.connect(gain);
     gain.connect(this.drumsGain);
     osc.start(time);
-    osc.stop(time + 0.3);
+    osc.stop(time + 0.33);
+
+    // Subtle transient punch click
+    const click = this.ctx.createOscillator();
+    const clickGain = this.ctx.createGain();
+    click.type = 'triangle';
+    click.frequency.setValueAtTime(320, time);
+    click.frequency.exponentialRampToValueAtTime(60, time + 0.02);
+
+    clickGain.gain.setValueAtTime(0.35, time);
+    clickGain.gain.exponentialRampToValueAtTime(0.001, time + 0.025);
+
+    click.connect(clickGain);
+    clickGain.connect(this.drumsGain);
+    click.start(time);
+    click.stop(time + 0.03);
   }
 
-  playSoftShaker(time) {
-    if (!this.ctx || this.isMuted || this.mode !== 'fiesta') return;
+  // --- Offbeat Open Hi-Hat (The classic house groove) ---
+  playOpenHiHat(time) {
+    if (!this.ctx || this.isMuted) return;
 
-    const duration = 0.05;
+    const duration = 0.16;
     const bufferSize = this.ctx.sampleRate * duration;
     const buffer = this.ctx.createBuffer(1, bufferSize, this.ctx.sampleRate);
     const data = buffer.getChannelData(0);
@@ -242,66 +182,175 @@ class CosmicAudioEngine {
 
     const filter = this.ctx.createBiquadFilter();
     filter.type = 'highpass';
-    filter.frequency.setValueAtTime(6500, time);
+    filter.frequency.setValueAtTime(7500, time);
 
     const gain = this.ctx.createGain();
-    gain.gain.setValueAtTime(0.08, time);
-    gain.gain.exponentialRampToValueAtTime(0.0001, time + duration);
+    gain.gain.setValueAtTime(0.24, time);
+    gain.gain.exponentialRampToValueAtTime(0.001, time + duration);
 
     noise.connect(filter);
     filter.connect(gain);
     gain.connect(this.drumsGain);
+
     noise.start(time);
     noise.stop(time + duration);
   }
 
-  // --- The Romantic Sequencer Loop ---
+  // --- Organic Clap with Reverb Flam ---
+  playHouseClap(time) {
+    if (!this.ctx || this.isMuted) return;
+
+    const duration = 0.22;
+    const bufferSize = this.ctx.sampleRate * duration;
+    const buffer = this.ctx.createBuffer(1, bufferSize, this.ctx.sampleRate);
+    const data = buffer.getChannelData(0);
+    for (let i = 0; i < bufferSize; i++) {
+      data[i] = Math.random() * 2 - 1;
+    }
+
+    const noise = this.ctx.createBufferSource();
+    noise.buffer = buffer;
+
+    const filter = this.ctx.createBiquadFilter();
+    filter.type = 'bandpass';
+    filter.frequency.setValueAtTime(1100, time);
+    filter.Q.setValueAtTime(2.0, time);
+
+    const gain = this.ctx.createGain();
+    gain.gain.setValueAtTime(0.001, time);
+    gain.gain.linearRampToValueAtTime(0.25, time + 0.012);
+    gain.gain.linearRampToValueAtTime(0.04, time + 0.02);
+    gain.gain.linearRampToValueAtTime(0.35, time + 0.035);
+    gain.gain.exponentialRampToValueAtTime(0.001, time + duration);
+
+    noise.connect(filter);
+    filter.connect(gain);
+    gain.connect(this.drumsGain);
+
+    noise.start(time);
+    noise.stop(time + duration);
+  }
+
+  // --- Rolling Moog-Style Sawtooth Bassline ---
+  playRollingBass(freq, time, duration = 0.16) {
+    if (!this.ctx || this.isMuted) return;
+
+    const osc = this.ctx.createOscillator();
+    const subOsc = this.ctx.createOscillator();
+    const filter = this.ctx.createBiquadFilter();
+    const gain = this.ctx.createGain();
+
+    osc.type = 'sawtooth';
+    subOsc.type = 'sine';
+
+    osc.frequency.setValueAtTime(freq, time);
+    subOsc.frequency.setValueAtTime(freq * 0.5, time); // sub octave
+
+    filter.type = 'lowpass';
+    filter.frequency.setValueAtTime(320, time);
+    filter.frequency.exponentialRampToValueAtTime(110, time + duration);
+    filter.Q.setValueAtTime(3.0, time);
+
+    gain.gain.setValueAtTime(0.4, time);
+    gain.gain.exponentialRampToValueAtTime(0.001, time + duration);
+
+    osc.connect(filter);
+    subOsc.connect(gain);
+    filter.connect(gain);
+    gain.connect(this.bassGain);
+
+    osc.start(time);
+    subOsc.start(time);
+    osc.stop(time + duration + 0.04);
+    subOsc.stop(time + duration + 0.04);
+  }
+
+  // --- Lush Supersaw Atmosphere Chords (Afterlife / Rüfüs Du Sol style) ---
+  playAtmosphericChords(frequencies, time, duration = 3.8) {
+    if (!this.ctx || this.isMuted) return;
+
+    // Filter sweep across the chord
+    if (this.mainFilter) {
+      this.mainFilter.frequency.setValueAtTime(650, time);
+      this.mainFilter.frequency.exponentialRampToValueAtTime(1400, time + duration * 0.6);
+      this.mainFilter.frequency.exponentialRampToValueAtTime(750, time + duration);
+    }
+
+    frequencies.forEach((freq, idx) => {
+      const osc1 = this.ctx.createOscillator();
+      const osc2 = this.ctx.createOscillator();
+      const gain = this.ctx.createGain();
+
+      osc1.type = 'sawtooth';
+      osc2.type = 'sawtooth';
+
+      // Subtle detune for lush supersaw stereo feel
+      osc1.frequency.setValueAtTime(freq * 0.997, time);
+      osc2.frequency.setValueAtTime(freq * 1.003, time);
+
+      gain.gain.setValueAtTime(0.001, time);
+      gain.gain.linearRampToValueAtTime(0.045 / (idx + 1), time + 0.45);
+      gain.gain.setValueAtTime(0.045 / (idx + 1), time + duration - 0.7);
+      gain.gain.exponentialRampToValueAtTime(0.0001, time + duration);
+
+      osc1.connect(gain);
+      osc2.connect(gain);
+      gain.connect(this.synthGain);
+
+      osc1.start(time);
+      osc2.start(time);
+      osc1.stop(time + duration + 0.1);
+      osc2.stop(time + duration + 0.1);
+    });
+  }
+
+  // --- The 122 BPM Melodic House Sequencer Loop ---
   startMusicLoop() {
     this.init();
     if (this.isPlaying) return;
     this.isPlaying = true;
     this.notify();
 
-    const beatInterval = 60 / this.bpm; // ~0.508s
-    const stepInterval = beatInterval / 2; // 8th note ~0.254s
+    const stepDuration = 60 / this.bpm / 4; // 16th note ~0.123s
 
     const scheduleStep = () => {
       if (!this.isPlaying || !this.ctx) return;
 
       const t = this.ctx.currentTime;
-      const current8th = this.step % 16;
+      const current16th = this.step % 16;
       const currentBar = Math.floor(this.step / 16);
       const chordIdx = currentBar % this.chords.length;
       const chord = this.chords[chordIdx];
 
-      // Pad chord on bar start
-      if (current8th === 0) {
-        this.playRomanticPad(chord.pad, t, stepInterval * 16 * 0.95);
+      // 1. Kick on every quarter note (step 0, 4, 8, 12)
+      if (current16th % 4 === 0) {
+        this.playHouseKick(t);
+        this.notifyBeat(current16th / 4, true);
       }
 
-      // Emotional Piano Arpeggio (melodic, gentle, touching)
-      const pianoPattern = [0, 1, 2, 3, 2, 4, 3, 1, 0, 2, 3, 4, 3, 2, 1, 2];
-      const noteIdx = pianoPattern[current8th] % chord.piano.length;
-      const noteFreq = chord.piano[noteIdx];
-      const velocity = current8th % 4 === 0 ? 0.7 : 0.45;
-      this.playPianoNote(noteFreq, t, velocity, stepInterval * 2.2);
-
-      // Quarter-note pulse
-      if (current8th % 2 === 0) {
-        const beatNum = current8th / 2;
-        this.notifyBeat(beatNum, beatNum === 0);
-
-        if (this.mode === 'fiesta') {
-          this.playWarmKick(t);
-        }
+      // 2. Offbeat Open Hi-Hat on the "&" (step 2, 6, 10, 14)
+      if (current16th % 4 === 2) {
+        this.playOpenHiHat(t);
       }
 
-      if (this.mode === 'fiesta' && current8th % 2 === 1) {
-        this.playSoftShaker(t);
+      // 3. Clap on 2 and 4 (step 4, 12)
+      if (current16th === 4 || current16th === 12) {
+        this.playHouseClap(t);
+      }
+
+      // 4. Rolling Bassline
+      if (this.bassPattern[current16th]) {
+        const bassNote = chord.bassNotes[Math.floor(current16th / 4)] || chord.root;
+        this.playRollingBass(bassNote, t, stepDuration * 1.6);
+      }
+
+      // 5. Atmospheric Supersaw Chords on bar start
+      if (current16th === 0) {
+        this.playAtmosphericChords(chord.padFreqs, t, stepDuration * 16 * 0.95);
       }
 
       this.step++;
-      this.timerId = setTimeout(scheduleStep, stepInterval * 1000);
+      this.timerId = setTimeout(scheduleStep, stepDuration * 1000);
     };
 
     scheduleStep();
@@ -316,69 +365,109 @@ class CosmicAudioEngine {
     this.notify();
   }
 
-  // --- Emotional Wedding Portal Opening Sound ---
-  playWeddingPortalOpen() {
+  // --- Electronic Riser & Sub-Drop on Portal Open ---
+  playPortalElectronicDrop() {
     this.init();
     if (!this.ctx || this.isMuted) return;
 
     const t = this.ctx.currentTime;
 
-    // 1. Warm sub-bass swell
-    const sub = this.ctx.createOscillator();
+    // 1. Resonant Filter Noise Riser
+    const duration = 2.4;
+    const bufferSize = this.ctx.sampleRate * duration;
+    const buffer = this.ctx.createBuffer(1, bufferSize, this.ctx.sampleRate);
+    const data = buffer.getChannelData(0);
+    for (let i = 0; i < bufferSize; i++) {
+      data[i] = Math.random() * 2 - 1;
+    }
+
+    const noise = this.ctx.createBufferSource();
+    noise.buffer = buffer;
+
+    const filter = this.ctx.createBiquadFilter();
+    filter.type = 'bandpass';
+    filter.frequency.setValueAtTime(250, t);
+    filter.frequency.exponentialRampToValueAtTime(7000, t + duration * 0.85);
+    filter.Q.value = 4.5;
+
+    const gain = this.ctx.createGain();
+    gain.gain.setValueAtTime(0.01, t);
+    gain.gain.linearRampToValueAtTime(0.4, t + duration * 0.85);
+    gain.gain.exponentialRampToValueAtTime(0.001, t + duration);
+
+    noise.connect(filter);
+    filter.connect(gain);
+    gain.connect(this.sfxGain);
+    noise.start(t);
+    noise.stop(t + duration);
+
+    // 2. Sub Drop on the open
+    const dropTime = t + 1.8;
+    const subOsc = this.ctx.createOscillator();
     const subGain = this.ctx.createGain();
-    sub.type = 'sine';
-    sub.frequency.setValueAtTime(55, t);
-    sub.frequency.exponentialRampToValueAtTime(110, t + 1.2);
-    sub.frequency.exponentialRampToValueAtTime(45, t + 3.0);
+    subOsc.type = 'sine';
+    subOsc.frequency.setValueAtTime(150, dropTime);
+    subOsc.frequency.exponentialRampToValueAtTime(38, dropTime + 0.5);
 
-    subGain.gain.setValueAtTime(0.001, t);
-    subGain.gain.linearRampToValueAtTime(0.6, t + 0.9);
-    subGain.gain.exponentialRampToValueAtTime(0.001, t + 3.2);
+    subGain.gain.setValueAtTime(0.85, dropTime);
+    subGain.gain.exponentialRampToValueAtTime(0.001, dropTime + 1.5);
 
-    sub.connect(subGain);
+    subOsc.connect(subGain);
     subGain.connect(this.sfxGain);
-    sub.start(t);
-    sub.stop(t + 3.3);
-
-    // 2. Angelic Piano Arpeggio Cascade (D, F#, A, C#, E, F#)
-    const notes = [293.66, 369.99, 440.0, 554.37, 659.25, 739.99, 880.0, 1108.73];
-    notes.forEach((freq, idx) => {
-      this.playPianoNote(freq, t + idx * 0.12, 0.7, 2.5);
-    });
-
-    // 3. Golden Bell Chime
-    const bellOsc = this.ctx.createOscillator();
-    const bellGain = this.ctx.createGain();
-    bellOsc.type = 'sine';
-    bellOsc.frequency.setValueAtTime(1760, t + 1.1); // A6
-
-    bellGain.gain.setValueAtTime(0.2, t + 1.1);
-    bellGain.gain.exponentialRampToValueAtTime(0.0001, t + 3.5);
-
-    bellOsc.connect(bellGain);
-    bellGain.connect(this.sfxGain);
-    bellOsc.start(t + 1.1);
-    bellOsc.stop(t + 3.6);
+    subOsc.start(dropTime);
+    subOsc.stop(dropTime + 1.6);
   }
 
-  // Soft romantic chime
+  // Subtle button sound
   playChime(multiplier = 1) {
     this.init();
     if (!this.ctx || this.isMuted) return;
-    this.playPianoNote(587.33 * multiplier, this.ctx.currentTime, 0.5, 1.2);
+
+    const t = this.ctx.currentTime;
+    const osc = this.ctx.createOscillator();
+    const filter = this.ctx.createBiquadFilter();
+    const gain = this.ctx.createGain();
+
+    osc.type = 'sine';
+    osc.frequency.setValueAtTime(440 * multiplier, t);
+
+    filter.type = 'lowpass';
+    filter.frequency.setValueAtTime(1200, t);
+
+    gain.gain.setValueAtTime(0.12, t);
+    gain.gain.exponentialRampToValueAtTime(0.001, t + 0.4);
+
+    osc.connect(filter);
+    filter.connect(gain);
+    gain.connect(this.sfxGain);
+    osc.start(t);
+    osc.stop(t + 0.45);
   }
 
-  // Romantic Harp Arpeggio for success / confirm
+  // Success fanfare on RSVP submit
   playSparkleSuccess() {
     this.init();
     if (!this.ctx || this.isMuted) return;
 
-    const notes = [440.0, 554.37, 659.25, 739.99, 880.0, 1108.73];
+    const notes = [349.23, 440.0, 523.25, 659.25, 783.99]; // F Major chord sweep
     notes.forEach((freq, i) => {
       setTimeout(() => {
         if (!this.ctx || this.isMuted) return;
-        this.playPianoNote(freq, this.ctx.currentTime, 0.6, 1.4);
-      }, i * 80);
+        const t = this.ctx.currentTime;
+        const osc = this.ctx.createOscillator();
+        const gain = this.ctx.createGain();
+
+        osc.type = 'triangle';
+        osc.frequency.setValueAtTime(freq, t);
+
+        gain.gain.setValueAtTime(0.15, t);
+        gain.gain.exponentialRampToValueAtTime(0.0001, t + 0.7);
+
+        osc.connect(gain);
+        gain.connect(this.sfxGain);
+        osc.start(t);
+        osc.stop(t + 0.75);
+      }, i * 85);
     });
   }
 }
