@@ -3,6 +3,8 @@ import StarfieldCanvas from './components/StarfieldCanvas';
 import CelestialPortal from './components/CelestialPortal';
 import CosmicNavbar from './components/CosmicNavbar';
 import HeroUniverse from './components/HeroUniverse';
+import LoveMetrics from './components/LoveMetrics';
+import LoveVows from './components/LoveVows';
 import StorySection from './components/StorySection';
 import VIPTicketAndCountdown from './components/VIPTicketAndCountdown';
 import ItineraryAndLocation from './components/ItineraryAndLocation';
@@ -17,7 +19,7 @@ export default function App() {
   const [isWarping, setIsWarping] = useState(false);
   const [beatPulse, setBeatPulse] = useState(0);
 
-  // Sync universe visual pulsation with 122 BPM kicks
+  // Sync universe visual pulsation with gentle heartbeat kicks
   useEffect(() => {
     const unsub = cosmicAudio.subscribeBeat(({ isKick }) => {
       if (isKick) {
@@ -41,7 +43,7 @@ export default function App() {
   };
 
   return (
-    <div className="relative min-h-screen bg-[#02040b] text-[#f4efe6] overflow-x-hidden selection:bg-[#38bdf8]/30 selection:text-[#fae084]">
+    <div className="relative min-h-screen bg-[#02040b] text-[#f4efe6] overflow-x-hidden selection:bg-[#fae084]/30 selection:text-[#fae084]">
       {/* 3D Realtime Volumetric Nebula & Starfield Canvas */}
       <StarfieldCanvas isWarping={isWarping} beatPulse={beatPulse} />
 
@@ -65,6 +67,8 @@ export default function App() {
 
         <main className="relative z-10">
           <HeroUniverse />
+          <LoveMetrics />
+          <LoveVows />
           <StorySection />
           <VIPTicketAndCountdown />
           <ItineraryAndLocation />

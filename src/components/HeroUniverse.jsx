@@ -1,5 +1,5 @@
 import React from 'react';
-import { ArrowDown, Heart, Radio, Disc3, Sparkles } from 'lucide-react';
+import { ArrowDown, Heart, Sparkles, Mail, Feather } from 'lucide-react';
 import { cosmicAudio } from '../utils/audioEngine';
 
 export default function HeroUniverse() {
@@ -14,16 +14,16 @@ export default function HeroUniverse() {
   return (
     <section className="relative min-h-[94vh] flex items-center justify-center pt-24 pb-16 px-4 text-center z-10">
       <div className="max-w-4xl mx-auto flex flex-col items-center">
-        {/* Festival Badge */}
-        <div className="inline-flex items-center gap-2.5 px-4 py-1.5 rounded-full bg-gradient-to-r from-fuchsia-600/20 via-purple-600/20 to-cyan-500/20 border border-cyan-400/40 text-cyan-300 text-xs tracking-[0.3em] uppercase mb-8 shadow-[0_0_30px_rgba(56,189,248,0.3)] animate-float">
-          <Radio className="w-3.5 h-3.5 text-cyan-400 animate-pulse" />
-          <span>ASTRAL ODYSSEY • 122 BPM MELODIC UNION</span>
+        {/* Wedding Sacred Pill */}
+        <div className="inline-flex items-center gap-2.5 px-4 py-1.5 rounded-full bg-amber-500/15 border border-amber-400/40 text-amber-200 text-xs tracking-[0.3em] uppercase mb-8 shadow-[0_0_30px_rgba(250,224,132,0.25)] animate-float">
+          <Heart className="w-3.5 h-3.5 text-rose-400 fill-rose-400 animate-pulse" />
+          <span>¡NOS CASAMOS! • NUESTRA BODA SAGRADA</span>
           <Sparkles className="w-3.5 h-3.5 text-amber-300" />
         </div>
 
         {/* Script Intro */}
         <p className="font-garamond italic text-2xl md:text-4xl text-amber-100/90 mb-3 tracking-wide">
-          Bajo la bendición del firmamento y el pulso de la música
+          Con la bendición de nuestras familias y la alegría del corazón
         </p>
 
         {/* Grand Headline */}
@@ -33,42 +33,51 @@ export default function HeroUniverse() {
 
         {/* Sacred Heartbeat Bar */}
         <div className="flex items-center gap-4 max-w-md mx-auto mb-8">
-          <div className="h-px flex-1 bg-gradient-to-r from-transparent via-cyan-400 to-amber-200" />
-          <Heart className="w-4 h-4 text-amber-300 fill-amber-300 animate-pulse" />
-          <div className="h-px flex-1 bg-gradient-to-l from-transparent via-fuchsia-400 to-amber-200" />
+          <div className="h-px flex-1 bg-gradient-to-r from-transparent via-amber-400 to-amber-200" />
+          <Heart className="w-5 h-5 text-rose-400 fill-rose-400 animate-pulse" />
+          <div className="h-px flex-1 bg-gradient-to-l from-transparent via-amber-400 to-amber-200" />
         </div>
 
         <p className="font-montserrat text-sm md:text-base text-slate-200 max-w-2xl mx-auto leading-relaxed mb-10 font-light tracking-wide">
-          Nos encontramos cuando las frecuencias del universo colisionaron. Hoy te invitamos a ser parte de nuestra odisea: una unión eterna celebrada con melodías celestiales, amor y baile hasta el amanecer.
+          "Hay amores que están destinados a encontrarse desde antes de que existieran las estrellas. Hoy te invitamos a ser testigo del día en que prometemos amarnos y cuidarnos por toda la eternidad."
         </p>
 
-        {/* Action Buttons */}
-        <div className="flex flex-col sm:flex-row items-center gap-4 w-full sm:w-auto">
+        {/* Googlebook-style Action Pills */}
+        <div className="flex flex-wrap items-center justify-center gap-3 w-full sm:w-auto">
           <button
-            onClick={() => scrollTo('historia')}
-            className="w-full sm:w-auto px-8 py-3.5 rounded-full bg-gradient-to-r from-cyan-500/25 via-fuchsia-500/30 to-amber-500/25 border-2 border-cyan-400/70 text-white font-cinzel text-xs md:text-sm tracking-[0.2em] uppercase font-semibold hover:border-cyan-200 hover:shadow-[0_0_40px_rgba(56,189,248,0.5)] transition-all cursor-pointer transform hover:scale-105 active:scale-95"
+            onClick={() => scrollTo('votos')}
+            className="px-6 py-3.5 rounded-full bg-gradient-to-r from-rose-500/25 via-amber-400/30 to-amber-500/25 border-2 border-amber-300/80 text-white font-cinzel text-xs md:text-sm tracking-[0.2em] uppercase font-semibold hover:border-amber-100 hover:shadow-[0_0_35px_rgba(250,224,132,0.5)] transition-all cursor-pointer transform hover:scale-105 active:scale-95 flex items-center gap-2"
           >
-            Descubrir la Historia
+            <Feather className="w-4 h-4 text-amber-300" />
+            <span>Leer Nuestros Votos</span>
           </button>
 
           <button
             onClick={() => scrollTo('invitacion')}
-            className="w-full sm:w-auto px-8 py-3.5 rounded-full bg-slate-900/80 border border-amber-400/40 text-amber-200 font-cinzel text-xs md:text-sm tracking-[0.2em] uppercase hover:bg-amber-500/15 hover:border-amber-300 transition-all cursor-pointer flex items-center justify-center gap-2"
+            className="px-6 py-3.5 rounded-full bg-slate-900/80 border border-amber-400/40 text-amber-200 font-cinzel text-xs md:text-sm tracking-[0.2em] uppercase hover:bg-amber-500/15 hover:border-amber-300 transition-all cursor-pointer flex items-center gap-2"
           >
-            <Disc3 className="w-4 h-4 text-amber-400 animate-spin-slow" />
-            <span>Ver Mi Pase VIP</span>
+            <Mail className="w-4 h-4 text-amber-400" />
+            <span>Ver Carta de Invitación</span>
+          </button>
+
+          <button
+            onClick={() => scrollTo('rsvp')}
+            className="px-6 py-3.5 rounded-full bg-slate-900/80 border border-amber-400/40 text-amber-200 font-cinzel text-xs md:text-sm tracking-[0.2em] uppercase hover:bg-amber-500/15 hover:border-amber-300 transition-all cursor-pointer flex items-center gap-2"
+          >
+            <Heart className="w-4 h-4 text-rose-400" />
+            <span>Confirmar Asistencia</span>
           </button>
         </div>
 
         {/* Down Indicator */}
         <div
-          onClick={() => scrollTo('historia')}
-          className="mt-16 inline-flex flex-col items-center gap-2 text-cyan-300/70 hover:text-cyan-300 transition-colors cursor-pointer"
+          onClick={() => scrollTo('votos')}
+          className="mt-16 inline-flex flex-col items-center gap-2 text-amber-300/70 hover:text-amber-300 transition-colors cursor-pointer"
         >
           <span className="text-[10px] font-montserrat uppercase tracking-[0.3em]">
-            Desliza para viajar en la odisea
+            Desliza para vivir nuestro amor
           </span>
-          <ArrowDown className="w-4 h-4 animate-bounce text-cyan-400" />
+          <ArrowDown className="w-4 h-4 animate-bounce text-amber-400" />
         </div>
       </div>
     </section>

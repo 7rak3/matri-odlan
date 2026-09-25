@@ -6,9 +6,10 @@ export default function CosmicNavbar({ onReopenPortal }) {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   const navLinks = [
+    { label: 'Nuestros Votos', href: '#votos' },
     { label: 'Nuestra Historia', href: '#historia' },
-    { label: 'Invitación VIP', href: '#invitacion' },
-    { label: 'Itinerario & Lugar', href: '#itinerario' },
+    { label: 'Invitación Nupcial', href: '#invitacion' },
+    { label: 'Itinerario', href: '#itinerario' },
     { label: 'Confirmar Asistencia', href: '#rsvp' },
     { label: 'Regalos', href: '#regalos' },
   ];
@@ -33,11 +34,11 @@ export default function CosmicNavbar({ onReopenPortal }) {
             </span>
           </div>
           <div>
-            <span className="font-cinzel text-sm sm:text-base tracking-[0.2em] font-semibold text-white group-hover:text-cyan-200 transition-colors block">
+            <span className="font-cinzel text-sm sm:text-base tracking-[0.2em] font-semibold text-white group-hover:text-amber-200 transition-colors block">
               JOSE & ODLAN
             </span>
-            <span className="font-montserrat text-[10px] text-cyan-300/80 tracking-widest block uppercase font-medium">
-              ASTRAL ODYSSEY • 122 BPM
+            <span className="font-montserrat text-[10px] text-amber-200/80 tracking-widest block uppercase font-light">
+              24 • OCTUBRE • 2026
             </span>
           </div>
         </a>

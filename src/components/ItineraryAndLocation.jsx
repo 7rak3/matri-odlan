@@ -1,61 +1,49 @@
 import React from 'react';
-import { MapPin, Navigation, Clock, Music, Utensils, Sparkles, AlertCircle, Shirt, Zap, Disc3 } from 'lucide-react';
+import { MapPin, Navigation, Clock, Wine, Heart, Utensils, Music, Sparkles, AlertCircle, Shirt, GlassWater } from 'lucide-react';
 import { cosmicAudio } from '../utils/audioEngine';
 
-const FESTIVAL_LINEUP = [
+const WEDDING_SCHEDULE = [
   {
     time: '17:30',
-    bpm: '118 BPM',
-    stage: 'STAGE 01: SUNSET GARDEN',
-    title: 'Sunset Warmup & Cóctel Cósmico',
-    desc: 'Deep Organic House, cava de autor y bocados mientras el sol cae sobre la cordillera.',
-    icon: Disc3,
-    tag: 'Organic & Downtempo',
+    title: 'Recepción & Cóctel al Atardecer',
+    desc: 'Bienvenida a los invitados con cava de honor, bocados de autor y el reencuentro de familias en los jardines.',
+    icon: Wine,
+    phase: 'El Reencuentro',
   },
   {
     time: '18:30',
-    bpm: 'HARMONIC',
-    stage: 'THE SACRED DOME',
-    title: 'La Ceremonia de las Estrellas (The Vows)',
-    desc: 'El momento sagrado: Jose y Odlan unen sus almas en juramento eterno bajo el firmamento.',
-    icon: Sparkles,
-    tag: 'The Eternal "I Do"',
+    title: 'La Ceremonia Sagrada & "Sí, Acepto"',
+    desc: 'El momento más emotivo: entrada de los novios, lectura de votos, intercambio de alianzas y la bendición de nuestra unión.',
+    icon: Heart,
+    phase: 'El Momento Cumbre',
   },
   {
     time: '19:45',
-    bpm: 'CHILL',
-    stage: 'GRAND CRYSTAL HALL',
-    title: 'Banquete Real & Brindis Sensorial',
-    desc: 'Cena gastronómica de alta gama maridada con vinos reserva en el salón de estrellas.',
+    title: 'Banquete Nupcial & Brindis de Honor',
+    desc: 'Cena de gala maridada, discursos de los padres, palabras de agradecimiento y el brindis por una vida de felicidad.',
     icon: Utensils,
-    tag: 'Gourmet Experience',
+    phase: 'La Celebración',
   },
   {
     time: '21:30',
-    bpm: '124 BPM',
-    stage: 'THE MAINSTAGE',
-    title: 'Jose & Odlan: B2B Forever (Apertura de Pista)',
-    desc: 'Sintetizadores, show de láseres, barra premium y una pista de baile electrónica sin gravedad.',
+    title: 'El Primer Baile & Fiesta de Amor',
+    desc: 'El vals de los recién casados seguido de la apertura de la pista de baile con música bailable y alegría desbordante.',
     icon: Music,
-    tag: 'Melodic House & Techno',
+    phase: 'La Fiesta',
   },
   {
     time: '01:30',
-    bpm: 'RECHARGE',
-    stage: 'THE REFUEL ZONE',
-    title: 'Midnight Fuel ("El Bajón Gourmet")',
-    desc: 'Mini burgers trufadas, papas rústicas, churros de chocolate y recarga de electrolitos.',
-    icon: Zap,
-    tag: 'After-Hours Bites',
+    title: 'Trasnoche Gourmet ("El Bajón")',
+    desc: 'Estación de medianoche con papas rústicas trufadas, mini burgers artesanales y churros para recargar energía.',
+    icon: GlassWater,
+    phase: 'Energía & Sabor',
   },
   {
     time: '03:30',
-    bpm: 'FINALE',
-    stage: 'COSMIC HORIZON',
-    title: 'Sunrise Finale & Bengalas Estelares',
-    desc: 'Caminata entre luces incandescentes y el último track bailable para sellar la noche de nuestras vidas.',
+    title: 'Despedida de Bengalas',
+    desc: 'Cierre mágico entre un túnel de luces incandescentes, abrazos y buenos deseos para sellar una noche inolvidable.',
     icon: Sparkles,
-    tag: 'Closing Anthem',
+    phase: 'El Gran Final',
   },
 ];
 
@@ -66,65 +54,56 @@ export default function ItineraryAndLocation() {
 
   return (
     <section id="itinerario" className="relative py-28 px-4 md:px-8 max-w-6xl mx-auto z-10">
-      {/* Section Header */}
+      {/* Eyebrow Header */}
       <div className="text-center max-w-2xl mx-auto mb-20">
-        <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-gradient-to-r from-fuchsia-500/15 to-cyan-500/15 border border-cyan-400/40 text-cyan-300 text-xs tracking-[0.25em] uppercase mb-4 shadow-[0_0_20px_rgba(56,189,248,0.2)]">
+        <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-amber-500/10 border border-amber-400/30 text-amber-200 text-xs tracking-[0.25em] uppercase mb-4 shadow-[0_0_20px_rgba(212,175,55,0.15)]">
           <Clock className="w-3.5 h-3.5 text-amber-300" />
-          FESTIVAL LINEUP & TIMETABLE
+          PROGRAMA DE NUESTRO DÍA
         </div>
 
         <h2 className="font-cinzel text-3xl md:text-5xl font-bold tracking-wider gold-gradient-text uppercase mb-4">
-          El Cronograma de la Odisea
+          El Itinerario de Nuestra Boda
         </h2>
 
-        <div className="w-24 h-0.5 mx-auto bg-gradient-to-r from-transparent via-cyan-400 to-transparent mb-6" />
+        <div className="w-24 h-0.5 mx-auto bg-gradient-to-r from-transparent via-amber-400 to-transparent mb-6" />
 
-        <p className="font-garamond italic text-lg md:text-xl text-amber-100/80 leading-relaxed">
-          Cada set musical y cada etapa de la velada sincronizados para una experiencia inmersiva inolvidable.
+        <p className="font-garamond italic text-lg md:text-xl text-amber-100/90 leading-relaxed">
+          Cada momento fue soñado con amor para compartirlo junto a ti y celebrar la alegría de unir nuestras vidas.
         </p>
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-10">
-        {/* Left Column: Festival Lineup Timetable */}
+        {/* Left Column: Timeline */}
         <div className="lg:col-span-7 space-y-6">
-          <div className="relative pl-6 md:pl-10 space-y-8 before:absolute before:left-3 md:before:left-5 before:top-3 before:bottom-3 before:w-0.5 before:bg-gradient-to-b before:from-cyan-400 before:via-fuchsia-500 before:to-transparent">
-            {FESTIVAL_LINEUP.map((item, idx) => {
+          <div className="relative pl-6 md:pl-10 space-y-8 before:absolute before:left-3 md:before:left-5 before:top-3 before:bottom-3 before:w-0.5 before:bg-gradient-to-b before:from-amber-400 before:via-rose-400 before:to-transparent">
+            {WEDDING_SCHEDULE.map((item, idx) => {
               const IconComponent = item.icon;
               return (
                 <div key={idx} className="relative group text-left">
                   {/* Glowing Node Dot */}
-                  <div className="absolute -left-[27px] md:-left-[35px] top-1.5 w-6 h-6 rounded-full bg-[#050a24] border-2 border-cyan-400 flex items-center justify-center shadow-[0_0_15px_rgba(56,189,248,0.6)] group-hover:scale-125 transition-transform duration-300">
+                  <div className="absolute -left-[27px] md:-left-[35px] top-1.5 w-6 h-6 rounded-full bg-[#050a24] border-2 border-amber-400 flex items-center justify-center shadow-[0_0_15px_rgba(212,175,55,0.6)] group-hover:scale-125 transition-transform duration-300">
                     <div className="w-2 h-2 rounded-full bg-amber-300" />
                   </div>
 
                   {/* Card */}
-                  <div className="cosmic-glass p-5 rounded-2xl border border-cyan-400/25 group-hover:border-cyan-300/70 transition-all duration-300 shadow-lg">
+                  <div className="cosmic-glass p-5 rounded-2xl border border-amber-400/25 group-hover:border-amber-400/60 transition-all duration-300 shadow-lg">
                     <div className="flex flex-wrap items-center justify-between gap-2 mb-2">
-                      <div className="flex items-center gap-3">
-                        <span className="font-cinzel text-cyan-300 font-bold text-lg md:text-xl tracking-wider">
-                          {item.time}
-                        </span>
-                        <span className="text-[10px] font-montserrat uppercase px-2 py-0.5 rounded bg-fuchsia-500/20 border border-fuchsia-400/40 text-fuchsia-200">
-                          {item.bpm}
-                        </span>
-                      </div>
-                      <span className="text-[10px] font-montserrat uppercase text-amber-300/80 tracking-wider">
-                        {item.stage}
+                      <span className="font-cinzel text-amber-300 font-bold text-lg md:text-xl tracking-wider">
+                        {item.time}
+                      </span>
+                      <span className="text-[10px] font-montserrat uppercase tracking-wider text-rose-300 bg-rose-500/10 px-2.5 py-0.5 rounded-full border border-rose-400/30">
+                        {item.phase}
                       </span>
                     </div>
 
                     <h4 className="font-cinzel text-base md:text-lg font-bold text-white mb-1.5 flex items-center gap-2">
-                      <IconComponent className="w-4 h-4 text-cyan-400 shrink-0" />
+                      <IconComponent className="w-4 h-4 text-amber-400 shrink-0" />
                       {item.title}
                     </h4>
 
-                    <p className="font-montserrat text-xs md:text-sm text-slate-300 font-light leading-relaxed mb-3">
+                    <p className="font-montserrat text-xs md:text-sm text-slate-300 font-light leading-relaxed">
                       {item.desc}
                     </p>
-
-                    <div className="inline-block px-2.5 py-0.5 rounded-full bg-[#091535] border border-cyan-400/30 text-[10px] font-montserrat text-cyan-200">
-                      ⚡ {item.tag}
-                    </div>
                   </div>
                 </div>
               );
@@ -135,10 +114,10 @@ export default function ItineraryAndLocation() {
         {/* Right Column: Venue Sanctuary & Dress Code */}
         <div className="lg:col-span-5 space-y-8">
           {/* Sanctuary Location Box */}
-          <div className="cosmic-glass p-6 md:p-8 rounded-3xl border border-cyan-400/30 text-left relative overflow-hidden shadow-2xl">
-            <div className="flex items-center gap-2 text-xs font-montserrat tracking-widest text-cyan-300 uppercase mb-3">
-              <MapPin className="w-4 h-4 text-cyan-400" />
-              Santuario de la Celebración
+          <div className="cosmic-glass p-6 md:p-8 rounded-3xl border border-amber-400/30 text-left relative overflow-hidden shadow-2xl">
+            <div className="flex items-center gap-2 text-xs font-montserrat tracking-widest text-amber-300 uppercase mb-3">
+              <MapPin className="w-4 h-4 text-amber-400" />
+              Santuario de Nuestra Boda
             </div>
 
             <h3 className="font-cinzel text-2xl md:text-3xl font-bold text-white mb-1">
@@ -160,9 +139,9 @@ export default function ItineraryAndLocation() {
                 target="_blank"
                 rel="noopener noreferrer"
                 onClick={() => cosmicAudio.playChime(1.2)}
-                className="w-full flex items-center justify-center gap-2 py-3 px-4 rounded-xl bg-gradient-to-r from-cyan-500/25 via-blue-500/30 to-cyan-500/25 border border-cyan-400/60 text-cyan-100 hover:text-white hover:border-cyan-200 transition-all font-montserrat text-xs tracking-widest uppercase font-semibold shadow-md"
+                className="w-full flex items-center justify-center gap-2 py-3 px-4 rounded-xl bg-gradient-to-r from-amber-500/25 via-amber-400/30 to-amber-500/25 border border-amber-400/60 text-amber-100 hover:text-white hover:border-amber-200 transition-all font-montserrat text-xs tracking-widest uppercase font-semibold shadow-md"
               >
-                <MapPin className="w-4 h-4 text-cyan-400" />
+                <MapPin className="w-4 h-4 text-amber-400" />
                 Abrir en Google Maps
               </a>
 
@@ -171,50 +150,50 @@ export default function ItineraryAndLocation() {
                 target="_blank"
                 rel="noopener noreferrer"
                 onClick={() => cosmicAudio.playChime(1.2)}
-                className="w-full flex items-center justify-center gap-2 py-3 px-4 rounded-xl bg-[#091535] border border-cyan-400/40 text-cyan-200 hover:text-white hover:border-cyan-300 transition-all font-montserrat text-xs tracking-widest uppercase font-semibold shadow-md"
+                className="w-full flex items-center justify-center gap-2 py-3 px-4 rounded-xl bg-[#091535] border border-amber-400/30 text-amber-200 hover:text-white hover:border-amber-300 transition-all font-montserrat text-xs tracking-widest uppercase font-semibold shadow-md"
               >
                 <Navigation className="w-4 h-4 text-cyan-400" />
                 Navegar con Waze
               </a>
             </div>
 
-            <div className="mt-6 pt-5 border-t border-cyan-400/20 flex items-center gap-2.5 text-xs text-slate-300">
+            <div className="mt-6 pt-5 border-t border-amber-400/20 flex items-center gap-2.5 text-xs text-slate-300">
               <AlertCircle className="w-4 h-4 text-amber-400 shrink-0" />
-              <span>Estacionamiento privado con guardias y servicio de transfer para el retorno.</span>
+              <span>Estacionamiento privado con guardias y servicio para el retorno.</span>
             </div>
           </div>
 
           {/* Dress Code Box */}
-          <div className="cosmic-glass p-6 md:p-8 rounded-3xl border border-cyan-400/30 text-left shadow-2xl">
-            <div className="flex items-center gap-2 text-xs font-montserrat tracking-widest text-cyan-300 uppercase mb-3">
-              <Shirt className="w-4 h-4 text-cyan-400" />
+          <div className="cosmic-glass p-6 md:p-8 rounded-3xl border border-amber-400/30 text-left shadow-2xl">
+            <div className="flex items-center gap-2 text-xs font-montserrat tracking-widest text-amber-300 uppercase mb-3">
+              <Shirt className="w-4 h-4 text-amber-400" />
               Código de Vestimenta
             </div>
 
             <h3 className="font-cinzel text-xl md:text-2xl font-bold text-white mb-2">
-              Celestial Gala & Black Tie
+              Gala Nupcial & Black Tie
             </h3>
 
             <p className="font-garamond italic text-base text-amber-200/80 mb-4">
-              Elegancia festivalera de alta gama: Esmoquin o traje oscuro para ellos, vestido largo de gala para ellas.
+              Queremos que te sientas radiante: Traje oscuro o esmoquin para ellos, vestido largo de gala para ellas.
             </p>
 
             {/* Colors */}
             <div className="mb-6">
               <span className="text-[11px] font-montserrat tracking-wider uppercase text-slate-400 block mb-2.5">
-                Paleta Cósmica Sugerida:
+                Paleta Sugerida:
               </span>
               <div className="flex items-center gap-3">
                 {[
                   { name: 'Azul Noche', color: '#09153a' },
-                  { name: 'Oro Estelar', color: '#d4af37' },
-                  { name: 'Cian Profundo', color: '#0e7490' },
-                  { name: 'Magenta Noche', color: '#701a75' },
+                  { name: 'Oro Champán', color: '#d4af37' },
+                  { name: 'Verde Esmeralda', color: '#0a3a2a' },
+                  { name: 'Borgoña', color: '#4a1224' },
                   { name: 'Negro Gala', color: '#11131a' },
                 ].map((item) => (
                   <div key={item.name} className="flex flex-col items-center gap-1 group">
                     <div
-                      className="w-8 h-8 rounded-full border border-white/20 shadow-md group-hover:scale-110 transition-transform"
+                      className="w-8 h-8 rounded-full border border-amber-400/40 shadow-md group-hover:scale-110 transition-transform"
                       style={{ backgroundColor: item.color }}
                       title={item.name}
                     />
@@ -229,7 +208,7 @@ export default function ItineraryAndLocation() {
             <div className="p-3 rounded-xl bg-rose-950/25 border border-rose-500/35 text-xs text-rose-200/90 flex items-start gap-2.5">
               <AlertCircle className="w-4 h-4 text-rose-400 shrink-0 mt-0.5" />
               <span>
-                <strong>Importante con cariño:</strong> El blanco y el marfil están reservados exclusivamente para la novia.
+                <strong>Nota con cariño:</strong> El blanco y el marfil están reservados exclusivamente para la novia.
               </span>
             </div>
           </div>
