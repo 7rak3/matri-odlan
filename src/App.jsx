@@ -75,10 +75,10 @@ export default function App() {
         </main>
 
         <CosmicFooter />
-
-        {/* Floating minimal audio control bar */}
-        <AudioControlBar />
       </div>
+
+      {/* Floating sticky audio control bar (outside transform parent to stay truly fixed to viewport) */}
+      {isUniverseOpened && <AudioControlBar />}
     </div>
   );
 }
