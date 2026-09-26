@@ -29,7 +29,7 @@ export default function CosmicFooter() {
         <p className="font-montserrat text-xs text-slate-400 max-w-md mx-auto leading-relaxed mb-8 font-light">
           20 de Febrero de 2027 • Santiago de Chile.
           <br />
-          Piloto & Tripulante de Cabina ✈️ • Gracias por ser parte de nuestro viaje.
+          Gracias por ser parte de nuestro viaje.
         </p>
 
         <div className="flex items-center gap-1.5 text-xs text-amber-300/80 mb-8 font-montserrat">

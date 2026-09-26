@@ -1,10 +1,20 @@
 import React, { useState } from 'react';
-import { Sparkles, Key } from 'lucide-react';
+import { Sparkles, Key, Lock, Unlock, Eye, EyeOff } from 'lucide-react';
 import { cosmicAudio } from '../utils/audioEngine';
 import Rings3DCanvas from './Rings3DCanvas';
 
 export default function CelestialPortal({ onEnterUniverse, isOpened }) {
   const [openingState, setOpeningState] = useState('idle'); // 'idle' | 'unsealing' | 'swinging' | 'warping' | 'opened'
+  const [password, setPassword] = useState(() => {
+    try {
+      return sessionStorage.getItem('matri_unlocked') === 'true' ? 'matri2026' : '';
+    } catch {
+      return '';
+    }
+  });
+  const [error, setError] = useState('');
+  const [showPassword, setShowPassword] = useState(false);
+  const [isUnlocked, setIsUnlocked] = useState(false);
 
   const handleOpen = () => {
     if (openingState !== 'idle') return;
@@ -30,6 +40,30 @@ export default function CelestialPortal({ onEnterUniverse, isOpened }) {
       cosmicAudio.startMusicLoop();
       onEnterUniverse(false);
     }, 3200);
+  };
+
+  const handlePasswordSubmit = (e) => {
+    e?.preventDefault();
+    if (openingState !== 'idle') return;
+
+    const cleanPass = password.trim().toLowerCase();
+    if (cleanPass === 'matri2026') {
+      setError('');
+      setIsUnlocked(true);
+      try {
+        sessionStorage.setItem('matri_unlocked', 'true');
+      } catch {
+        // ignore storage errors
+      }
+      handleOpen();
+    } else {
+      setError('Clave incorrecta. Revisa tu tarjeta de invitación ✨');
+      try {
+        cosmicAudio.playChime(0.6);
+      } catch {
+        // ignore audio errors
+      }
+    }
   };
 
   if (openingState === 'opened' || isOpened) {
@@ -122,29 +156,81 @@ export default function CelestialPortal({ onEnterUniverse, isOpened }) {
           </div>
         </div>
 
-        {/* Action Button: Abrir Nuestra Boda */}
+        {/* Action Form: Password Guard & Abrir Nuestra Boda */}
         <div
-          className={`mt-6 transition-all duration-700 ${
+          className={`mt-6 w-full max-w-sm mx-auto transition-all duration-700 ${
             isUnsealing ? 'opacity-0 translate-y-8' : 'opacity-100 translate-y-0'
           }`}
         >
-          <button
-            onClick={handleOpen}
-            className="group relative px-9 py-4 rounded-full bg-gradient-to-r from-amber-500/30 via-amber-400/40 to-amber-500/30 border-2 border-amber-300 shadow-[0_0_40px_rgba(212,175,55,0.4)] hover:shadow-[0_0_60px_rgba(250,224,132,0.7)] hover:border-amber-100 transition-all duration-300 transform hover:scale-105 active:scale-95 cursor-pointer"
-          >
-            <div className="absolute inset-0 rounded-full bg-amber-400/10 blur-lg group-hover:bg-amber-400/25 transition-all" />
-
-            <div className="relative flex items-center gap-3">
-              <Key className="w-5 h-5 text-amber-300 group-hover:rotate-45 transition-transform duration-300" />
-              <span className="font-cinzel text-base md:text-lg font-bold tracking-[0.25em] text-white uppercase text-gold-glow">
-                ABRIR NUESTRA BODA
-              </span>
-              <Sparkles className="w-5 h-5 text-amber-300 animate-spin-slow" />
+          <form onSubmit={handlePasswordSubmit} className="flex flex-col items-center">
+            {/* Input with Lock icon */}
+            <div className="relative w-full mb-3">
+              <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none text-amber-300/80">
+                {isUnlocked ? (
+                  <Unlock className="w-4 h-4 text-emerald-400" />
+                ) : (
+                  <Lock className="w-4 h-4 text-amber-300/80" />
+                )}
+              </div>
+              <input
+                type={showPassword ? 'text' : 'password'}
+                value={password}
+                onChange={(e) => {
+                  setPassword(e.target.value);
+                  if (error) setError('');
+                }}
+                placeholder="Ingresa la clave secreta..."
+                className={`w-full pl-11 pr-11 py-3.5 bg-[#070d24]/90 backdrop-blur-md border rounded-full text-center text-sm md:text-base tracking-[0.2em] font-cinzel text-amber-100 placeholder:text-amber-200/40 placeholder:tracking-normal placeholder:font-montserrat placeholder:text-xs md:placeholder:text-sm focus:outline-none transition-all shadow-[0_0_25px_rgba(0,0,0,0.6)] ${
+                  error
+                    ? 'border-rose-500/80 text-rose-200 shadow-[0_0_25px_rgba(244,63,94,0.35)] animate-shake'
+                    : isUnlocked
+                    ? 'border-emerald-400/80 shadow-[0_0_25px_rgba(52,211,153,0.35)]'
+                    : 'border-amber-400/40 focus:border-amber-300 focus:shadow-[0_0_30px_rgba(250,224,132,0.3)]'
+                }`}
+                autoComplete="off"
+                spellCheck="false"
+              />
+              <button
+                type="button"
+                onClick={() => setShowPassword(!showPassword)}
+                className="absolute inset-y-0 right-0 pr-4 flex items-center text-amber-300/60 hover:text-amber-200 transition-colors cursor-pointer"
+                title={showPassword ? 'Ocultar clave' : 'Mostrar clave'}
+              >
+                {showPassword ? (
+                  <EyeOff className="w-4 h-4" />
+                ) : (
+                  <Eye className="w-4 h-4" />
+                )}
+              </button>
             </div>
-          </button>
 
-          <p className="font-garamond italic text-sm md:text-base text-amber-200/80 mt-3 tracking-wider">
-            Toca el botón para abrir las puertas e iniciar la experiencia
+            {/* Error Message */}
+            {error && (
+              <div className="flex items-center gap-1.5 text-xs text-rose-300 font-montserrat tracking-wide mb-3 animate-shake">
+                <span>{error}</span>
+              </div>
+            )}
+
+            {/* Action Button */}
+            <button
+              type="submit"
+              disabled={openingState !== 'idle'}
+              className="group relative w-full sm:w-auto px-9 py-4 rounded-full bg-gradient-to-r from-amber-500/30 via-amber-400/40 to-amber-500/30 border-2 border-amber-300 shadow-[0_0_40px_rgba(212,175,55,0.4)] hover:shadow-[0_0_60px_rgba(250,224,132,0.7)] hover:border-amber-100 transition-all duration-300 transform hover:scale-105 active:scale-95 cursor-pointer disabled:opacity-50"
+            >
+              <div className="absolute inset-0 rounded-full bg-amber-400/10 blur-lg group-hover:bg-amber-400/25 transition-all" />
+
+              <div className="relative flex items-center justify-center gap-3">
+                <Key className="w-5 h-5 text-amber-300 group-hover:rotate-45 transition-transform duration-300" />
+                <span className="font-cinzel text-sm md:text-base font-bold tracking-[0.25em] text-white uppercase text-gold-glow">
+                  {isUnlocked ? 'ENTRANDO...' : 'ABRIR NUESTRA BODA'}
+                </span>
+                <Sparkles className="w-5 h-5 text-amber-300 animate-spin-slow" />
+              </div>
+            </button>
+          </form>
+
+          <p className="font-garamond italic text-sm md:text-base text-amber-200/80 mt-3 tracking-wider text-center">
+            Ingresa la clave de tu invitación para abrir las puertas
           </p>
         </div>
       </div>
