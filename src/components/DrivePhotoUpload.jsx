@@ -15,7 +15,7 @@ import { cosmicAudio } from '../utils/audioEngine';
 import HoloTiltCard from './HoloTiltCard';
 
 export default function DrivePhotoUpload() {
-  const [driveUrl, setDriveUrl] = useState('https://drive.google.com/drive/folders/matrimonio-jose-y-odlan-2027');
+  const [driveUrl, setDriveUrl] = useState('https://drive.google.com/drive/folders/matrimonio-odlan-y-mariajose-2027');
   const [qrDataUrl, setQrDataUrl] = useState('');
   const [copied, setCopied] = useState(false);
   const [isEditingUrl, setIsEditingUrl] = useState(false);
@@ -27,8 +27,8 @@ export default function DrivePhotoUpload() {
       width: 400,
       margin: 2,
       color: {
-        dark: '#050a1f',
-        light: '#fdf3d1',
+        dark: '#1b2416',
+        light: '#fbf9f4',
       },
       errorCorrectionLevel: 'H',
     })
@@ -55,58 +55,58 @@ export default function DrivePhotoUpload() {
   };
 
   return (
-    <section id="fotos-drive" className="relative py-28 px-4 md:px-8 max-w-5xl mx-auto z-10">
+    <section id="fotos-drive" className="relative py-20 px-4 md:px-8 max-w-5xl mx-auto z-10 scroll-mt-24">
       {/* Eyebrow Header */}
-      <div className="text-center max-w-2xl mx-auto mb-16">
-        <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-amber-500/10 border border-amber-400/30 text-amber-200 text-xs tracking-[0.25em] uppercase mb-4 shadow-[0_0_20px_rgba(212,175,55,0.15)]">
+      <div className="text-center max-w-2xl mx-auto mb-14">
+        <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-[#46573c]/50 border border-amber-300/30 text-amber-200 text-xs tracking-[0.25em] uppercase mb-4 shadow-sm">
           <Camera className="w-3.5 h-3.5 text-amber-300" />
           <span>ÁLBUM COMPARTIDO • RECUERDOS</span>
           <Sparkles className="w-3.5 h-3.5 text-amber-300" />
         </div>
 
-        <h2 className="font-cinzel text-3xl md:text-5xl font-bold tracking-wider gold-gradient-text uppercase mb-4">
+        <h2 className="font-cinzel text-3xl sm:text-4xl md:text-5xl font-bold tracking-wider gold-gradient-text uppercase mb-3">
           Sube Tus Fotos al Drive
         </h2>
 
-        <div className="w-24 h-0.5 mx-auto bg-gradient-to-r from-transparent via-amber-400 to-transparent mb-6" />
+        <div className="w-20 h-0.5 mx-auto bg-gradient-to-r from-transparent via-amber-300/70 to-transparent mb-4" />
 
-        <p className="font-garamond italic text-lg md:text-xl text-amber-100/90 leading-relaxed">
-          Queremos revivir cada sonrisa y momento inolvidable desde tu propia mirada.
+        <p className="font-garamond italic text-lg md:text-xl text-cream-100/90 leading-relaxed">
+          Queremos revivir cada sonrisa, brindis y momento inolvidable desde tu propia mirada.
         </p>
       </div>
 
-      {/* Main Luxury Cosmic QR Card */}
+      {/* Main Luxury Botanical QR Card */}
       <HoloTiltCard className="w-full">
-        <div className="cosmic-glass rounded-3xl p-6 sm:p-10 md:p-14 border border-amber-400/35 relative overflow-hidden shadow-[0_20px_60px_rgba(0,0,0,0.85)]">
+        <div className="rounded-3xl p-6 sm:p-10 md:p-12 bg-[#2b3724]/90 border border-amber-300/35 relative overflow-hidden shadow-[0_20px_60px_rgba(8,12,6,0.8)] backdrop-blur-xl">
           <div className="grid grid-cols-1 md:grid-cols-12 gap-8 md:gap-12 items-center">
             {/* Left Column: The QR Code */}
             <div className="md:col-span-5 flex flex-col items-center text-center">
-              <div className="relative group p-4 sm:p-5 rounded-3xl bg-gradient-to-b from-amber-200/20 via-amber-500/10 to-transparent border-2 border-amber-300/60 shadow-[0_0_40px_rgba(250,224,132,0.3)]">
+              <div className="relative group p-4 sm:p-5 rounded-3xl bg-gradient-to-b from-amber-200/15 via-[#3f5035]/30 to-transparent border-2 border-amber-300/40 shadow-[0_0_35px_rgba(212,175,55,0.2)]">
                 {/* Glowing Aura behind QR */}
                 <div className="absolute inset-0 rounded-3xl bg-amber-400/10 blur-xl group-hover:bg-amber-400/20 transition-all pointer-events-none" />
 
                 {/* QR Display */}
-                <div className="relative rounded-2xl overflow-hidden bg-[#fdf3d1] p-3 shadow-inner">
+                <div className="relative rounded-2xl overflow-hidden bg-[#fbf9f4] p-3 shadow-inner">
                   {qrDataUrl ? (
                     <img
                       src={qrDataUrl}
-                      alt="Código QR para Google Drive"
-                      className="w-56 h-56 sm:w-64 sm:h-64 object-contain transition-transform duration-500 group-hover:scale-102"
+                      alt="Código QR para Google Drive de Odlan & María Jose"
+                      className="w-56 h-56 sm:w-60 sm:h-60 object-contain transition-transform duration-500 group-hover:scale-102"
                     />
                   ) : (
-                    <div className="w-56 h-56 sm:w-64 sm:h-64 flex items-center justify-center text-slate-800 font-montserrat text-xs">
+                    <div className="w-56 h-56 sm:w-60 sm:h-60 flex items-center justify-center text-slate-800 font-montserrat text-xs">
                       Cargando Código QR...
                     </div>
                   )}
 
                   {/* Center Badge on the QR */}
-                  <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-12 h-12 rounded-full bg-[#050a1f] border-2 border-amber-300 flex items-center justify-center shadow-lg">
+                  <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-11 h-11 rounded-full bg-[#1b2416] border-2 border-amber-300 flex items-center justify-center shadow-lg">
                     <Camera className="w-5 h-5 text-amber-300" />
                   </div>
                 </div>
 
-                <div className="mt-4 inline-flex items-center gap-2 text-xs font-montserrat uppercase tracking-widest text-amber-200 font-medium">
-                  <QrCode className="w-3.5 h-3.5 text-amber-400" />
+                <div className="mt-4 inline-flex items-center gap-2 text-xs font-montserrat uppercase tracking-widest text-cream-100 font-medium">
+                  <QrCode className="w-3.5 h-3.5 text-amber-300" />
                   <span>Escanea con tu celular</span>
                 </div>
               </div>
@@ -115,59 +115,59 @@ export default function DrivePhotoUpload() {
             {/* Right Column: Narrative & Simple Steps */}
             <div className="md:col-span-7 text-left space-y-6">
               <div className="space-y-2">
-                <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#091433] border border-amber-400/20 text-amber-300 text-xs font-montserrat uppercase tracking-wider">
-                  <FolderHeart className="w-3.5 h-3.5" />
-                  <span>Google Drive Oficial de Jose & Odlan</span>
+                <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#1e2719] border border-amber-300/25 text-amber-200 text-xs font-montserrat uppercase tracking-wider">
+                  <FolderHeart className="w-3.5 h-3.5 text-amber-300" />
+                  <span>Google Drive Oficial • Odlan & María Jose</span>
                 </div>
 
-                <h3 className="font-cinzel text-2xl sm:text-3xl font-bold text-white tracking-wide">
-                  Comparte Tus Fotos & Videos
+                <h3 className="font-cinzel text-2xl sm:text-3xl font-bold text-cream-50 tracking-wide">
+                  Comparte Tus Recuerdos
                 </h3>
 
-                <p className="font-montserrat text-sm text-slate-200 leading-relaxed font-light">
-                  Preparamos una carpeta abierta en Google Drive para que todos los invitados puedan subir las fotos de los preparativos, recuerdos con los novios y las fotos que tomes durante la celebración del matrimonio.
+                <p className="font-montserrat text-sm text-cream-200/90 leading-relaxed font-light">
+                  Preparamos una carpeta abierta en Google Drive para que todos los invitados puedan subir las fotos de los preparativos, recuerdos con los novios y cada instante vivido durante nuestro matrimonio.
                 </p>
               </div>
 
               {/* 3 Simple Steps */}
-              <div className="space-y-3 pt-2">
-                <div className="flex items-start gap-3 p-3 rounded-2xl bg-[#050a22]/80 border border-amber-400/15">
-                  <div className="w-7 h-7 rounded-full bg-amber-500/20 border border-amber-400/40 text-amber-300 flex items-center justify-center font-bold text-xs shrink-0 mt-0.5">
+              <div className="space-y-3 pt-1">
+                <div className="flex items-start gap-3 p-3 rounded-2xl bg-[#1b2317]/85 border border-amber-300/15">
+                  <div className="w-7 h-7 rounded-full bg-amber-400/20 border border-amber-300/40 text-amber-200 flex items-center justify-center font-bold text-xs shrink-0 mt-0.5">
                     1
                   </div>
                   <div>
-                    <h4 className="font-montserrat font-semibold text-xs sm:text-sm text-white">
+                    <h4 className="font-montserrat font-semibold text-xs sm:text-sm text-cream-100">
                       Escanea el código QR
                     </h4>
-                    <p className="text-xs text-slate-400 font-light mt-0.5">
-                      Abre la cámara de tu smartphone y enfoca el código QR en pantalla.
+                    <p className="text-xs text-cream-300/70 font-light mt-0.5">
+                      Abre la cámara de tu teléfono y apunta al código QR en pantalla o en las mesas.
                     </p>
                   </div>
                 </div>
 
-                <div className="flex items-start gap-3 p-3 rounded-2xl bg-[#050a22]/80 border border-amber-400/15">
-                  <div className="w-7 h-7 rounded-full bg-amber-500/20 border border-amber-400/40 text-amber-300 flex items-center justify-center font-bold text-xs shrink-0 mt-0.5">
+                <div className="flex items-start gap-3 p-3 rounded-2xl bg-[#1b2317]/85 border border-amber-300/15">
+                  <div className="w-7 h-7 rounded-full bg-amber-400/20 border border-amber-300/40 text-amber-200 flex items-center justify-center font-bold text-xs shrink-0 mt-0.5">
                     2
                   </div>
                   <div>
-                    <h4 className="font-montserrat font-semibold text-xs sm:text-sm text-white">
+                    <h4 className="font-montserrat font-semibold text-xs sm:text-sm text-cream-100">
                       Entra a la carpeta de Google Drive
                     </h4>
-                    <p className="text-xs text-slate-400 font-light mt-0.5">
+                    <p className="text-xs text-cream-300/70 font-light mt-0.5">
                       No necesitas instalar ninguna aplicación extra si ya tienes cuenta de Google.
                     </p>
                   </div>
                 </div>
 
-                <div className="flex items-start gap-3 p-3 rounded-2xl bg-[#050a22]/80 border border-amber-400/15">
-                  <div className="w-7 h-7 rounded-full bg-amber-500/20 border border-amber-400/40 text-amber-300 flex items-center justify-center font-bold text-xs shrink-0 mt-0.5">
+                <div className="flex items-start gap-3 p-3 rounded-2xl bg-[#1b2317]/85 border border-amber-300/15">
+                  <div className="w-7 h-7 rounded-full bg-amber-400/20 border border-amber-300/40 text-amber-200 flex items-center justify-center font-bold text-xs shrink-0 mt-0.5">
                     3
                   </div>
                   <div>
-                    <h4 className="font-montserrat font-semibold text-xs sm:text-sm text-white">
+                    <h4 className="font-montserrat font-semibold text-xs sm:text-sm text-cream-100">
                       ¡Sube todas las fotos que quieras!
                     </h4>
-                    <p className="text-xs text-slate-400 font-light mt-0.5">
+                    <p className="text-xs text-cream-300/70 font-light mt-0.5">
                       Tus recuerdos quedarán guardados en alta resolución para toda la vida.
                     </p>
                   </div>
@@ -175,7 +175,7 @@ export default function DrivePhotoUpload() {
               </div>
 
               {/* Action Buttons */}
-              <div className="pt-3 flex flex-wrap items-center gap-3">
+              <div className="pt-2 flex flex-wrap items-center gap-3">
                 <a
                   href={driveUrl}
                   target="_blank"
@@ -190,16 +190,16 @@ export default function DrivePhotoUpload() {
 
                 <button
                   onClick={handleCopy}
-                  className="px-5 py-3.5 rounded-full bg-slate-900/90 border border-amber-400/35 text-amber-200 text-xs font-montserrat tracking-wider uppercase hover:bg-amber-500/20 hover:border-amber-300 transition-all flex items-center gap-2 cursor-pointer font-medium"
+                  className="px-5 py-3.5 rounded-full bg-[#1b2317] border border-amber-300/35 text-amber-200 text-xs font-montserrat tracking-wider uppercase hover:bg-[#2e3b26] hover:border-amber-200 transition-all flex items-center gap-2 cursor-pointer font-medium"
                 >
                   {copied ? (
                     <>
-                      <Check className="w-4 h-4 text-emerald-400" />
-                      <span>¡Enlace Copiado!</span>
+                      <Check className="w-4 h-4 text-emerald-300" />
+                      <span className="text-emerald-300">¡Enlace Copiado!</span>
                     </>
                   ) : (
                     <>
-                      <Copy className="w-4 h-4 text-amber-400" />
+                      <Copy className="w-4 h-4 text-amber-300" />
                       <span>Copiar Enlace</span>
                     </>
                   )}
@@ -210,7 +210,7 @@ export default function DrivePhotoUpload() {
                     cosmicAudio.playChime(1.1);
                     setIsEditingUrl(!isEditingUrl);
                   }}
-                  className="p-2.5 rounded-full bg-white/5 border border-amber-400/20 text-slate-400 hover:text-amber-300 hover:border-amber-400 transition-colors"
+                  className="p-2.5 rounded-full bg-white/5 border border-amber-300/20 text-cream-300 hover:text-amber-200 hover:border-amber-300 transition-colors"
                   title="Configurar enlace de la carpeta de Drive"
                 >
                   <Edit3 className="w-4 h-4" />
@@ -220,7 +220,7 @@ export default function DrivePhotoUpload() {
               {/* Editable URL Form for Novios */}
               {isEditingUrl && (
                 <form onSubmit={handleSaveCustomUrl} className="pt-3 space-y-2 text-xs font-montserrat">
-                  <label className="block text-amber-300/80 uppercase tracking-widest text-[11px]">
+                  <label className="block text-amber-200/90 uppercase tracking-widest text-[11px]">
                     Personalizar enlace de la carpeta de Drive:
                   </label>
                   <div className="flex gap-2">
@@ -230,16 +230,16 @@ export default function DrivePhotoUpload() {
                       value={tempUrl}
                       onChange={(e) => setTempUrl(e.target.value)}
                       placeholder="https://drive.google.com/drive/folders/..."
-                      className="flex-1 bg-[#05091e] border border-amber-400/30 rounded-xl px-3.5 py-2 text-xs text-white focus:outline-none focus:border-amber-300 font-mono"
+                      className="flex-1 bg-[#182014] border border-amber-300/30 rounded-xl px-3.5 py-2 text-xs text-cream-100 focus:outline-none focus:border-amber-300 font-mono"
                     />
                     <button
                       type="submit"
-                      className="px-4 py-2 rounded-xl bg-amber-500 text-slate-950 font-bold uppercase tracking-wider text-[11px] hover:bg-amber-400 transition-colors"
+                      className="px-4 py-2 rounded-xl bg-amber-400 text-slate-950 font-bold uppercase tracking-wider text-[11px] hover:bg-amber-300 transition-colors"
                     >
                       Guardar
                     </button>
                   </div>
-                  <p className="text-[10px] text-slate-400 font-light">
+                  <p className="text-[10px] text-cream-300/70 font-light">
                     Pega el enlace de tu carpeta compartida de Google Drive para actualizar el código QR en tiempo real.
                   </p>
                 </form>

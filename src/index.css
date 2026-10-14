@@ -8,16 +8,24 @@
 
   --color-gold-200: #fef08a;
   --color-gold-300: #fae084;
-  --color-gold-400: #f5cf53;
+  --color-gold-400: #e6c86e;
   --color-gold-500: #d4af37;
   --color-gold-600: #b89125;
   --color-gold-700: #8c6c14;
   
-  --color-space-950: #02040b;
-  --color-space-900: #040817;
-  --color-space-850: #070d24;
-  --color-space-800: #0c1638;
-  --color-space-700: #142252;
+  --color-olive-950: #141a10;
+  --color-olive-900: #1d2518;
+  --color-olive-850: #26311f;
+  --color-olive-800: #313e28;
+  --color-olive-700: #3e4f33;
+  --color-olive-600: #4d613f;
+  --color-olive-500: #5c744c;
+  --color-olive-card: #45553a;
+
+  --color-cream-50: #fbfaf6;
+  --color-cream-100: #f6f3eb;
+  --color-cream-200: #ece6d8;
+  --color-cream-300: #ded5c2;
 }
 
 :root {
@@ -27,8 +35,8 @@
 body {
   margin: 0;
   padding: 0;
-  background-color: #030611;
-  color: #f6f3eb;
+  background-color: #171d13;
+  color: #f7f4ec;
   font-family: 'Montserrat', sans-serif;
   overflow-x: hidden;
 }
@@ -52,77 +60,82 @@ body {
 
 /* Metallic Gold Gradients */
 .gold-gradient-text {
-  background: linear-gradient(135deg, #fff3c4 0%, #f7d268 30%, #d4af37 60%, #aa841c 100%);
+  background: linear-gradient(135deg, #ffffff 0%, #fdf2cd 30%, #e6ca6e 65%, #c89c36 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
 }
 
 .gold-gradient-text-subtle {
-  background: linear-gradient(135deg, #ffffff 0%, #f9e7b2 50%, #d4af37 100%);
+  background: linear-gradient(135deg, #ffffff 0%, #f7ecd2 50%, #d8b76c 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
 }
 
-.gold-border {
-  border-image: linear-gradient(135deg, rgba(245, 207, 83, 0.6), rgba(212, 175, 55, 0.2), rgba(245, 207, 83, 0.6)) 1;
+.cream-gradient-text {
+  background: linear-gradient(180deg, #ffffff 0%, #fbf9f3 50%, #ede6d6 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
 }
 
-/* Glassmorphism Cosmic Cards */
-.cosmic-glass {
-  background: rgba(8, 14, 32, 0.65);
+/* Glassmorphism Botanical Cards */
+.cosmic-glass,
+.botanical-glass {
+  background: rgba(36, 46, 29, 0.78);
   backdrop-filter: blur(16px);
   -webkit-backdrop-filter: blur(16px);
-  border: 1px solid rgba(212, 175, 55, 0.2);
-  box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.7), 0 0 25px -5px rgba(212, 175, 55, 0.1);
+  border: 1px solid rgba(220, 205, 160, 0.22);
+  box-shadow: 0 15px 35px -10px rgba(10, 14, 8, 0.75), 0 0 25px -5px rgba(212, 175, 55, 0.08);
 }
 
-.cosmic-glass-interactive {
-  background: rgba(10, 18, 40, 0.7);
+.botanical-card-solid {
+  background: #3f4e35;
+  border: 1px solid rgba(245, 241, 230, 0.25);
+  box-shadow: 0 20px 45px -12px rgba(10, 15, 8, 0.85);
+}
+
+.cosmic-glass-interactive,
+.botanical-glass-interactive {
+  background: rgba(42, 54, 34, 0.82);
   backdrop-filter: blur(18px);
   -webkit-backdrop-filter: blur(18px);
-  border: 1px solid rgba(212, 175, 55, 0.25);
+  border: 1px solid rgba(220, 205, 160, 0.28);
   transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-.cosmic-glass-interactive:hover {
-  border-color: rgba(245, 207, 83, 0.6);
-  box-shadow: 0 15px 35px -10px rgba(0, 0, 0, 0.8), 0 0 35px 2px rgba(212, 175, 55, 0.25);
+.cosmic-glass-interactive:hover,
+.botanical-glass-interactive:hover {
+  border-color: rgba(230, 202, 110, 0.6);
+  box-shadow: 0 15px 35px -10px rgba(10, 15, 8, 0.9), 0 0 30px 2px rgba(212, 175, 55, 0.2);
   transform: translateY(-3px);
 }
 
-/* Golden Glows */
+/* Golden & Botanical Glows */
 .gold-glow {
-  box-shadow: 0 0 35px rgba(212, 175, 55, 0.4);
+  box-shadow: 0 0 35px rgba(212, 175, 55, 0.35);
 }
 
 .gold-glow-lg {
-  box-shadow: 0 0 60px rgba(212, 175, 55, 0.5), 0 0 100px rgba(212, 175, 55, 0.2);
+  box-shadow: 0 0 60px rgba(212, 175, 55, 0.4), 0 0 100px rgba(212, 175, 55, 0.15);
+}
+
+.olive-glow {
+  box-shadow: 0 0 40px rgba(92, 116, 76, 0.45);
 }
 
 .text-gold-glow {
-  text-shadow: 0 0 18px rgba(245, 207, 83, 0.5);
+  text-shadow: 0 0 18px rgba(245, 207, 83, 0.45);
 }
 
 /* Animations */
-@keyframes portal-spin-cw {
-  from { transform: rotate(0deg); }
-  to { transform: rotate(360deg); }
-}
-
-@keyframes portal-spin-ccw {
-  from { transform: rotate(0deg); }
-  to { transform: rotate(-360deg); }
-}
-
 @keyframes float-subtle {
   0%, 100% { transform: translateY(0); }
-  50% { transform: translateY(-8px); }
+  50% { transform: translateY(-7px); }
 }
 
 @keyframes pulse-ring {
-  0% { transform: scale(0.95); opacity: 0.8; }
-  50% { transform: scale(1.05); opacity: 1; filter: drop-shadow(0 0 15px rgba(212,175,55,0.7)); }
-  100% { transform: scale(0.95); opacity: 0.8; }
+  0% { transform: scale(0.96); opacity: 0.85; }
+  50% { transform: scale(1.04); opacity: 1; filter: drop-shadow(0 0 12px rgba(212,175,55,0.6)); }
+  100% { transform: scale(0.96); opacity: 0.85; }
 }
 
 @keyframes shake {
@@ -135,19 +148,6 @@ body {
   animation: shake 0.4s cubic-bezier(0.36, 0.07, 0.19, 0.97) both;
 }
 
-@keyframes shimmer-slide {
-  0% { background-position: -200% 0; }
-  100% { background-position: 200% 0; }
-}
-
-.animate-spin-slow {
-  animation: portal-spin-cw 60s linear infinite;
-}
-
-.animate-spin-reverse-slow {
-  animation: portal-spin-ccw 45s linear infinite;
-}
-
 .animate-float {
   animation: float-subtle 6s ease-in-out infinite;
 }
@@ -156,28 +156,15 @@ body {
   animation: pulse-ring 3s ease-in-out infinite;
 }
 
-/* Holographic Shimmer Effect for the Ticket */
-.hologram-shimmer {
-  background: linear-gradient(
-    115deg,
-    transparent 0%,
-    rgba(255, 255, 255, 0.03) 30%,
-    rgba(250, 224, 132, 0.25) 50%,
-    rgba(147, 197, 253, 0.15) 60%,
-    transparent 80%
-  );
-  background-size: 200% 200%;
-}
-
 /* Custom Scrollbar */
 ::-webkit-scrollbar {
   width: 8px;
 }
 ::-webkit-scrollbar-track {
-  background: #030611;
+  background: #151b11;
 }
 ::-webkit-scrollbar-thumb {
-  background: #252b45;
+  background: #35422b;
   border-radius: 4px;
   border: 1px solid rgba(212, 175, 55, 0.2);
 }

@@ -65,8 +65,8 @@ export default function AudioControlBar() {
       <div
         className={`flex items-center gap-2 sm:gap-3 px-3.5 sm:px-4 py-2 sm:py-2.5 rounded-full backdrop-blur-xl border transition-all duration-300 shadow-[0_10px_35px_rgba(0,0,0,0.8)] ${
           isActive
-            ? 'border-amber-400/60 shadow-[0_0_30px_rgba(250,224,132,0.35)] bg-[#070d24]/95'
-            : 'border-slate-800 bg-[#040714]/90 text-slate-400'
+            ? 'border-amber-300/60 shadow-[0_0_25px_rgba(212,175,55,0.25)] bg-[#24301f]/95'
+            : 'border-amber-300/20 bg-[#192215]/90 text-cream-300/60'
         }`}
       >
         {/* Spinning Disc & Equalizer */}

@@ -26,42 +26,13 @@ class CosmicAudioEngine {
     this.listeners = new Set();
     this.beatListeners = new Set();
 
-    // 4 Tracks Definitions
+    // 4 Tracks Definitions - Romance Acústico is Default (Track 0)
     this.tracks = [
       {
-        id: 'melodic-house',
-        title: 'Melodic Deep House',
-        genre: 'Deep House Atmospheric',
-        bpm: 122,
-        chords: [
-          {
-            root: 87.31, // F2
-            bassNotes: [87.31, 87.31, 103.83, 87.31], // F2, F2, Ab2, F2
-            padFreqs: [174.61, 207.65, 261.63, 311.13, 392.0], // Fm9 (F3, Ab3, C4, Eb4, G4)
-          },
-          {
-            root: 69.3, // Db2
-            bassNotes: [69.3, 69.3, 82.41, 69.3], // Db2, Db2, E2, Db2
-            padFreqs: [138.59, 174.61, 207.65, 261.63, 329.63], // Dbmaj7
-          },
-          {
-            root: 103.83, // Ab2
-            bassNotes: [103.83, 103.83, 116.54, 103.83], // Ab2, Ab2, Bb2, Ab2
-            padFreqs: [207.65, 261.63, 311.13, 392.0, 466.16], // Abmaj9
-          },
-          {
-            root: 77.78, // Eb2
-            bassNotes: [77.78, 77.78, 92.5, 77.78], // Eb2, Eb2, F#2, Eb2
-            padFreqs: [155.56, 196.0, 233.08, 311.13, 392.0], // Eb
-          },
-        ],
-        bassPattern: [1, 0, 1, 0, 0, 1, 0, 1, 1, 0, 0, 1, 0, 1, 0, 0],
-      },
-      {
         id: 'romance-eterno',
-        title: 'Romance Eterno',
-        genre: 'Piano & Cuerdas Celestiales',
-        bpm: 76,
+        title: 'Romance Acústico & Piano Nupcial',
+        genre: 'Piano Cálido & Cuerdas Románticas',
+        bpm: 74,
         chords: [
           {
             root: 65.41, // C2
@@ -91,10 +62,39 @@ class CosmicAudioEngine {
         bassPattern: [1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0],
       },
       {
+        id: 'melodic-house',
+        title: 'Melodic House',
+        genre: 'Deep House Sunset',
+        bpm: 120,
+        chords: [
+          {
+            root: 87.31, // F2
+            bassNotes: [87.31, 87.31, 103.83, 87.31], // F2, F2, Ab2, F2
+            padFreqs: [174.61, 207.65, 261.63, 311.13, 392.0], // Fm9 (F3, Ab3, C4, Eb4, G4)
+          },
+          {
+            root: 69.3, // Db2
+            bassNotes: [69.3, 69.3, 82.41, 69.3], // Db2, Db2, E2, Db2
+            padFreqs: [138.59, 174.61, 207.65, 261.63, 329.63], // Dbmaj7
+          },
+          {
+            root: 103.83, // Ab2
+            bassNotes: [103.83, 103.83, 116.54, 103.83], // Ab2, Ab2, Bb2, Ab2
+            padFreqs: [207.65, 261.63, 311.13, 392.0, 466.16], // Abmaj9
+          },
+          {
+            root: 77.78, // Eb2
+            bassNotes: [77.78, 77.78, 92.5, 77.78], // Eb2, Eb2, F#2, Eb2
+            padFreqs: [155.56, 196.0, 233.08, 311.13, 392.0], // Eb
+          },
+        ],
+        bassPattern: [1, 0, 1, 0, 0, 1, 0, 1, 1, 0, 0, 1, 0, 1, 0, 0],
+      },
+      {
         id: 'cosmic-sunset',
-        title: 'Cosmic Sunset',
+        title: 'Atardecer Acústico',
         genre: 'Chillwave & Lo-Fi Lounge',
-        bpm: 90,
+        bpm: 88,
         chords: [
           {
             root: 73.42, // D2
@@ -121,9 +121,9 @@ class CosmicAudioEngine {
       },
       {
         id: 'starlight-disco',
-        title: 'Starlight Disco',
-        genre: 'Nu-Disco & Golden Chic',
-        bpm: 116,
+        title: 'Fiesta & Brindis',
+        genre: 'Chic Grooves & Amor',
+        bpm: 114,
         chords: [
           {
             root: 61.74, // B1

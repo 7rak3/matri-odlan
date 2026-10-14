@@ -1,21 +1,27 @@
 import React, { useState } from 'react';
 import confetti from 'canvas-confetti';
-import { Send, CheckCircle2, Heart, Utensils, MessageSquare, Sparkles, User, Users, Music } from 'lucide-react';
+import { Send, CheckCircle2, Heart, Utensils, MessageSquare, Sparkles, User, Users, Music, AlertCircle } from 'lucide-react';
 import { cosmicAudio } from '../utils/audioEngine';
 
 export default function RSVPSection() {
   const [formData, setFormData] = useState(() => {
     let initialName = '';
+    let initialHasCompanion = false;
     if (typeof window !== 'undefined') {
       const params = new URLSearchParams(window.location.search);
       const guestParam = params.get('invitado') || params.get('to') || params.get('guest');
       if (guestParam) initialName = guestParam.replace(/\+/g, ' ');
+      if (params.get('pases') === '2' || params.get('acompanante') === 'true') {
+        initialHasCompanion = true;
+      }
     }
     return {
       name: initialName,
       attendance: 'yes',
-      companions: '1',
-      companionNames: '',
+      hasCompanion: initialHasCompanion,
+      companionName: '',
+      companionDietary: 'traditional',
+      companionDietaryNotes: '',
       dietary: 'traditional',
       dietaryNotes: '',
       songRequest: '',
@@ -26,10 +32,10 @@ export default function RSVPSection() {
   const [isSubmitted, setIsSubmitted] = useState(false);
 
   const triggerGoldConfetti = () => {
-    const count = 220;
+    const count = 200;
     const defaults = {
       origin: { y: 0.7 },
-      colors: ['#fae084', '#d4af37', '#fb7185', '#fda4af', '#ffffff'],
+      colors: ['#e6ca65', '#d4af37', '#7c9a63', '#fdfbf5', '#ffffff'],
     };
 
     function fire(particleRatio, opts) {
@@ -58,55 +64,71 @@ export default function RSVPSection() {
 
   const generateWhatsAppUrl = () => {
     const phone = '56912345678';
-    const text = `💍 *CONFIRMACIÓN DE ASISTENCIA — MATRIMONIO JOSE & ODLAN* 💍\n\n` +
-      `👤 *Invitado de Honor:* ${formData.name}\n` +
-      `💫 *Asistencia:* ${formData.attendance === 'yes' ? '¡Sí, los acompañaré en su gran día! 🥂🎉' : 'Lamentablemente no podré asistir 😢'}\n` +
-      (formData.attendance === 'yes' ? `👥 *Cupos Reservados:* ${formData.companions} persona(s) ${formData.companionNames ? `(${formData.companionNames})` : ''}\n` : '') +
+    const text = `💍 *CONFIRMACIÓN DE ASISTENCIA — MATRIMONIO ODLAN & MARÍA JOSE* 💍\n\n` +
+      `👤 *Invitado:* ${formData.name}\n` +
+      `💫 *Asistencia:* ${formData.attendance === 'yes' ? '¡Sí, asistiré con todo el cariño! 🥂🎉' : 'Lamentablemente no podré asistir 💌'}\n` +
+      (formData.attendance === 'yes' && formData.hasCompanion && formData.companionName
+        ? `👥 *Acompañante asignado:* ${formData.companionName} (${formData.companionDietary}${formData.companionDietaryNotes ? ` - Alergias: ${formData.companionDietaryNotes}` : ''})\n`
+        : `👥 *Invitación individual:* 1 persona\n`) +
       (formData.attendance === 'yes' ? `🍽️ *Preferencia Menú:* ${formData.dietary} ${formData.dietaryNotes ? `(Alergias: ${formData.dietaryNotes})` : ''}\n` : '') +
-      (formData.songRequest ? `🎵 *Canción para bailar en la fiesta:* "${formData.songRequest}"\n` : '') +
-      (formData.message ? `💌 *Mensaje de Amor:* "${formData.message}"\n` : '');
+      (formData.songRequest ? `🎵 *Canción sugerida:* "${formData.songRequest}"\n` : '') +
+      (formData.message ? `💌 *Mensaje para Odlan & María Jose:* "${formData.message}"\n` : '');
 
     return `https://wa.me/${phone}?text=${encodeURIComponent(text)}`;
   };
 
   return (
-    <section id="rsvp" className="relative py-28 px-4 md:px-8 max-w-4xl mx-auto z-10">
+    <section id="rsvp" className="relative py-20 px-4 md:px-8 max-w-4xl mx-auto z-10 scroll-mt-24">
       {/* Header */}
-      <div className="text-center max-w-2xl mx-auto mb-16">
-        <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-amber-500/10 border border-amber-400/30 text-amber-200 text-xs tracking-[0.25em] uppercase mb-4 shadow-[0_0_20px_rgba(212,175,55,0.15)]">
-          <Heart className="w-3.5 h-3.5 text-rose-400 fill-rose-400" />
-          <span>CONFIRMA TU ASISTENCIA • R.S.V.P.</span>
+      <div className="text-center max-w-2xl mx-auto mb-14">
+        <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-[#46573c]/50 border border-amber-300/30 text-amber-200 text-xs tracking-[0.25em] uppercase mb-4 shadow-sm">
+          <Heart className="w-3.5 h-3.5 text-amber-300 fill-amber-300/40" />
+          <span>R.S.V.P. • CONFIRMACIÓN</span>
+          <Sparkles className="w-3.5 h-3.5 text-amber-300" />
         </div>
 
-        <h2 className="font-cinzel text-3xl md:text-5xl font-bold tracking-wider gold-gradient-text uppercase mb-4">
-          Reserva Tu Lugar
+        <h2 className="font-cinzel text-3xl sm:text-4xl md:text-5xl font-bold tracking-wider gold-gradient-text uppercase mb-3">
+          Confirma Tu Asistencia
         </h2>
 
-        <div className="w-24 h-0.5 mx-auto bg-gradient-to-r from-transparent via-amber-400 to-transparent mb-6" />
+        <div className="w-20 h-0.5 mx-auto bg-gradient-to-r from-transparent via-amber-300/70 to-transparent mb-4" />
 
-        <p className="font-garamond italic text-lg md:text-xl text-amber-100/90 leading-relaxed">
-          Confírmanos tu asistencia para que podamos preparar cada detalle de este día inolvidable junto a ti.
+        <p className="font-garamond italic text-lg md:text-xl text-cream-100/90 leading-relaxed">
+          Por favor confírmanos tu presencia para preparar cada detalle de este día inolvidable junto a ti.
         </p>
       </div>
 
-      <div className="cosmic-glass rounded-3xl p-6 md:p-12 border border-amber-400/35 relative overflow-hidden shadow-[0_20px_60px_rgba(0,0,0,0.85)]">
+      <div className="rounded-3xl p-6 sm:p-10 md:p-12 bg-[#2b3724]/90 border border-amber-300/35 relative overflow-hidden shadow-[0_20px_60px_rgba(8,12,6,0.85)] backdrop-blur-xl">
+        {/* Anti-Confusion Notice (As requested in Word & Audio 2) */}
+        <div className="mb-8 p-4 rounded-2xl bg-[#1b2317]/90 border border-amber-300/30 text-xs text-cream-100 flex items-start gap-3 text-left">
+          <AlertCircle className="w-5 h-5 text-amber-300 shrink-0 mt-0.5" />
+          <div className="space-y-1">
+            <span className="font-semibold text-amber-200 block uppercase tracking-wider text-[11px]">
+              Esta invitación es personal e individual (1 cupo)
+            </span>
+            <p className="text-cream-200/80 text-xs leading-relaxed font-light">
+              Nuestros invitados son única y exclusivamente las personas que forman parte especial de nuestras vidas.
+            </p>
+          </div>
+        </div>
+
         {isSubmitted ? (
           /* Confirmation Success Screen */
           <div className="text-center py-8 space-y-6">
-            <div className="w-20 h-20 rounded-full bg-emerald-500/20 border-2 border-emerald-400 flex items-center justify-center mx-auto shadow-[0_0_50px_rgba(52,211,153,0.5)]">
-              <CheckCircle2 className="w-10 h-10 text-emerald-400" />
+            <div className="w-20 h-20 rounded-full bg-emerald-500/20 border-2 border-emerald-400 flex items-center justify-center mx-auto shadow-[0_0_40px_rgba(52,211,153,0.4)]">
+              <CheckCircle2 className="w-10 h-10 text-emerald-300" />
             </div>
 
-            <h3 className="font-cinzel text-2xl md:text-3xl font-bold text-white uppercase tracking-wider">
+            <h3 className="font-cinzel text-2xl md:text-3xl font-bold text-cream-50 uppercase tracking-wider">
               {formData.attendance === 'yes'
-                ? '¡Tu Lugar Está Reservado en Nuestra Boda!'
-                : 'Mensaje Recibido'}
+                ? '¡Tu Asistencia Ha Sido Confirmada!'
+                : 'Mensaje Recibido con Cariño'}
             </h3>
 
-            <p className="font-garamond italic text-lg text-amber-200/90 max-w-md mx-auto">
+            <p className="font-garamond italic text-lg text-cream-200/90 max-w-md mx-auto">
               {formData.attendance === 'yes'
-                ? `¡Gracias ${formData.name}! No imaginas la alegría que nos da saber que estarás junto a nosotros en el momento más importante de nuestras vidas.`
-                : `Gracias por avisarnos con cariño, ${formData.name}. Estarás en nuestros pensamientos y en nuestros corazones en este día tan especial.`}
+                ? `¡Gracias ${formData.name}! Nos llena de emoción saber que celebrarás junto a nosotros en Casona Los Nogales.`
+                : `Gracias por avisarnos, ${formData.name}. Estarás presente en nuestros corazones en este día tan especial.`}
             </p>
 
             <div className="pt-4 flex flex-col sm:flex-row items-center justify-center gap-4">
@@ -115,16 +137,16 @@ export default function RSVPSection() {
                 target="_blank"
                 rel="noopener noreferrer"
                 onClick={() => cosmicAudio.playChime(1.4)}
-                className="w-full sm:w-auto px-7 py-3.5 rounded-full bg-emerald-600 hover:bg-emerald-500 text-white font-montserrat text-xs tracking-widest uppercase font-semibold flex items-center justify-center gap-2 shadow-lg transition-transform hover:scale-105"
+                className="w-full sm:w-auto px-7 py-3.5 rounded-full bg-emerald-700 hover:bg-emerald-600 text-white font-montserrat text-xs tracking-widest uppercase font-semibold flex items-center justify-center gap-2 shadow-lg transition-transform hover:scale-105"
               >
                 <Send className="w-4 h-4" />
-                Enviar confirmación a WhatsApp de los Novios
+                <span>Enviar confirmación a WhatsApp de los Novios</span>
               </a>
 
               <button
                 type="button"
                 onClick={() => setIsSubmitted(false)}
-                className="w-full sm:w-auto px-6 py-3.5 rounded-full bg-slate-800/80 hover:bg-slate-700 text-amber-200 font-montserrat text-xs tracking-widest uppercase border border-amber-400/30 transition-colors"
+                className="w-full sm:w-auto px-6 py-3.5 rounded-full bg-[#1b2317] hover:bg-[#25321f] text-amber-200 font-montserrat text-xs tracking-widest uppercase border border-amber-300/30 transition-colors"
               >
                 Modificar Respuesta
               </button>
@@ -132,30 +154,30 @@ export default function RSVPSection() {
           </div>
         ) : (
           /* RSVP Form */
-          <form onSubmit={handleSubmit} className="space-y-8 text-left">
+          <form onSubmit={handleSubmit} className="space-y-7 text-left">
             {/* Field 1: Name */}
             <div>
-              <label className="block text-xs font-montserrat tracking-widest uppercase text-amber-300 mb-2 flex items-center gap-1.5">
-                <User className="w-3.5 h-3.5 text-amber-400" />
-                Nombre Completo del Invitado *
+              <label className="block text-xs font-montserrat tracking-widest uppercase text-amber-200 mb-2 flex items-center gap-1.5 font-medium">
+                <User className="w-3.5 h-3.5 text-amber-300" />
+                <span>Nombre Completo del Invitado *</span>
               </label>
               <input
                 type="text"
                 required
                 value={formData.name}
                 onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                placeholder="Ej. Francisca Silva o Familia Morales"
-                className="w-full bg-[#05091e] border border-amber-400/30 rounded-xl px-4 py-3 text-white placeholder-slate-500 focus:outline-none focus:border-amber-300 transition-colors font-montserrat text-sm"
+                placeholder="Ej. Francisca Silva"
+                className="w-full bg-[#1b2317] border border-amber-300/30 rounded-xl px-4 py-3.5 text-cream-50 placeholder-cream-200/30 focus:outline-none focus:border-amber-300 transition-colors font-montserrat text-sm"
               />
             </div>
 
             {/* Field 2: Attendance Toggle */}
             <div>
-              <label className="block text-xs font-montserrat tracking-widest uppercase text-amber-300 mb-3 flex items-center gap-1.5">
-                <Heart className="w-3.5 h-3.5 text-rose-400 fill-rose-400" />
-                ¿Nos Acompañarás en Nuestro Matrimonio? *
+              <label className="block text-xs font-montserrat tracking-widest uppercase text-amber-200 mb-3 flex items-center gap-1.5 font-medium">
+                <Heart className="w-3.5 h-3.5 text-amber-300" />
+                <span>¿Nos Acompañarás en Nuestro Matrimonio? *</span>
               </label>
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
                 <button
                   type="button"
                   onClick={() => {
@@ -164,13 +186,13 @@ export default function RSVPSection() {
                   }}
                   className={`p-4 rounded-xl border flex items-center justify-center gap-3 transition-all cursor-pointer ${
                     formData.attendance === 'yes'
-                      ? 'bg-gradient-to-r from-amber-500/30 via-rose-500/25 to-amber-500/30 border-amber-300 shadow-[0_0_25px_rgba(250,224,132,0.4)] text-white'
-                      : 'bg-[#05091e] border-slate-700/50 text-slate-400 hover:border-slate-600'
+                      ? 'bg-gradient-to-r from-amber-500/25 via-amber-400/35 to-amber-500/25 border-amber-300 text-cream-50 shadow-[0_0_20px_rgba(212,175,55,0.25)]'
+                      : 'bg-[#1b2317] border-amber-300/20 text-cream-300/60 hover:border-amber-300/40'
                   }`}
                 >
                   <Sparkles className="w-4 h-4 text-amber-300" />
                   <span className="font-cinzel font-bold tracking-wider text-sm">
-                    ¡SÍ, ASISTIRÉ CON AMOR! 🥂💍
+                    ¡SÍ, ASISTIRÉ CON AMOR! 🥂
                   </span>
                 </button>
 
@@ -182,8 +204,8 @@ export default function RSVPSection() {
                   }}
                   className={`p-4 rounded-xl border flex items-center justify-center gap-3 transition-all cursor-pointer ${
                     formData.attendance === 'no'
-                      ? 'bg-rose-950/40 border-rose-500 text-white'
-                      : 'bg-[#05091e] border-slate-700/50 text-slate-400 hover:border-slate-600'
+                      ? 'bg-[#3b2326] border-rose-400 text-white'
+                      : 'bg-[#1b2317] border-amber-300/20 text-cream-300/60 hover:border-amber-300/40'
                   }`}
                 >
                   <span className="font-cinzel font-semibold tracking-wider text-sm">
@@ -195,44 +217,93 @@ export default function RSVPSection() {
 
             {formData.attendance === 'yes' && (
               <>
-                {/* Companions */}
-                <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-                  <div>
-                    <label className="block text-xs font-montserrat tracking-widest uppercase text-amber-300 mb-2 flex items-center gap-1.5">
-                      <Users className="w-3.5 h-3.5 text-amber-400" />
-                      Cupos Confirmados
-                    </label>
-                    <select
-                      value={formData.companions}
-                      onChange={(e) => setFormData({ ...formData, companions: e.target.value })}
-                      className="w-full bg-[#05091e] border border-amber-400/30 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-amber-300 transition-colors font-montserrat text-sm"
+                {/* Optional Companion Toggle (Audio 2: Only if invitation included a plus-one) */}
+                <div className="p-4 rounded-2xl bg-[#1b2317]/60 border border-amber-300/20 space-y-4">
+                  <div className="flex items-center justify-between gap-4">
+                    <div className="flex items-center gap-2">
+                      <Users className="w-4 h-4 text-amber-300" />
+                      <span className="text-xs font-montserrat uppercase tracking-wider text-cream-100 font-medium">
+                        ¿Tu invitación incluía un acompañante asignado?
+                      </span>
+                    </div>
+
+                    <button
+                      type="button"
+                      onClick={() => setFormData({ ...formData, hasCompanion: !formData.hasCompanion })}
+                      className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors cursor-pointer ${
+                        formData.hasCompanion ? 'bg-amber-400' : 'bg-slate-700'
+                      }`}
                     >
-                      <option value="1">1 Persona (Solo yo)</option>
-                      <option value="2">2 Personas (Con acompañante)</option>
-                      <option value="3">3 Personas (Familia)</option>
-                      <option value="4+">4 o más personas</option>
-                    </select>
+                      <span
+                        className={`inline-block h-4 w-4 transform rounded-full bg-slate-950 transition-transform ${
+                          formData.hasCompanion ? 'translate-x-6' : 'translate-x-1'
+                        }`}
+                      />
+                    </button>
                   </div>
 
-                  <div className="sm:col-span-2">
-                    <label className="block text-xs font-montserrat tracking-widest uppercase text-amber-300 mb-2">
-                      Nombre(s) de Acompañante(s)
-                    </label>
-                    <input
-                      type="text"
-                      value={formData.companionNames}
-                      onChange={(e) => setFormData({ ...formData, companionNames: e.target.value })}
-                      placeholder="Ej. Carlos González"
-                      className="w-full bg-[#05091e] border border-amber-400/30 rounded-xl px-4 py-3 text-white placeholder-slate-500 focus:outline-none focus:border-amber-300 transition-colors font-montserrat text-sm"
-                    />
-                  </div>
+                  {formData.hasCompanion && (
+                    <div className="pt-3 border-t border-amber-300/20 space-y-4">
+                      <p className="text-[11px] text-amber-200/80 font-montserrat">
+                        Ingresa los datos de tu acompañante asignado en la tarjeta de invitación:
+                      </p>
+
+                      <div>
+                        <label className="block text-[11px] font-montserrat tracking-widest uppercase text-amber-300/90 mb-1.5">
+                          Nombre Completo del Acompañante *
+                        </label>
+                        <input
+                          type="text"
+                          required={formData.hasCompanion}
+                          value={formData.companionName}
+                          onChange={(e) => setFormData({ ...formData, companionName: e.target.value })}
+                          placeholder="Ej. Carlos González"
+                          className="w-full bg-[#141b11] border border-amber-300/30 rounded-xl px-3.5 py-2.5 text-cream-100 placeholder-cream-200/30 focus:outline-none focus:border-amber-300 text-xs font-montserrat"
+                        />
+                      </div>
+
+                      <div>
+                        <label className="block text-[11px] font-montserrat tracking-widest uppercase text-amber-300/90 mb-1.5">
+                          Preferencia de Menú del Acompañante
+                        </label>
+                        <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 mb-2">
+                          {[
+                            { id: 'traditional', label: 'Tradicional' },
+                            { id: 'vegetarian', label: 'Vegetariano' },
+                            { id: 'vegan', label: 'Vegano' },
+                            { id: 'celiac', label: 'Sin Gluten' },
+                          ].map((diet) => (
+                            <button
+                              key={diet.id}
+                              type="button"
+                              onClick={() => setFormData({ ...formData, companionDietary: diet.id })}
+                              className={`py-2 px-2.5 rounded-lg border text-[11px] font-montserrat transition-all cursor-pointer ${
+                                formData.companionDietary === diet.id
+                                  ? 'bg-amber-400/25 border-amber-300 text-cream-50 font-semibold'
+                                  : 'bg-[#141b11] border-amber-300/20 text-cream-300/60'
+                              }`}
+                            >
+                              {diet.label}
+                            </button>
+                          ))}
+                        </div>
+                        <input
+                          type="text"
+                          value={formData.companionDietaryNotes}
+                          onChange={(e) => setFormData({ ...formData, companionDietaryNotes: e.target.value })}
+                          placeholder="Alergias o requerimientos especiales del acompañante"
+                          className="w-full bg-[#141b11] border border-amber-300/25 rounded-xl px-3.5 py-2 text-cream-100 placeholder-cream-200/30 focus:outline-none focus:border-amber-300 text-xs font-montserrat"
+                        />
+                      </div>
+                    </div>
+                  )}
                 </div>
 
-                {/* Dietary preference */}
+                {/* Dietary preference for primary guest */}
                 <div>
-                  <label className="block text-xs font-montserrat tracking-widest uppercase text-amber-300 mb-2 flex items-center gap-1.5">
-                    <Utensils className="w-3.5 h-3.5 text-amber-400" />
-                    Preferencia de Menú & Alergias
+                  <label className="block text-xs font-montserrat tracking-widest uppercase text-amber-200 mb-2 flex items-center gap-1.5 font-medium">
+                    <Utensils className="w-3.5 h-3.5 text-amber-300" />
+                    <span>Tu Preferencia de Menú & Alergias</span>
                   </label>
                   <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 mb-3">
                     {[
@@ -245,10 +316,10 @@ export default function RSVPSection() {
                         key={diet.id}
                         type="button"
                         onClick={() => setFormData({ ...formData, dietary: diet.id })}
-                        className={`py-2 px-3 rounded-lg border text-xs font-montserrat transition-all cursor-pointer ${
+                        className={`py-2.5 px-3 rounded-xl border text-xs font-montserrat transition-all cursor-pointer ${
                           formData.dietary === diet.id
-                            ? 'bg-amber-400/25 border-amber-300 text-amber-200 font-semibold'
-                            : 'bg-[#05091e] border-slate-700/60 text-slate-400'
+                            ? 'bg-amber-400/25 border-amber-300 text-cream-50 font-semibold shadow-sm'
+                            : 'bg-[#1b2317] border-amber-300/20 text-cream-300/60'
                         }`}
                       >
                         {diet.label}
@@ -261,22 +332,22 @@ export default function RSVPSection() {
                     value={formData.dietaryNotes}
                     onChange={(e) => setFormData({ ...formData, dietaryNotes: e.target.value })}
                     placeholder="¿Alergias específicas o intolerancias alimentarias?"
-                    className="w-full bg-[#05091e] border border-amber-400/30 rounded-xl px-4 py-2.5 text-white placeholder-slate-500 focus:outline-none focus:border-amber-300 transition-colors font-montserrat text-xs"
+                    className="w-full bg-[#1b2317] border border-amber-300/30 rounded-xl px-4 py-2.5 text-cream-100 placeholder-cream-200/30 focus:outline-none focus:border-amber-300 transition-colors font-montserrat text-xs"
                   />
                 </div>
 
                 {/* Song for party */}
                 <div>
-                  <label className="block text-xs font-montserrat tracking-widest uppercase text-amber-300 mb-2 flex items-center gap-1.5">
-                    <Music className="w-3.5 h-3.5 text-amber-400" />
-                    ¿Qué canción te gustaría bailar con los novios en la fiesta?
+                  <label className="block text-xs font-montserrat tracking-widest uppercase text-amber-200 mb-2 flex items-center gap-1.5 font-medium">
+                    <Music className="w-3.5 h-3.5 text-amber-300" />
+                    <span>¿Qué canción te gustaría bailar con los novios en la fiesta?</span>
                   </label>
                   <input
                     type="text"
                     value={formData.songRequest}
                     onChange={(e) => setFormData({ ...formData, songRequest: e.target.value })}
                     placeholder="Canción y artista infaltable para celebrar juntos"
-                    className="w-full bg-[#05091e] border border-amber-400/35 rounded-xl px-4 py-3 text-white placeholder-slate-500 focus:outline-none focus:border-amber-300 transition-colors font-montserrat text-sm"
+                    className="w-full bg-[#1b2317] border border-amber-300/30 rounded-xl px-4 py-3 text-cream-100 placeholder-cream-200/30 focus:outline-none focus:border-amber-300 transition-colors font-montserrat text-sm"
                   />
                 </div>
               </>
@@ -284,16 +355,16 @@ export default function RSVPSection() {
 
             {/* Dedication message */}
             <div>
-              <label className="block text-xs font-montserrat tracking-widest uppercase text-amber-300 mb-2 flex items-center gap-1.5">
-                <MessageSquare className="w-3.5 h-3.5 text-amber-400" />
-                Un Mensaje para Jose & Odlan ✈️❤️
+              <label className="block text-xs font-montserrat tracking-widest uppercase text-amber-200 mb-2 flex items-center gap-1.5 font-medium">
+                <MessageSquare className="w-3.5 h-3.5 text-amber-300" />
+                <span>Un Mensaje para Odlan & María Jose ❤️</span>
               </label>
               <textarea
                 rows={3}
                 value={formData.message}
                 onChange={(e) => setFormData({ ...formData, message: e.target.value })}
-                placeholder="Escribe unas palabras de cariño, alegría o tus mejores deseos para su nuevo vuelo juntos..."
-                className="w-full bg-[#05091e] border border-amber-400/30 rounded-xl p-4 text-white placeholder-slate-500 focus:outline-none focus:border-amber-300 transition-colors font-montserrat text-sm resize-none"
+                placeholder="Escribe unas palabras de cariño, alegría o tus mejores deseos para su nueva vida juntos..."
+                className="w-full bg-[#1b2317] border border-amber-300/30 rounded-xl p-4 text-cream-100 placeholder-cream-200/30 focus:outline-none focus:border-amber-300 transition-colors font-montserrat text-sm resize-none"
               />
             </div>
 
@@ -301,11 +372,11 @@ export default function RSVPSection() {
             <div className="text-center pt-2">
               <button
                 type="submit"
-                className="w-full sm:w-auto px-10 py-4 rounded-full bg-gradient-to-r from-amber-500 via-amber-400 to-amber-500 text-slate-950 font-cinzel text-sm font-bold tracking-[0.2em] uppercase shadow-[0_0_40px_rgba(250,224,132,0.5)] hover:shadow-[0_0_60px_rgba(250,224,132,0.8)] transition-all transform hover:scale-105 active:scale-95 cursor-pointer"
+                className="w-full sm:w-auto px-10 py-4 rounded-full bg-gradient-to-r from-amber-500 via-amber-400 to-amber-500 text-slate-950 font-cinzel text-sm font-bold tracking-[0.2em] uppercase shadow-[0_0_35px_rgba(212,175,55,0.4)] hover:shadow-[0_0_55px_rgba(250,224,132,0.7)] transition-all transform hover:scale-105 active:scale-95 cursor-pointer"
               >
                 <span className="flex items-center justify-center gap-2">
                   <Sparkles className="w-4 h-4" />
-                  ENVIAR MI CONFIRMACIÓN DE AMOR
+                  CONFIRMAR ASISTENCIA
                   <Send className="w-4 h-4" />
                 </span>
               </button>
