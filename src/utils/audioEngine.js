@@ -1,11 +1,11 @@
-// Authentic Multi-Track Cosmic Audio Engine for Jose & Odlan's Wedding
-// 4 Distinct High-End Musical Themes:
-// 1. Melodic Deep House (122 BPM) - Inspired by Rüfüs Du Sol & Afterlife
-// 2. Romance Eterno (76 BPM) - Cinematic Piano & Celestial Strings Ballad
-// 3. Cosmic Sunset (90 BPM) - Chillwave & Warm Rhodes Lo-Fi
-// 4. Starlight Disco (116 BPM) - Chic Nu-Disco & Funky Golden Groove
+// Authentic Forest & Woodland Acoustic Audio Engine for Odlan & María Jose's Wedding
+// Atmospheric Forest Soundscapes:
+// 1. Bosque Encantado (Brisa en las hojas, canto de aves, arpa celta y campanillas de madera)
+// 2. Atardecer en los Nogales (Viento sereno, trinos suaves y arpegios acústicos de madera)
+// 3. Brisa & Bambú Zen (Naturaleza pura, susurro del bosque y campanillas de bambú)
+// 4. Piano & Canto de Bosque (Melodía romántica en piano sobre el cantar de la naturaleza)
 
-class CosmicAudioEngine {
+class ForestAudioEngine {
   constructor() {
     this.ctx = null;
     this.isMuted = false;
@@ -14,139 +14,78 @@ class CosmicAudioEngine {
 
     // Audio Buses
     this.masterGain = null;
-    this.drumsGain = null;
-    this.bassGain = null;
-    this.synthGain = null;
+    this.ambientGain = null;
+    this.birdsGain = null;
+    this.melodyGain = null;
+    this.chimesGain = null;
     this.sfxGain = null;
-    this.mainFilter = null;
+
+    // Continuous wind / rustle noise source & filters
+    this.windSource = null;
+    this.windGain = null;
+    this.windFilter = null;
+    this.windLfo = null;
 
     // Clock
     this.step = 0;
     this.timerId = null;
+    this.birdsTimerId = null;
     this.listeners = new Set();
     this.beatListeners = new Set();
 
-    // 4 Tracks Definitions - Romance Acústico is Default (Track 0)
+    // 4 Organic Forest Themes
     this.tracks = [
       {
-        id: 'romance-eterno',
-        title: 'Romance Acústico & Piano Nupcial',
-        genre: 'Piano Cálido & Cuerdas Románticas',
-        bpm: 74,
+        id: 'bosque-encantado',
+        title: 'Bosque Encantado & Aves',
+        genre: 'Brisa, Canto de Aves & Arpa',
+        bpm: 60,
+        scale: [293.66, 329.63, 369.99, 440.0, 493.88, 587.33, 659.25, 739.99], // D Major / Pentatonic (D, E, F#, A, B, d, e, f#)
         chords: [
-          {
-            root: 65.41, // C2
-            bassNotes: [65.41, 130.81, 98.0, 130.81],
-            padFreqs: [130.81, 164.81, 196.0, 246.94, 293.66], // Cmaj9
-            arpeggio: [130.81, 196.0, 246.94, 293.66, 329.63, 293.66, 246.94, 196.0],
-          },
-          {
-            root: 55.0, // A1
-            bassNotes: [55.0, 110.0, 82.41, 110.0],
-            padFreqs: [110.0, 164.81, 196.0, 261.63, 329.63], // Am9
-            arpeggio: [110.0, 164.81, 220.0, 261.63, 329.63, 261.63, 220.0, 164.81],
-          },
-          {
-            root: 43.65, // F1
-            bassNotes: [43.65, 87.31, 65.41, 87.31],
-            padFreqs: [87.31, 130.81, 174.61, 220.0, 261.63], // Fmaj7
-            arpeggio: [87.31, 130.81, 174.61, 220.0, 261.63, 220.0, 174.61, 130.81],
-          },
-          {
-            root: 49.0, // G1
-            bassNotes: [49.0, 98.0, 73.42, 98.0],
-            padFreqs: [98.0, 146.83, 196.0, 246.94, 293.66], // Gsus4 / G
-            arpeggio: [98.0, 146.83, 196.0, 246.94, 293.66, 246.94, 196.0, 146.83],
-          },
+          [146.83, 220.0, 293.66, 369.99, 440.0], // Dmaj9
+          [196.0, 246.94, 293.66, 369.99, 440.0],  // Gmaj9
+          [164.81, 246.94, 329.63, 392.0, 493.88],  // Em9
+          [220.0, 277.18, 329.63, 440.0, 554.37],   // A9
         ],
-        bassPattern: [1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0],
       },
       {
-        id: 'melodic-house',
-        title: 'Melodic House',
-        genre: 'Deep House Sunset',
-        bpm: 120,
+        id: 'atardecer-nogales',
+        title: 'Atardecer en los Nogales',
+        genre: 'Acústico de Madera & Bosque',
+        bpm: 54,
+        scale: [261.63, 293.66, 329.63, 392.0, 440.0, 523.25, 587.33, 659.25], // C / G Major Pentatonic
         chords: [
-          {
-            root: 87.31, // F2
-            bassNotes: [87.31, 87.31, 103.83, 87.31], // F2, F2, Ab2, F2
-            padFreqs: [174.61, 207.65, 261.63, 311.13, 392.0], // Fm9 (F3, Ab3, C4, Eb4, G4)
-          },
-          {
-            root: 69.3, // Db2
-            bassNotes: [69.3, 69.3, 82.41, 69.3], // Db2, Db2, E2, Db2
-            padFreqs: [138.59, 174.61, 207.65, 261.63, 329.63], // Dbmaj7
-          },
-          {
-            root: 103.83, // Ab2
-            bassNotes: [103.83, 103.83, 116.54, 103.83], // Ab2, Ab2, Bb2, Ab2
-            padFreqs: [207.65, 261.63, 311.13, 392.0, 466.16], // Abmaj9
-          },
-          {
-            root: 77.78, // Eb2
-            bassNotes: [77.78, 77.78, 92.5, 77.78], // Eb2, Eb2, F#2, Eb2
-            padFreqs: [155.56, 196.0, 233.08, 311.13, 392.0], // Eb
-          },
+          [130.81, 196.0, 261.63, 329.63, 392.0], // Cmaj9
+          [174.61, 220.0, 261.63, 329.63, 440.0], // Fmaj9
+          [146.83, 220.0, 293.66, 349.23, 440.0], // Dm9
+          [196.0, 246.94, 293.66, 392.0, 493.88],  // G
         ],
-        bassPattern: [1, 0, 1, 0, 0, 1, 0, 1, 1, 0, 0, 1, 0, 1, 0, 0],
       },
       {
-        id: 'cosmic-sunset',
-        title: 'Atardecer Acústico',
-        genre: 'Chillwave & Lo-Fi Lounge',
-        bpm: 88,
+        id: 'brisa-bambu',
+        title: 'Brisa & Campanillas de Bambú',
+        genre: 'Naturaleza Pura & Viento',
+        bpm: 48,
+        scale: [329.63, 392.0, 440.0, 493.88, 587.33, 659.25, 783.99], // E minor pentatonic / Nature
         chords: [
-          {
-            root: 73.42, // D2
-            bassNotes: [73.42, 73.42, 110.0, 73.42],
-            padFreqs: [146.83, 174.61, 220.0, 261.63, 329.63], // Dm9
-          },
-          {
-            root: 49.0, // G1
-            bassNotes: [49.0, 98.0, 73.42, 98.0],
-            padFreqs: [98.0, 174.61, 246.94, 329.63, 440.0], // G13
-          },
-          {
-            root: 65.41, // C2
-            bassNotes: [65.41, 65.41, 98.0, 65.41],
-            padFreqs: [130.81, 164.81, 196.0, 246.94, 293.66], // Cmaj9
-          },
-          {
-            root: 55.0, // A1
-            bassNotes: [55.0, 110.0, 82.41, 110.0],
-            padFreqs: [110.0, 174.61, 220.0, 277.18, 329.63], // A7alt
-          },
+          [164.81, 246.94, 329.63, 392.0],
+          [196.0, 293.66, 392.0, 440.0],
+          [220.0, 261.63, 329.63, 440.0],
+          [146.83, 220.0, 293.66, 369.99],
         ],
-        bassPattern: [1, 0, 0, 1, 0, 0, 1, 0, 0, 1, 0, 0, 1, 0, 0, 0],
       },
       {
-        id: 'starlight-disco',
-        title: 'Fiesta & Brindis',
-        genre: 'Chic Grooves & Amor',
-        bpm: 114,
+        id: 'piano-bosque',
+        title: 'Piano & Canto de Bosque',
+        genre: 'Piano Romántico & Trinos',
+        bpm: 58,
+        scale: [220.0, 261.63, 293.66, 329.63, 392.0, 440.0, 523.25, 659.25],
         chords: [
-          {
-            root: 61.74, // B1
-            bassNotes: [61.74, 123.47, 61.74, 123.47], // octave funk
-            padFreqs: [123.47, 146.83, 185.0, 220.0, 277.18], // Bm7
-          },
-          {
-            root: 82.41, // E2
-            bassNotes: [82.41, 164.81, 82.41, 164.81],
-            padFreqs: [164.81, 207.65, 246.94, 293.66, 329.63], // E7/9
-          },
-          {
-            root: 55.0, // A1
-            bassNotes: [55.0, 110.0, 55.0, 110.0],
-            padFreqs: [110.0, 138.59, 164.81, 207.65, 277.18], // Amaj7
-          },
-          {
-            root: 46.25, // F#1
-            bassNotes: [46.25, 92.5, 46.25, 92.5],
-            padFreqs: [92.5, 110.0, 138.59, 164.81, 220.0], // F#m7
-          },
+          [110.0, 164.81, 220.0, 261.63, 329.63], // Am9
+          [87.31, 130.81, 174.61, 220.0, 261.63],  // Fmaj7
+          [130.81, 164.81, 196.0, 246.94, 293.66], // Cmaj9
+          [98.0, 146.83, 196.0, 246.94, 293.66],   // G
         ],
-        bassPattern: [1, 1, 0, 1, 1, 1, 0, 1, 1, 1, 0, 1, 1, 0, 1, 0],
       },
     ];
   }
@@ -173,29 +112,325 @@ class CosmicAudioEngine {
     this.masterGain.gain.setValueAtTime(0.85, this.ctx.currentTime);
     this.masterGain.connect(this.ctx.destination);
 
-    // Warm Lowpass Filter for atmospheric synth sweep
-    this.mainFilter = this.ctx.createBiquadFilter();
-    this.mainFilter.type = 'lowpass';
-    this.mainFilter.frequency.setValueAtTime(1100, this.ctx.currentTime);
-    this.mainFilter.Q.setValueAtTime(1.8, this.ctx.currentTime);
-    this.mainFilter.connect(this.masterGain);
+    // Channel Busses
+    this.ambientGain = this.ctx.createGain();
+    this.ambientGain.gain.setValueAtTime(0.45, this.ctx.currentTime);
+    this.ambientGain.connect(this.masterGain);
 
-    // Channels
-    this.drumsGain = this.ctx.createGain();
-    this.drumsGain.gain.setValueAtTime(0.7, this.ctx.currentTime);
-    this.drumsGain.connect(this.masterGain);
+    this.birdsGain = this.ctx.createGain();
+    this.birdsGain.gain.setValueAtTime(0.55, this.ctx.currentTime);
+    this.birdsGain.connect(this.masterGain);
 
-    this.bassGain = this.ctx.createGain();
-    this.bassGain.gain.setValueAtTime(0.65, this.ctx.currentTime);
-    this.bassGain.connect(this.masterGain);
+    this.melodyGain = this.ctx.createGain();
+    this.melodyGain.gain.setValueAtTime(0.5, this.ctx.currentTime);
+    this.melodyGain.connect(this.masterGain);
 
-    this.synthGain = this.ctx.createGain();
-    this.synthGain.gain.setValueAtTime(0.42, this.ctx.currentTime);
-    this.synthGain.connect(this.mainFilter);
+    this.chimesGain = this.ctx.createGain();
+    this.chimesGain.gain.setValueAtTime(0.4, this.ctx.currentTime);
+    this.chimesGain.connect(this.masterGain);
 
     this.sfxGain = this.ctx.createGain();
-    this.sfxGain.gain.setValueAtTime(0.6, this.ctx.currentTime);
+    this.sfxGain.gain.setValueAtTime(0.5, this.ctx.currentTime);
     this.sfxGain.connect(this.masterGain);
+
+    this.startForestAmbience();
+  }
+
+  // Continuous Gentle Wind & Rustling Forest Leaves
+  startForestAmbience() {
+    if (!this.ctx || this.windSource) return;
+
+    try {
+      const bufferSize = this.ctx.sampleRate * 4;
+      const buffer = this.ctx.createBuffer(1, bufferSize, this.ctx.sampleRate);
+      const data = buffer.getChannelData(0);
+
+      // Pink noise generator for gentle wind texture
+      let b0 = 0, b1 = 0, b2 = 0, b3 = 0, b4 = 0, b5 = 0, b6 = 0;
+      for (let i = 0; i < bufferSize; i++) {
+        const white = Math.random() * 2 - 1;
+        b0 = 0.99886 * b0 + white * 0.0555179;
+        b1 = 0.99332 * b1 + white * 0.0750759;
+        b2 = 0.96900 * b2 + white * 0.1538520;
+        b3 = 0.86650 * b3 + white * 0.3104856;
+        b4 = 0.55000 * b4 + white * 0.5329522;
+        b5 = -0.7616 * b5 - white * 0.0168980;
+        data[i] = (b0 + b1 + b2 + b3 + b4 + b5 + b6 + white * 0.5362) * 0.035;
+        b6 = white * 0.115926;
+      }
+
+      this.windSource = this.ctx.createBufferSource();
+      this.windSource.buffer = buffer;
+      this.windSource.loop = true;
+
+      // Filter to simulate tree foliage & gentle breeze
+      this.windFilter = this.ctx.createBiquadFilter();
+      this.windFilter.type = 'bandpass';
+      this.windFilter.frequency.setValueAtTime(450, this.ctx.currentTime);
+      this.windFilter.Q.setValueAtTime(1.2, this.ctx.currentTime);
+
+      this.windGain = this.ctx.createGain();
+      this.windGain.gain.setValueAtTime(0.35, this.ctx.currentTime);
+
+      // Slow LFO to swell the wind naturally
+      const lfo = this.ctx.createOscillator();
+      const lfoGain = this.ctx.createGain();
+      lfo.frequency.setValueAtTime(0.12, this.ctx.currentTime); // ~8s swell
+      lfoGain.gain.setValueAtTime(220, this.ctx.currentTime);
+      lfo.connect(lfoGain);
+      lfoGain.connect(this.windFilter.frequency);
+      lfo.start();
+      this.windLfo = lfo;
+
+      this.windSource.connect(this.windFilter);
+      this.windFilter.connect(this.windGain);
+      this.windGain.connect(this.ambientGain);
+
+      this.windSource.start();
+    } catch {
+      // ignore audio context restrictions
+    }
+  }
+
+  // --- Real Natural Birdsong Generator ---
+  playBirdChirp() {
+    if (!this.ctx || this.isMuted || !this.isPlaying) return;
+
+    const t = this.ctx.currentTime;
+    const osc = this.ctx.createOscillator();
+    const gain = this.ctx.createGain();
+
+    osc.type = 'sine';
+
+    // Different bird phrases
+    const birdType = Math.floor(Math.random() * 4);
+    const baseFreq = 2200 + Math.random() * 1200;
+
+    if (birdType === 0) {
+      // Double sweet chirp
+      osc.frequency.setValueAtTime(baseFreq, t);
+      osc.frequency.exponentialRampToValueAtTime(baseFreq * 1.35, t + 0.08);
+      osc.frequency.setValueAtTime(baseFreq * 0.9, t + 0.12);
+      osc.frequency.exponentialRampToValueAtTime(baseFreq * 1.45, t + 0.22);
+
+      gain.gain.setValueAtTime(0.001, t);
+      gain.gain.linearRampToValueAtTime(0.18, t + 0.04);
+      gain.gain.exponentialRampToValueAtTime(0.001, t + 0.09);
+      gain.gain.linearRampToValueAtTime(0.2, t + 0.14);
+      gain.gain.exponentialRampToValueAtTime(0.0001, t + 0.25);
+
+      osc.connect(gain);
+      gain.connect(this.birdsGain);
+      osc.start(t);
+      osc.stop(t + 0.26);
+    } else if (birdType === 1) {
+      // Trill / Warble
+      const vibrato = this.ctx.createOscillator();
+      const vibratoGain = this.ctx.createGain();
+      vibrato.frequency.setValueAtTime(28, t);
+      vibratoGain.gain.setValueAtTime(140, t);
+      vibrato.connect(osc.frequency);
+      vibrato.start(t);
+      vibrato.stop(t + 0.35);
+
+      osc.frequency.setValueAtTime(baseFreq * 1.1, t);
+      osc.frequency.linearRampToValueAtTime(baseFreq * 0.85, t + 0.32);
+
+      gain.gain.setValueAtTime(0.001, t);
+      gain.gain.linearRampToValueAtTime(0.14, t + 0.05);
+      gain.gain.exponentialRampToValueAtTime(0.0001, t + 0.34);
+
+      osc.connect(gain);
+      gain.connect(this.birdsGain);
+      osc.start(t);
+      osc.stop(t + 0.35);
+    } else if (birdType === 2) {
+      // High delicate whistle
+      osc.frequency.setValueAtTime(baseFreq * 1.3, t);
+      osc.frequency.exponentialRampToValueAtTime(baseFreq * 1.6, t + 0.15);
+      osc.frequency.exponentialRampToValueAtTime(baseFreq * 1.1, t + 0.3);
+
+      gain.gain.setValueAtTime(0.001, t);
+      gain.gain.linearRampToValueAtTime(0.12, t + 0.03);
+      gain.gain.exponentialRampToValueAtTime(0.0001, t + 0.32);
+
+      osc.connect(gain);
+      gain.connect(this.birdsGain);
+      osc.start(t);
+      osc.stop(t + 0.33);
+    } else {
+      // Gentle nightingale drop
+      osc.frequency.setValueAtTime(baseFreq * 1.4, t);
+      osc.frequency.exponentialRampToValueAtTime(baseFreq * 0.8, t + 0.18);
+
+      gain.gain.setValueAtTime(0.001, t);
+      gain.gain.linearRampToValueAtTime(0.15, t + 0.04);
+      gain.gain.exponentialRampToValueAtTime(0.0001, t + 0.2);
+
+      osc.connect(gain);
+      gain.connect(this.birdsGain);
+      osc.start(t);
+      osc.stop(t + 0.22);
+    }
+  }
+
+  // --- Organic Bamboo / Wood Chime ---
+  playBambooChime(freq, time) {
+    if (!this.ctx || this.isMuted) return;
+
+    const osc = this.ctx.createOscillator();
+    const overtone = this.ctx.createOscillator();
+    const gain = this.ctx.createGain();
+
+    osc.type = 'sine';
+    osc.frequency.setValueAtTime(freq, time);
+
+    overtone.type = 'triangle';
+    overtone.frequency.setValueAtTime(freq * 2.76, time); // Inharmonic wooden bell ratio
+
+    gain.gain.setValueAtTime(0.001, time);
+    gain.gain.linearRampToValueAtTime(0.15, time + 0.008);
+    gain.gain.exponentialRampToValueAtTime(0.0001, time + 1.6);
+
+    osc.connect(gain);
+    overtone.connect(gain);
+    gain.connect(this.chimesGain);
+
+    osc.start(time);
+    overtone.start(time);
+    osc.stop(time + 1.7);
+    overtone.stop(time + 1.7);
+  }
+
+  // --- Celtic Forest Harp / Kalimba Note ---
+  playHarpNote(freq, time, duration = 2.4) {
+    if (!this.ctx || this.isMuted) return;
+
+    const osc = this.ctx.createOscillator();
+    const body = this.ctx.createOscillator();
+    const gain = this.ctx.createGain();
+    const filter = this.ctx.createBiquadFilter();
+
+    osc.type = 'triangle';
+    osc.frequency.setValueAtTime(freq, time);
+
+    body.type = 'sine';
+    body.frequency.setValueAtTime(freq * 0.5, time);
+
+    filter.type = 'lowpass';
+    filter.frequency.setValueAtTime(freq * 4, time);
+    filter.frequency.exponentialRampToValueAtTime(freq * 1.2, time + duration);
+
+    gain.gain.setValueAtTime(0.001, time);
+    gain.gain.linearRampToValueAtTime(0.25, time + 0.015);
+    gain.gain.exponentialRampToValueAtTime(0.0001, time + duration);
+
+    osc.connect(filter);
+    body.connect(filter);
+    filter.connect(gain);
+    gain.connect(this.melodyGain);
+
+    osc.start(time);
+    body.start(time);
+    osc.stop(time + duration + 0.05);
+    body.stop(time + duration + 0.05);
+  }
+
+  // --- Warm Woodland Pad / Atmosphere ---
+  playForestPad(freqs, time, duration) {
+    if (!this.ctx || this.isMuted) return;
+
+    freqs.forEach((freq) => {
+      const osc = this.ctx.createOscillator();
+      const gain = this.ctx.createGain();
+      const filter = this.ctx.createBiquadFilter();
+
+      osc.type = 'sine';
+      osc.frequency.setValueAtTime(freq, time);
+
+      filter.type = 'lowpass';
+      filter.frequency.setValueAtTime(800, time);
+
+      // Very soft slow swell
+      gain.gain.setValueAtTime(0.001, time);
+      gain.gain.linearRampToValueAtTime(0.06, time + 1.5);
+      gain.gain.setValueAtTime(0.06, time + duration - 1.2);
+      gain.gain.linearRampToValueAtTime(0.0001, time + duration);
+
+      osc.connect(filter);
+      filter.connect(gain);
+      gain.connect(this.ambientGain);
+
+      osc.start(time);
+      osc.stop(time + duration + 0.1);
+    });
+  }
+
+  // --- Sequencer Core Loop for Nature & Forest Melody ---
+  startMusicLoop() {
+    this.init();
+    if (this.isPlaying) return;
+    this.isPlaying = true;
+    this.notify();
+
+    // Random bird songs every 2.5 to 5.5 seconds
+    const scheduleNextBird = () => {
+      if (!this.isPlaying) return;
+      this.playBirdChirp();
+      const nextDelay = 2200 + Math.random() * 3400;
+      this.birdsTimerId = setTimeout(scheduleNextBird, nextDelay);
+    };
+    scheduleNextBird();
+
+    const scheduleStep = () => {
+      if (!this.isPlaying || !this.ctx) return;
+
+      const track = this.currentTrack;
+      const bpm = track.bpm;
+      const stepDuration = 60 / bpm / 2; // 8th note duration
+      const t = this.ctx.currentTime;
+      const currentStep = this.step % 16;
+      const currentBar = Math.floor(this.step / 16);
+      const chord = track.chords[currentBar % track.chords.length];
+
+      // 1. Warm pad harmony at start of each bar (every 16 steps)
+      if (currentStep === 0) {
+        this.playForestPad(chord, t, stepDuration * 16 * 0.98);
+      }
+
+      // 2. Gentle harp / kalimba arpeggio notes
+      if (currentStep % 2 === 0) {
+        const scaleIdx = (currentStep / 2) % track.scale.length;
+        const note = track.scale[scaleIdx];
+        this.playHarpNote(note, t, stepDuration * 3.5);
+      }
+
+      // 3. Occasional bamboo chime ping on breeze
+      if (currentStep === 6 || currentStep === 14) {
+        if (Math.random() < 0.75) {
+          const chimeFreq = track.scale[Math.floor(Math.random() * track.scale.length)] * 2;
+          this.playBambooChime(chimeFreq, t);
+        }
+      }
+
+      this.step++;
+      this.timerId = setTimeout(scheduleStep, stepDuration * 1000);
+    };
+
+    scheduleStep();
+  }
+
+  stopMusicLoop() {
+    this.isPlaying = false;
+    if (this.timerId) {
+      clearTimeout(this.timerId);
+      this.timerId = null;
+    }
+    if (this.birdsTimerId) {
+      clearTimeout(this.birdsTimerId);
+      this.birdsTimerId = null;
+    }
+    this.notify();
   }
 
   subscribe(listener) {
@@ -223,10 +458,6 @@ class CosmicAudioEngine {
     );
   }
 
-  notifyBeat(beatNumber, isKick) {
-    this.beatListeners.forEach((fn) => fn({ beatNumber, isKick }));
-  }
-
   toggleMute() {
     this.isMuted = !this.isMuted;
     if (this.masterGain && this.ctx) {
@@ -249,14 +480,11 @@ class CosmicAudioEngine {
     const total = this.tracks.length;
     this.currentTrackIndex = ((index % total) + total) % total;
     this.step = 0;
-    this.playChime(1.4);
+    this.playChime(1.2);
     this.notify();
 
     if (this.isPlaying) {
-      // Re-trigger loop with the new track parameters smoothly
-      if (this.timerId) clearTimeout(this.timerId);
-      this.timerId = null;
-      this.isPlaying = false;
+      this.stopMusicLoop();
       this.startMusicLoop();
     }
   }
@@ -269,436 +497,6 @@ class CosmicAudioEngine {
     this.setTrack(this.currentTrackIndex - 1);
   }
 
-  // --- Sound Generation Instruments ---
-
-  // Kick Drum (House punch / Ballad soft pulse / Disco thump)
-  playKick(time, style = 'house') {
-    if (!this.ctx || this.isMuted) return;
-
-    const osc = this.ctx.createOscillator();
-    const gain = this.ctx.createGain();
-    osc.type = 'sine';
-
-    if (style === 'ballad') {
-      // Soft ambient heartbeat pulse
-      osc.frequency.setValueAtTime(80, time);
-      osc.frequency.exponentialRampToValueAtTime(32, time + 0.35);
-      gain.gain.setValueAtTime(0.55, time);
-      gain.gain.exponentialRampToValueAtTime(0.001, time + 0.38);
-      osc.connect(gain);
-      gain.connect(this.drumsGain);
-      osc.start(time);
-      osc.stop(time + 0.4);
-      return;
-    }
-
-    if (style === 'disco') {
-      // Tight 70s/80s disco kick
-      osc.frequency.setValueAtTime(155, time);
-      osc.frequency.exponentialRampToValueAtTime(50, time + 0.06);
-      osc.frequency.exponentialRampToValueAtTime(42, time + 0.22);
-      gain.gain.setValueAtTime(0.9, time);
-      gain.gain.exponentialRampToValueAtTime(0.001, time + 0.24);
-      osc.connect(gain);
-      gain.connect(this.drumsGain);
-      osc.start(time);
-      osc.stop(time + 0.25);
-      return;
-    }
-
-    // Default: Punchy 808 Deep House / Chillwave Kick
-    osc.frequency.setValueAtTime(140, time);
-    osc.frequency.exponentialRampToValueAtTime(48, time + 0.07);
-    osc.frequency.exponentialRampToValueAtTime(36, time + 0.28);
-    gain.gain.setValueAtTime(0.95, time);
-    gain.gain.exponentialRampToValueAtTime(0.001, time + 0.32);
-    osc.connect(gain);
-    gain.connect(this.drumsGain);
-    osc.start(time);
-    osc.stop(time + 0.33);
-
-    // Subtle click for definition
-    const click = this.ctx.createOscillator();
-    const clickGain = this.ctx.createGain();
-    click.type = 'triangle';
-    click.frequency.setValueAtTime(300, time);
-    click.frequency.exponentialRampToValueAtTime(60, time + 0.02);
-    clickGain.gain.setValueAtTime(0.3, time);
-    clickGain.gain.exponentialRampToValueAtTime(0.001, time + 0.025);
-    click.connect(clickGain);
-    clickGain.connect(this.drumsGain);
-    click.start(time);
-    click.stop(time + 0.03);
-  }
-
-  // Snare or Clap
-  playSnareOrClap(time, style = 'clap') {
-    if (!this.ctx || this.isMuted) return;
-
-    if (style === 'ballad-chime') {
-      // Gentle sparkling shimmer
-      const chimeOsc = this.ctx.createOscillator();
-      const chimeGain = this.ctx.createGain();
-      chimeOsc.type = 'sine';
-      chimeOsc.frequency.setValueAtTime(880, time);
-      chimeOsc.frequency.exponentialRampToValueAtTime(1320, time + 0.4);
-      chimeGain.gain.setValueAtTime(0.12, time);
-      chimeGain.gain.exponentialRampToValueAtTime(0.001, time + 0.5);
-      chimeOsc.connect(chimeGain);
-      chimeGain.connect(this.drumsGain);
-      chimeOsc.start(time);
-      chimeOsc.stop(time + 0.55);
-      return;
-    }
-
-    const duration = style === 'disco' ? 0.18 : 0.22;
-    const bufferSize = Math.floor(this.ctx.sampleRate * duration);
-    const buffer = this.ctx.createBuffer(1, bufferSize, this.ctx.sampleRate);
-    const data = buffer.getChannelData(0);
-    for (let i = 0; i < bufferSize; i++) {
-      data[i] = Math.random() * 2 - 1;
-    }
-
-    const noise = this.ctx.createBufferSource();
-    noise.buffer = buffer;
-
-    const filter = this.ctx.createBiquadFilter();
-    filter.type = 'bandpass';
-    filter.frequency.setValueAtTime(style === 'disco' ? 1400 : 1100, time);
-    filter.Q.setValueAtTime(2.2, time);
-
-    const gain = this.ctx.createGain();
-    gain.gain.setValueAtTime(0.001, time);
-    gain.gain.linearRampToValueAtTime(0.28, time + 0.015);
-    gain.gain.exponentialRampToValueAtTime(0.001, time + duration);
-
-    noise.connect(filter);
-    filter.connect(gain);
-    gain.connect(this.drumsGain);
-
-    noise.start(time);
-    noise.stop(time + duration);
-  }
-
-  // Hi-Hat / Shaker
-  playHiHat(time, open = false, volume = 0.22) {
-    if (!this.ctx || this.isMuted) return;
-
-    const duration = open ? 0.16 : 0.05;
-    const bufferSize = Math.floor(this.ctx.sampleRate * duration);
-    const buffer = this.ctx.createBuffer(1, bufferSize, this.ctx.sampleRate);
-    const data = buffer.getChannelData(0);
-    for (let i = 0; i < bufferSize; i++) {
-      data[i] = Math.random() * 2 - 1;
-    }
-
-    const noise = this.ctx.createBufferSource();
-    noise.buffer = buffer;
-
-    const filter = this.ctx.createBiquadFilter();
-    filter.type = 'highpass';
-    filter.frequency.setValueAtTime(7500, time);
-
-    const gain = this.ctx.createGain();
-    gain.gain.setValueAtTime(volume, time);
-    gain.gain.exponentialRampToValueAtTime(0.001, time + duration);
-
-    noise.connect(filter);
-    filter.connect(gain);
-    gain.connect(this.drumsGain);
-
-    noise.start(time);
-    noise.stop(time + duration);
-  }
-
-  // Bass Synthesizer
-  playBassNote(freq, time, duration = 0.16, style = 'saw') {
-    if (!this.ctx || this.isMuted) return;
-
-    const osc = this.ctx.createOscillator();
-    const filter = this.ctx.createBiquadFilter();
-    const gain = this.ctx.createGain();
-
-    if (style === 'sub-sine') {
-      // Warm round sub bass for ballad
-      osc.type = 'sine';
-      osc.frequency.setValueAtTime(freq, time);
-      gain.gain.setValueAtTime(0.5, time);
-      gain.gain.exponentialRampToValueAtTime(0.001, time + duration);
-      osc.connect(gain);
-      gain.connect(this.bassGain);
-      osc.start(time);
-      osc.stop(time + duration + 0.05);
-      return;
-    }
-
-    // Sawtooth / Funky Bass
-    osc.type = style === 'funky' ? 'square' : 'sawtooth';
-    osc.frequency.setValueAtTime(freq, time);
-
-    filter.type = 'lowpass';
-    filter.frequency.setValueAtTime(style === 'funky' ? 650 : 320, time);
-    filter.frequency.exponentialRampToValueAtTime(110, time + duration);
-    filter.Q.setValueAtTime(3.0, time);
-
-    gain.gain.setValueAtTime(0.38, time);
-    gain.gain.exponentialRampToValueAtTime(0.001, time + duration);
-
-    osc.connect(filter);
-    filter.connect(gain);
-    gain.connect(this.bassGain);
-
-    osc.start(time);
-    osc.stop(time + duration + 0.05);
-  }
-
-  // Lush Atmospheric Pad
-  playAtmosphericPad(frequencies, time, duration = 3.6, style = 'lush') {
-    if (!this.ctx || this.isMuted) return;
-
-    if (this.mainFilter) {
-      this.mainFilter.frequency.setValueAtTime(style === 'strings' ? 1200 : 700, time);
-      this.mainFilter.frequency.exponentialRampToValueAtTime(style === 'strings' ? 1600 : 1350, time + duration * 0.5);
-      this.mainFilter.frequency.exponentialRampToValueAtTime(800, time + duration);
-    }
-
-    frequencies.forEach((freq, idx) => {
-      const osc1 = this.ctx.createOscillator();
-      const osc2 = this.ctx.createOscillator();
-      const gain = this.ctx.createGain();
-
-      osc1.type = style === 'strings' ? 'triangle' : 'sawtooth';
-      osc2.type = 'sine';
-
-      osc1.frequency.setValueAtTime(freq * 0.998, time);
-      osc2.frequency.setValueAtTime(freq * 1.002, time);
-
-      gain.gain.setValueAtTime(0.001, time);
-      gain.gain.linearRampToValueAtTime(0.05 / (idx + 1), time + 0.4);
-      gain.gain.setValueAtTime(0.05 / (idx + 1), time + duration - 0.6);
-      gain.gain.exponentialRampToValueAtTime(0.0001, time + duration);
-
-      osc1.connect(gain);
-      osc2.connect(gain);
-      gain.connect(this.synthGain);
-
-      osc1.start(time);
-      osc2.start(time);
-      osc1.stop(time + duration + 0.1);
-      osc2.stop(time + duration + 0.1);
-    });
-  }
-
-  // Acoustic/Electric Piano Arpeggio note
-  playPianoNote(freq, time, duration = 0.5) {
-    if (!this.ctx || this.isMuted) return;
-
-    const osc = this.ctx.createOscillator();
-    const harmonic = this.ctx.createOscillator();
-    const gain = this.ctx.createGain();
-
-    osc.type = 'triangle';
-    osc.frequency.setValueAtTime(freq, time);
-
-    harmonic.type = 'sine';
-    harmonic.frequency.setValueAtTime(freq * 2, time);
-
-    gain.gain.setValueAtTime(0.001, time);
-    gain.gain.linearRampToValueAtTime(0.12, time + 0.015);
-    gain.gain.exponentialRampToValueAtTime(0.0001, time + duration);
-
-    osc.connect(gain);
-    harmonic.connect(gain);
-    gain.connect(this.synthGain);
-
-    osc.start(time);
-    harmonic.start(time);
-    osc.stop(time + duration + 0.05);
-    harmonic.stop(time + duration + 0.05);
-  }
-
-  // --- Sequencer Core Loop ---
-  startMusicLoop() {
-    this.init();
-    if (this.isPlaying) return;
-    this.isPlaying = true;
-    this.notify();
-
-    const scheduleStep = () => {
-      if (!this.isPlaying || !this.ctx) return;
-
-      const track = this.currentTrack;
-      const bpm = track.bpm;
-      const stepDuration = 60 / bpm / 4; // 16th note in seconds
-      const t = this.ctx.currentTime;
-      const current16th = this.step % 16;
-      const currentBar = Math.floor(this.step / 16);
-      const chordIdx = currentBar % track.chords.length;
-      const chord = track.chords[chordIdx];
-
-      switch (this.currentTrackIndex) {
-        // Track 0: Melodic Deep House (122 BPM)
-        case 0: {
-          if (current16th % 4 === 0) {
-            this.playKick(t, 'house');
-            this.notifyBeat(current16th / 4, true);
-          }
-          if (current16th % 4 === 2) {
-            this.playHiHat(t, true, 0.22);
-          }
-          if (current16th === 4 || current16th === 12) {
-            this.playSnareOrClap(t, 'clap');
-          }
-          if (track.bassPattern[current16th]) {
-            const bassNote = chord.bassNotes[Math.floor(current16th / 4)] || chord.root;
-            this.playBassNote(bassNote, t, stepDuration * 1.6, 'saw');
-          }
-          if (current16th === 0) {
-            this.playAtmosphericPad(chord.padFreqs, t, stepDuration * 16 * 0.95, 'lush');
-          }
-          break;
-        }
-
-        // Track 1: Romance Eterno (76 BPM Ballad)
-        case 1: {
-          if (current16th === 0 || current16th === 8) {
-            this.playKick(t, 'ballad');
-            this.notifyBeat(current16th / 4, true);
-          }
-          if (current16th === 12) {
-            this.playSnareOrClap(t, 'ballad-chime');
-          }
-          // Gentle cascading piano arpeggios
-          if (chord.arpeggio && current16th % 2 === 0) {
-            const noteIdx = (current16th / 2) % chord.arpeggio.length;
-            this.playPianoNote(chord.arpeggio[noteIdx], t, stepDuration * 3.5);
-          }
-          if (track.bassPattern[current16th]) {
-            this.playBassNote(chord.root, t, stepDuration * 4.0, 'sub-sine');
-          }
-          if (current16th === 0) {
-            this.playAtmosphericPad(chord.padFreqs, t, stepDuration * 16 * 0.95, 'strings');
-          }
-          break;
-        }
-
-        // Track 2: Cosmic Sunset (90 BPM Chillwave)
-        case 2: {
-          if (current16th === 0 || current16th === 7 || current16th === 10) {
-            this.playKick(t, 'house');
-            this.notifyBeat(current16th / 4, current16th === 0);
-          }
-          if (current16th === 4 || current16th === 12) {
-            this.playSnareOrClap(t, 'clap');
-          }
-          // Swung chill hi-hat
-          if (current16th % 2 === 1) {
-            this.playHiHat(t, false, 0.16);
-          }
-          if (track.bassPattern[current16th]) {
-            const bNote = chord.bassNotes[Math.floor(current16th / 4)] || chord.root;
-            this.playBassNote(bNote, t, stepDuration * 2.2, 'saw');
-          }
-          if (current16th === 0 || current16th === 8) {
-            this.playAtmosphericPad(chord.padFreqs, t, stepDuration * 8 * 0.92, 'lush');
-          }
-          break;
-        }
-
-        // Track 3: Starlight Disco (116 BPM)
-        case 3: {
-          if (current16th % 4 === 0) {
-            this.playKick(t, 'disco');
-            this.notifyBeat(current16th / 4, true);
-          }
-          if (current16th === 4 || current16th === 12) {
-            this.playSnareOrClap(t, 'disco');
-          }
-          if (current16th % 4 === 2) {
-            this.playHiHat(t, true, 0.25);
-          } else if (current16th % 2 === 0) {
-            this.playHiHat(t, false, 0.14);
-          }
-          if (track.bassPattern[current16th]) {
-            const bIdx = current16th % chord.bassNotes.length;
-            this.playBassNote(chord.bassNotes[bIdx], t, stepDuration * 1.1, 'funky');
-          }
-          if (current16th === 0 || current16th === 6) {
-            this.playAtmosphericPad(chord.padFreqs, t, stepDuration * 6 * 0.9, 'lush');
-          }
-          break;
-        }
-      }
-
-      this.step++;
-      this.timerId = setTimeout(scheduleStep, stepDuration * 1000);
-    };
-
-    scheduleStep();
-  }
-
-  stopMusicLoop() {
-    this.isPlaying = false;
-    if (this.timerId) {
-      clearTimeout(this.timerId);
-      this.timerId = null;
-    }
-    this.notify();
-  }
-
-  // --- Sound Effects ---
-
-  // Electronic Riser & Sub-Drop on Portal Open
-  playPortalElectronicDrop() {
-    this.init();
-    if (!this.ctx || this.isMuted) return;
-
-    const t = this.ctx.currentTime;
-    const duration = 2.4;
-    const bufferSize = Math.floor(this.ctx.sampleRate * duration);
-    const buffer = this.ctx.createBuffer(1, bufferSize, this.ctx.sampleRate);
-    const data = buffer.getChannelData(0);
-    for (let i = 0; i < bufferSize; i++) {
-      data[i] = Math.random() * 2 - 1;
-    }
-
-    const noise = this.ctx.createBufferSource();
-    noise.buffer = buffer;
-
-    const filter = this.ctx.createBiquadFilter();
-    filter.type = 'bandpass';
-    filter.frequency.setValueAtTime(250, t);
-    filter.frequency.exponentialRampToValueAtTime(7000, t + duration * 0.85);
-    filter.Q.value = 4.5;
-
-    const gain = this.ctx.createGain();
-    gain.gain.setValueAtTime(0.01, t);
-    gain.gain.linearRampToValueAtTime(0.4, t + duration * 0.85);
-    gain.gain.exponentialRampToValueAtTime(0.001, t + duration);
-
-    noise.connect(filter);
-    filter.connect(gain);
-    gain.connect(this.sfxGain);
-    noise.start(t);
-    noise.stop(t + duration);
-
-    // Sub Drop on the open
-    const dropTime = t + 1.8;
-    const subOsc = this.ctx.createOscillator();
-    const subGain = this.ctx.createGain();
-    subOsc.type = 'sine';
-    subOsc.frequency.setValueAtTime(150, dropTime);
-    subOsc.frequency.exponentialRampToValueAtTime(38, dropTime + 0.5);
-
-    subGain.gain.setValueAtTime(0.85, dropTime);
-    subGain.gain.exponentialRampToValueAtTime(0.001, dropTime + 1.5);
-
-    subOsc.connect(subGain);
-    subGain.connect(this.sfxGain);
-    subOsc.start(dropTime);
-    subOsc.stop(dropTime + 1.6);
-  }
-
   // Subtle button sound
   playChime(multiplier = 1) {
     this.init();
@@ -706,51 +504,34 @@ class CosmicAudioEngine {
 
     const t = this.ctx.currentTime;
     const osc = this.ctx.createOscillator();
-    const filter = this.ctx.createBiquadFilter();
     const gain = this.ctx.createGain();
 
     osc.type = 'sine';
-    osc.frequency.setValueAtTime(440 * multiplier, t);
-
-    filter.type = 'lowpass';
-    filter.frequency.setValueAtTime(1200, t);
+    osc.frequency.setValueAtTime(587.33 * multiplier, t); // D5
 
     gain.gain.setValueAtTime(0.12, t);
-    gain.gain.exponentialRampToValueAtTime(0.001, t + 0.4);
+    gain.gain.exponentialRampToValueAtTime(0.001, t + 0.35);
 
-    osc.connect(filter);
-    filter.connect(gain);
+    osc.connect(gain);
     gain.connect(this.sfxGain);
     osc.start(t);
-    osc.stop(t + 0.45);
+    osc.stop(t + 0.4);
   }
 
-  // Success fanfare on RSVP submit
+  // Success fanfare on RSVP submit (Woodland chime sweep)
   playSparkleSuccess() {
     this.init();
     if (!this.ctx || this.isMuted) return;
 
-    const notes = [349.23, 440.0, 523.25, 659.25, 783.99]; // F Major chord sweep
+    const notes = [440.0, 554.37, 659.25, 880.0, 1108.73]; // A Major chime arpeggio
     notes.forEach((freq, i) => {
       setTimeout(() => {
         if (!this.ctx || this.isMuted) return;
         const t = this.ctx.currentTime;
-        const osc = this.ctx.createOscillator();
-        const gain = this.ctx.createGain();
-
-        osc.type = 'triangle';
-        osc.frequency.setValueAtTime(freq, t);
-
-        gain.gain.setValueAtTime(0.15, t);
-        gain.gain.exponentialRampToValueAtTime(0.0001, t + 0.7);
-
-        osc.connect(gain);
-        gain.connect(this.sfxGain);
-        osc.start(t);
-        osc.stop(t + 0.75);
-      }, i * 85);
+        this.playBambooChime(freq, t);
+      }, i * 90);
     });
   }
 }
 
-export const cosmicAudio = new CosmicAudioEngine();
+export const cosmicAudio = new ForestAudioEngine();

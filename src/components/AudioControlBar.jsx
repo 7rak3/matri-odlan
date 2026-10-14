@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Volume2, VolumeX, Disc3, SkipBack, SkipForward, Play, Pause } from 'lucide-react';
+import { Volume2, VolumeX, Trees, SkipBack, SkipForward, Play, Pause } from 'lucide-react';
 import { cosmicAudio } from '../utils/audioEngine';
 
 export default function AudioControlBar() {
@@ -8,9 +8,9 @@ export default function AudioControlBar() {
     isPlaying: false,
     currentTrackIndex: 0,
     totalTracks: 4,
-    title: 'Melodic Deep House',
-    genre: 'Deep House Atmospheric',
-    bpm: 122,
+    title: 'Bosque Encantado & Aves',
+    genre: 'Brisa, Canto de Aves & Arpa',
+    bpm: 60,
   });
   const [kickPulse, setKickPulse] = useState(false);
 
@@ -69,12 +69,12 @@ export default function AudioControlBar() {
             : 'border-amber-300/20 bg-[#192215]/90 text-cream-300/60'
         }`}
       >
-        {/* Spinning Disc & Equalizer */}
+        {/* Forest Icon & Equalizer */}
         <div className="flex items-center gap-2">
           <div className="relative flex items-center justify-center">
-            <Disc3
+            <Trees
               className={`w-6 h-6 transition-colors ${
-                isActive ? 'text-amber-300 animate-spin-slow' : 'text-slate-600'
+                isActive ? 'text-amber-300 animate-pulse' : 'text-slate-600'
               }`}
             />
             {isActive && (
