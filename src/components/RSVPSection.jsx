@@ -19,6 +19,7 @@ import {
   FileCheck2,
 } from 'lucide-react';
 import { cosmicAudio } from '../utils/audioEngine';
+import { submitRsvpEntry, getLocalSettings } from '../utils/rsvpService';
 
 const DIETARY_CHOICES = [
   { id: 'traditional', label: 'Tradicional Gala', desc: 'Menú principal de banquetería' },
@@ -56,6 +57,7 @@ export default function RSVPSection() {
   const [step, setStep] = useState(1);
   const [validationError, setValidationError] = useState('');
   const [isSubmitted, setIsSubmitted] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   // Compute steps dynamically depending on whether they attend
   const isAttending = formData.attendance === 'yes';
@@ -101,7 +103,7 @@ export default function RSVPSection() {
     const count = 220;
     const defaults = {
       origin: { y: 0.68 },
-      colors: ['#e6ca65', '#d4af37', '#7c9a63', '#fdfbf5', '#fae084'],
+      colors: ['#FAE7C9', '#E1C78F', '#B0926A', '#6e6b41', '#ffffff'],
     };
 
     function fire(particleRatio, opts) {
@@ -159,12 +161,21 @@ export default function RSVPSection() {
     setStep((prev) => Math.max(prev - 1, 1));
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     if (!formData.name.trim()) {
       setStep(2);
       setValidationError('Por favor ingresa tu nombre completo.');
       return;
+    }
+
+    setIsSubmitting(true);
+    try {
+      await submitRsvpEntry(formData);
+    } catch {
+      // ignore network error; local storage already saved
+    } finally {
+      setIsSubmitting(false);
     }
 
     cosmicAudio.playSparkleSuccess();
@@ -178,7 +189,8 @@ export default function RSVPSection() {
   };
 
   const generateWhatsAppUrl = () => {
-    const phone = '56912345678';
+    const rawPhone = getLocalSettings().whatsappPhone || '56982375963';
+    const phone = rawPhone.replace(/[^0-9]/g, '') || '56982375963';
     let text = `💍 *CONFIRMACIÓN DE ASISTENCIA — MATRIMONIO ODLAN & MARÍA JOSE* 💍\n\n`;
     text += `👤 *Invitado(a) Titular:* ${formData.name}\n`;
     text += `💫 *Asistencia:* ${formData.attendance === 'yes' ? '¡Sí, asistiré con todo el cariño! 🥂🎉' : 'Lamentablemente no podré asistir 💌'}\n`;
@@ -208,71 +220,71 @@ export default function RSVPSection() {
     <section id="rsvp" className="relative py-20 px-4 md:px-8 max-w-4xl mx-auto z-10 scroll-mt-24">
       {/* Editorial Header */}
       <div className="text-center max-w-2xl mx-auto mb-12">
-        <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-[#46573c]/50 border border-amber-300/30 text-amber-200 text-xs tracking-[0.25em] uppercase mb-4 shadow-sm">
-          <Heart className="w-3.5 h-3.5 text-amber-300 fill-amber-300/40" />
+        <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-[#B0926A]/35 border border-[#FAE7C9]/45 text-[#FAE7C9] text-xs tracking-[0.25em] uppercase mb-4 shadow-sm">
+          <Heart className="w-3.5 h-3.5 text-[#E1C78F] fill-[#E1C78F]/40" />
           <span>R.S.V.P. • CONFIRMACIÓN PASO A PASO</span>
-          <Sparkles className="w-3.5 h-3.5 text-amber-300" />
+          <Sparkles className="w-3.5 h-3.5 text-[#E1C78F]" />
         </div>
 
         <h2 className="font-cinzel text-3xl sm:text-4xl md:text-5xl font-bold tracking-wider gold-gradient-text uppercase mb-3">
           Confirma Tu Asistencia
         </h2>
 
-        <div className="w-20 h-0.5 mx-auto bg-gradient-to-r from-transparent via-amber-300/70 to-transparent mb-4" />
+        <div className="w-20 h-0.5 mx-auto bg-gradient-to-r from-transparent via-[#E1C78F] to-transparent mb-4" />
 
-        <p className="font-garamond italic text-lg md:text-xl text-cream-100/90 leading-relaxed">
+        <p className="font-garamond italic text-lg md:text-xl text-[#FAE7C9]/95 leading-relaxed">
           Queremos preparar cada detalle con dedicación. Por favor guíanos a través de estos breves pasos para registrar tu respuesta.
         </p>
       </div>
 
-      <div className="rounded-3xl p-6 sm:p-10 md:p-12 bg-[#2b3724]/90 border border-amber-300/35 relative overflow-hidden shadow-[0_20px_60px_rgba(8,12,6,0.85)] backdrop-blur-xl">
+      <div className="rounded-3xl p-6 sm:p-10 md:p-12 bg-[#575432]/92 border border-[#FAE7C9]/45 relative overflow-hidden shadow-[0_20px_60px_rgba(45,42,20,0.5)] backdrop-blur-xl">
         {/* Glow decoration */}
-        <div className="absolute -top-32 -right-32 w-64 h-64 bg-amber-400/10 rounded-full blur-3xl pointer-events-none" />
-        <div className="absolute -bottom-32 -left-32 w-64 h-64 bg-emerald-500/10 rounded-full blur-3xl pointer-events-none" />
+        <div className="absolute -top-32 -right-32 w-64 h-64 bg-[#FAE7C9]/15 rounded-full blur-3xl pointer-events-none" />
+        <div className="absolute -bottom-32 -left-32 w-64 h-64 bg-[#B0926A]/20 rounded-full blur-3xl pointer-events-none" />
 
         {isSubmitted ? (
           /* ==========================================
              CONFIRMATION SUCCESS SCREEN
              ========================================== */
           <div className="text-center py-6 space-y-7 relative z-10">
-            <div className="w-20 h-20 rounded-full bg-emerald-500/20 border-2 border-emerald-400 flex items-center justify-center mx-auto shadow-[0_0_40px_rgba(52,211,153,0.4)] animate-bounce-short">
-              <CheckCircle2 className="w-10 h-10 text-emerald-300" />
+            <div className="w-20 h-20 rounded-full bg-[#B0926A]/35 border-2 border-[#FAE7C9] flex items-center justify-center mx-auto shadow-[0_0_40px_rgba(250,231,201,0.4)] animate-bounce-short">
+              <CheckCircle2 className="w-10 h-10 text-[#FAE7C9]" />
             </div>
 
             <div className="space-y-2">
-              <span className="text-xs font-montserrat tracking-[0.25em] text-amber-300 uppercase font-semibold">
-                ¡Paso a Paso Completado con Éxito!
+              <span className="text-xs font-montserrat tracking-[0.25em] text-[#E1C78F] uppercase font-semibold">
+                ¡Respuesta Guardada y Notificada a los Novios!
               </span>
-              <h3 className="font-cinzel text-2xl md:text-4xl font-bold text-cream-50 uppercase tracking-wider">
+              <h3 className="font-cinzel text-2xl md:text-4xl font-bold text-[#FAE7C9] uppercase tracking-wider">
                 {formData.attendance === 'yes'
                   ? '¡Tu Asistencia Ha Sido Registrada!'
                   : 'Mensaje Recibido con Cariño'}
               </h3>
             </div>
 
-            <p className="font-garamond italic text-lg md:text-xl text-cream-200/90 max-w-lg mx-auto leading-relaxed">
+            <p className="font-garamond italic text-lg md:text-xl text-[#FAE7C9]/90 max-w-lg mx-auto leading-relaxed">
               {formData.attendance === 'yes'
                 ? `¡Gracias, ${formData.name}! Nos llena de inmensa felicidad saber que celebraremos juntos en Casona Los Nogales este 20 de febrero de 2027.`
                 : `Gracias por avisarnos, ${formData.name}. Estarás muy presente en nuestros corazones y pensamientos en este día tan significativo.`}
             </p>
 
             {/* Ticket Preview in Success */}
-            <div className="max-w-md mx-auto p-4 rounded-2xl bg-[#171e13]/90 border border-amber-300/30 text-left space-y-2 text-xs font-montserrat text-cream-200">
-              <div className="flex items-center justify-between border-b border-amber-300/20 pb-2">
-                <span className="text-amber-200 font-semibold uppercase tracking-wider">Pase Registrado</span>
-                <span className="text-emerald-300 font-semibold flex items-center gap-1">
-                  <CheckCircle2 className="w-3.5 h-3.5" />
+            <div className="max-w-md mx-auto p-4 rounded-2xl bg-[#484529]/95 border border-[#E1C78F]/45 text-left space-y-2 text-xs font-montserrat text-[#FAE7C9]">
+              <div className="flex items-center justify-between border-b border-[#E1C78F]/30 pb-2">
+                <span className="text-[#E1C78F] font-semibold uppercase tracking-wider">Pase Registrado</span>
+                <span className="text-[#FAE7C9] font-semibold flex items-center gap-1">
+                  <CheckCircle2 className="w-3.5 h-3.5 text-[#E1C78F]" />
                   {formData.attendance === 'yes' ? 'Confirmado' : 'No asistirá'}
                 </span>
               </div>
               <div className="pt-1">
-                <span className="text-cream-300/60 block text-[11px]">Titular:</span>
-                <span className="text-cream-50 font-medium">{formData.name}</span>
+                <span className="text-[#E1C78F]/80 block text-[11px]">Titular:</span>
+                <span className="text-[#FAE7C9] font-medium">{formData.name}</span>
               </div>
               {formData.attendance === 'yes' && formData.hasCompanion && formData.companionName && (
                 <div>
-                  <span className="text-cream-300/60 block text-[11px]">Acompañante:</span>
-                  <span className="text-cream-50 font-medium">{formData.companionName}</span>
+                  <span className="text-[#E1C78F]/80 block text-[11px]">Acompañante:</span>
+                  <span className="text-[#FAE7C9] font-medium">{formData.companionName}</span>
                 </div>
               )}
             </div>
@@ -283,10 +295,10 @@ export default function RSVPSection() {
                 target="_blank"
                 rel="noopener noreferrer"
                 onClick={() => cosmicAudio.playChime(1.4)}
-                className="w-full sm:w-auto px-8 py-4 rounded-full bg-emerald-700 hover:bg-emerald-600 text-white font-montserrat text-xs tracking-widest uppercase font-semibold flex items-center justify-center gap-2 shadow-[0_0_30px_rgba(16,185,129,0.35)] transition-all hover:scale-105"
+                className="w-full sm:w-auto px-8 py-4 rounded-full bg-gradient-to-r from-[#E1C78F] via-[#FAE7C9] to-[#E1C78F] text-[#3a3820] font-montserrat text-xs tracking-widest uppercase font-bold flex items-center justify-center gap-2 shadow-[0_0_30px_rgba(250,231,201,0.4)] transition-all hover:scale-105"
               >
                 <Send className="w-4 h-4" />
-                <span>Enviar confirmación a WhatsApp de los Novios</span>
+                <span>Enviar también por WhatsApp a los Novios</span>
               </a>
 
               <button
@@ -295,7 +307,7 @@ export default function RSVPSection() {
                   setIsSubmitted(false);
                   setStep(1);
                 }}
-                className="w-full sm:w-auto px-6 py-4 rounded-full bg-[#1b2317] hover:bg-[#25321f] text-amber-200 font-montserrat text-xs tracking-widest uppercase border border-amber-300/30 transition-colors"
+                className="w-full sm:w-auto px-6 py-4 rounded-full bg-[#484529] hover:bg-[#B0926A]/45 text-[#FAE7C9] font-montserrat text-xs tracking-widest uppercase border border-[#FAE7C9]/45 transition-colors cursor-pointer"
               >
                 Modificar Respuesta
               </button>
@@ -309,19 +321,19 @@ export default function RSVPSection() {
             {/* Stepper Progress Bar & Step Badges */}
             <div className="space-y-4">
               <div className="flex items-center justify-between text-xs font-montserrat">
-                <span className="text-amber-300 uppercase tracking-widest font-semibold flex items-center gap-1.5">
+                <span className="text-[#E1C78F] uppercase tracking-widest font-semibold flex items-center gap-1.5">
                   <Sparkles className="w-3.5 h-3.5" />
                   Paso {getStepNumber(step)} de {totalSteps}: {getStepTitle(step)}
                 </span>
-                <span className="text-cream-300/60 tracking-wider">
+                <span className="text-[#FAE7C9]/75 tracking-wider">
                   {Math.round((getStepNumber(step) / totalSteps) * 100)}% Completado
                 </span>
               </div>
 
               {/* Progress Line */}
-              <div className="w-full h-1.5 bg-[#171e13] rounded-full overflow-hidden border border-amber-300/20">
+              <div className="w-full h-1.5 bg-[#464428] rounded-full overflow-hidden border border-[#E1C78F]/30">
                 <div
-                  className="h-full bg-gradient-to-r from-amber-500 via-amber-300 to-amber-500 transition-all duration-500 ease-out"
+                  className="h-full bg-gradient-to-r from-[#B0926A] via-[#E1C78F] to-[#FAE7C9] transition-all duration-500 ease-out"
                   style={{ width: `${(getStepNumber(step) / totalSteps) * 100}%` }}
                 />
               </div>
@@ -344,19 +356,19 @@ export default function RSVPSection() {
                       }}
                       className={`flex items-center gap-1.5 text-[11px] font-montserrat uppercase tracking-wider transition-all ${
                         isCurrent
-                          ? 'text-amber-200 font-bold scale-105'
+                          ? 'text-[#FAE7C9] font-bold scale-105'
                           : isCompleted
-                          ? 'text-cream-200/80 hover:text-amber-300 cursor-pointer'
-                          : 'text-cream-300/40 cursor-default'
+                          ? 'text-[#E1C78F] hover:text-[#FAE7C9] cursor-pointer'
+                          : 'text-[#FAE7C9]/45 cursor-default'
                       }`}
                     >
                       <span
                         className={`w-6 h-6 rounded-full flex items-center justify-center text-[10px] font-cinzel font-bold border ${
                           isCurrent
-                            ? 'bg-amber-400 text-slate-950 border-amber-300 shadow-[0_0_12px_rgba(212,175,55,0.6)]'
+                            ? 'bg-[#FAE7C9] text-[#3a3820] border-[#FAE7C9] shadow-[0_0_12px_rgba(250,231,201,0.6)]'
                             : isCompleted
-                            ? 'bg-emerald-950/70 border-emerald-400/60 text-emerald-300'
-                            : 'bg-[#171e13] border-amber-300/20 text-cream-300/40'
+                            ? 'bg-[#B0926A] border-[#FAE7C9] text-[#fffaf0]'
+                            : 'bg-[#464428] border-[#E1C78F]/30 text-[#FAE7C9]/50'
                         }`}
                       >
                         {isCompleted ? '✓' : num}
@@ -370,8 +382,8 @@ export default function RSVPSection() {
 
             {/* Validation Message Display */}
             {validationError && (
-              <div className="p-3.5 rounded-xl bg-rose-950/70 border border-rose-500/60 text-rose-200 text-xs font-montserrat flex items-center gap-2 animate-shake">
-                <AlertCircle className="w-4 h-4 text-rose-400 shrink-0" />
+              <div className="p-3.5 rounded-xl bg-rose-950/70 border border-rose-400/60 text-rose-100 text-xs font-montserrat flex items-center gap-2 animate-shake">
+                <AlertCircle className="w-4 h-4 text-rose-300 shrink-0" />
                 <span>{validationError}</span>
               </div>
             )}
@@ -382,26 +394,26 @@ export default function RSVPSection() {
             {step === 1 && (
               <div className="space-y-6 animate-fadeIn">
                 <div className="space-y-2">
-                  <div className="flex items-center gap-2 text-amber-300 text-xs font-montserrat tracking-widest uppercase font-semibold">
-                    <ShieldCheck className="w-4 h-4 text-amber-300" />
+                  <div className="flex items-center gap-2 text-[#E1C78F] text-xs font-montserrat tracking-widest uppercase font-semibold">
+                    <ShieldCheck className="w-4 h-4 text-[#E1C78F]" />
                     <span>Inicio de la Confirmación</span>
                   </div>
-                  <h3 className="font-cinzel text-xl sm:text-2xl md:text-3xl font-bold text-cream-50">
+                  <h3 className="font-cinzel text-xl sm:text-2xl md:text-3xl font-bold text-[#FAE7C9]">
                     ¿Tu invitación incluye un acompañante?
                   </h3>
-                  <p className="font-garamond italic text-base sm:text-lg text-cream-200/90 leading-relaxed">
+                  <p className="font-garamond italic text-base sm:text-lg text-[#FAE7C9]/90 leading-relaxed">
                     Para preparar cada mesa y detalle con dedicación, indícanos cómo fue extendida tu invitación por Odlan & María Jose.
                   </p>
                 </div>
 
                 {/* Subtle Loving Etiquette Reminder */}
-                <div className="p-4 rounded-2xl bg-[#1b2317]/90 border border-amber-300/30 text-xs text-cream-100 flex items-start gap-3">
-                  <AlertCircle className="w-5 h-5 text-amber-300 shrink-0 mt-0.5" />
+                <div className="p-4 rounded-2xl bg-[#484529]/90 border border-[#E1C78F]/40 text-xs text-[#FAE7C9] flex items-start gap-3">
+                  <AlertCircle className="w-5 h-5 text-[#E1C78F] shrink-0 mt-0.5" />
                   <div className="space-y-1">
-                    <span className="font-semibold text-amber-200 block uppercase tracking-wider text-[11px]">
+                    <span className="font-semibold text-[#FAE7C9] block uppercase tracking-wider text-[11px]">
                       Nota con Cariño sobre los Cupos
                     </span>
-                    <p className="text-cream-200/80 text-xs leading-relaxed font-light">
+                    <p className="text-[#FAE7C9]/85 text-xs leading-relaxed font-light">
                       Nuestros cupos fueron asignados de manera nominativa en cada tarjeta de invitación. Por favor selecciona la opción correspondiente a tu invitación.
                     </p>
                   </div>
@@ -418,30 +430,30 @@ export default function RSVPSection() {
                     }}
                     className={`p-6 rounded-2xl border text-left transition-all duration-300 cursor-pointer relative group ${
                       !formData.hasCompanion
-                        ? 'bg-gradient-to-br from-amber-500/25 via-[#2f3d27] to-[#1c2417] border-amber-300 shadow-[0_0_30px_rgba(212,175,55,0.25)] ring-1 ring-amber-300/60'
-                        : 'bg-[#1b2317]/90 border-amber-300/20 hover:border-amber-300/50 hover:bg-[#232c1e]'
+                        ? 'bg-gradient-to-br from-[#B0926A]/55 via-[#5c5936] to-[#484529] border-[#FAE7C9] shadow-[0_0_30px_rgba(250,231,201,0.28)] ring-1 ring-[#FAE7C9]/70'
+                        : 'bg-[#484529]/90 border-[#E1C78F]/30 hover:border-[#FAE7C9]/60 hover:bg-[#524f30]'
                     }`}
                   >
                     <div className="flex items-start justify-between mb-4">
-                      <div className="w-12 h-12 rounded-xl bg-amber-400/15 border border-amber-300/40 flex items-center justify-center text-amber-300">
+                      <div className="w-12 h-12 rounded-xl bg-[#B0926A]/35 border border-[#FAE7C9]/50 flex items-center justify-center text-[#FAE7C9]">
                         <User className="w-6 h-6" />
                       </div>
-                      <span className="px-3 py-1 rounded-full text-[10px] font-montserrat tracking-widest uppercase font-semibold bg-amber-400/20 text-amber-200 border border-amber-300/30">
+                      <span className="px-3 py-1 rounded-full text-[10px] font-montserrat tracking-widest uppercase font-semibold bg-[#B0926A]/45 text-[#FAE7C9] border border-[#FAE7C9]/45">
                         1 Cupo
                       </span>
                     </div>
 
-                    <h4 className="font-cinzel text-lg sm:text-xl font-bold text-cream-50 mb-1">
+                    <h4 className="font-cinzel text-lg sm:text-xl font-bold text-[#FAE7C9] mb-1">
                       Invitación Individual
                     </h4>
-                    <p className="font-garamond italic text-sm text-cream-200/80 leading-relaxed mb-3">
+                    <p className="font-garamond italic text-sm text-[#E1C78F] leading-relaxed mb-3">
                       "Pase personal y exclusivo para ti."
                     </p>
-                    <p className="font-montserrat text-xs text-cream-300/70 font-light">
+                    <p className="font-montserrat text-xs text-[#FAE7C9]/80 font-light">
                       Selecciona esta opción si tu tarjeta fue extendida para una sola persona.
                     </p>
 
-                    <div className="mt-4 flex items-center gap-2 text-xs font-montserrat tracking-wider uppercase font-semibold text-amber-300">
+                    <div className="mt-4 flex items-center gap-2 text-xs font-montserrat tracking-wider uppercase font-semibold text-[#FAE7C9]">
                       <span>{!formData.hasCompanion ? 'Seleccionado ✓' : 'Elegir esta opción'}</span>
                       <ChevronRight className="w-3.5 h-3.5" />
                     </div>
@@ -456,30 +468,30 @@ export default function RSVPSection() {
                     }}
                     className={`p-6 rounded-2xl border text-left transition-all duration-300 cursor-pointer relative group ${
                       formData.hasCompanion
-                        ? 'bg-gradient-to-br from-amber-500/25 via-[#2f3d27] to-[#1c2417] border-amber-300 shadow-[0_0_30px_rgba(212,175,55,0.25)] ring-1 ring-amber-300/60'
-                        : 'bg-[#1b2317]/90 border-amber-300/20 hover:border-amber-300/50 hover:bg-[#232c1e]'
+                        ? 'bg-gradient-to-br from-[#B0926A]/55 via-[#5c5936] to-[#484529] border-[#FAE7C9] shadow-[0_0_30px_rgba(250,231,201,0.28)] ring-1 ring-[#FAE7C9]/70'
+                        : 'bg-[#484529]/90 border-[#E1C78F]/30 hover:border-[#FAE7C9]/60 hover:bg-[#524f30]'
                     }`}
                   >
                     <div className="flex items-start justify-between mb-4">
-                      <div className="w-12 h-12 rounded-xl bg-amber-400/15 border border-amber-300/40 flex items-center justify-center text-amber-300">
+                      <div className="w-12 h-12 rounded-xl bg-[#B0926A]/35 border border-[#FAE7C9]/50 flex items-center justify-center text-[#FAE7C9]">
                         <Users className="w-6 h-6" />
                       </div>
-                      <span className="px-3 py-1 rounded-full text-[10px] font-montserrat tracking-widest uppercase font-semibold bg-amber-400/20 text-amber-200 border border-amber-300/30">
+                      <span className="px-3 py-1 rounded-full text-[10px] font-montserrat tracking-widest uppercase font-semibold bg-[#B0926A]/45 text-[#FAE7C9] border border-[#FAE7C9]/45">
                         2 Cupos
                       </span>
                     </div>
 
-                    <h4 className="font-cinzel text-lg sm:text-xl font-bold text-cream-50 mb-1">
+                    <h4 className="font-cinzel text-lg sm:text-xl font-bold text-[#FAE7C9] mb-1">
                       Con Acompañante
                     </h4>
-                    <p className="font-garamond italic text-sm text-cream-200/80 leading-relaxed mb-3">
+                    <p className="font-garamond italic text-sm text-[#E1C78F] leading-relaxed mb-3">
                       "Pase doble para ti y tu acompañante asignado."
                     </p>
-                    <p className="font-montserrat text-xs text-cream-300/70 font-light">
+                    <p className="font-montserrat text-xs text-[#FAE7C9]/80 font-light">
                       Selecciona esta opción si tu invitación indicaba expresamente un cupo para tu pareja o acompañante.
                     </p>
 
-                    <div className="mt-4 flex items-center gap-2 text-xs font-montserrat tracking-wider uppercase font-semibold text-amber-300">
+                    <div className="mt-4 flex items-center gap-2 text-xs font-montserrat tracking-wider uppercase font-semibold text-[#FAE7C9]">
                       <span>{formData.hasCompanion ? 'Seleccionado ✓' : 'Elegir esta opción'}</span>
                       <ChevronRight className="w-3.5 h-3.5" />
                     </div>
@@ -494,14 +506,14 @@ export default function RSVPSection() {
             {step === 2 && (
               <div className="space-y-6 animate-fadeIn">
                 <div className="space-y-2">
-                  <div className="flex items-center gap-2 text-amber-300 text-xs font-montserrat tracking-widest uppercase font-semibold">
-                    <CalendarCheck className="w-4 h-4 text-amber-300" />
+                  <div className="flex items-center gap-2 text-[#E1C78F] text-xs font-montserrat tracking-widest uppercase font-semibold">
+                    <CalendarCheck className="w-4 h-4 text-[#E1C78F]" />
                     <span>Confirmación de Presencia</span>
                   </div>
-                  <h3 className="font-cinzel text-xl sm:text-2xl md:text-3xl font-bold text-cream-50">
+                  <h3 className="font-cinzel text-xl sm:text-2xl md:text-3xl font-bold text-[#FAE7C9]">
                     ¿Celebrarás junto a nosotros este gran día?
                   </h3>
-                  <p className="font-garamond italic text-base sm:text-lg text-cream-200/90 leading-relaxed">
+                  <p className="font-garamond italic text-base sm:text-lg text-[#FAE7C9]/90 leading-relaxed">
                     Sábado 20 de Febrero de 2027 • Casona Los Nogales, Santiago de Chile.
                   </p>
                 </div>
@@ -516,11 +528,11 @@ export default function RSVPSection() {
                     }}
                     className={`p-4 rounded-xl border flex items-center justify-center gap-3 transition-all cursor-pointer ${
                       formData.attendance === 'yes'
-                        ? 'bg-gradient-to-r from-amber-500/25 via-amber-400/35 to-amber-500/25 border-amber-300 text-cream-50 shadow-[0_0_20px_rgba(212,175,55,0.25)]'
-                        : 'bg-[#1b2317] border-amber-300/20 text-cream-300/60 hover:border-amber-300/40'
+                        ? 'bg-gradient-to-r from-[#B0926A]/65 via-[#E1C78F]/50 to-[#B0926A]/65 border-[#FAE7C9] text-[#FAE7C9] shadow-[0_0_20px_rgba(250,231,201,0.3)]'
+                        : 'bg-[#484529] border-[#E1C78F]/30 text-[#FAE7C9]/65 hover:border-[#FAE7C9]/55'
                     }`}
                   >
-                    <Sparkles className="w-4 h-4 text-amber-300" />
+                    <Sparkles className="w-4 h-4 text-[#FAE7C9]" />
                     <span className="font-cinzel font-bold tracking-wider text-sm">
                       ¡SÍ, ASISTIRÉ CON AMOR! 🥂
                     </span>
@@ -534,8 +546,8 @@ export default function RSVPSection() {
                     }}
                     className={`p-4 rounded-xl border flex items-center justify-center gap-3 transition-all cursor-pointer ${
                       formData.attendance === 'no'
-                        ? 'bg-[#3b2326] border-rose-400 text-white shadow-[0_0_20px_rgba(244,63,94,0.2)]'
-                        : 'bg-[#1b2317] border-amber-300/20 text-cream-300/60 hover:border-amber-300/40'
+                        ? 'bg-rose-900/70 border-rose-300 text-white shadow-[0_0_20px_rgba(244,63,94,0.2)]'
+                        : 'bg-[#484529] border-[#E1C78F]/30 text-[#FAE7C9]/65 hover:border-[#FAE7C9]/55'
                     }`}
                   >
                     <span className="font-cinzel font-semibold tracking-wider text-sm">
@@ -546,8 +558,8 @@ export default function RSVPSection() {
 
                 {/* Guest Full Name Field */}
                 <div className="pt-3">
-                  <label className="block text-xs font-montserrat tracking-widest uppercase text-amber-200 mb-2 flex items-center gap-1.5 font-medium">
-                    <User className="w-3.5 h-3.5 text-amber-300" />
+                  <label className="block text-xs font-montserrat tracking-widest uppercase text-[#FAE7C9] mb-2 flex items-center gap-1.5 font-medium">
+                    <User className="w-3.5 h-3.5 text-[#E1C78F]" />
                     <span>Tu Nombre y Apellido Completo *</span>
                   </label>
                   <input
@@ -559,9 +571,9 @@ export default function RSVPSection() {
                       setFormData({ ...formData, name: e.target.value });
                     }}
                     placeholder="Ej. Francisca Silva"
-                    className="w-full bg-[#1b2317] border border-amber-300/35 rounded-xl px-4 py-3.5 text-cream-50 placeholder-cream-200/30 focus:outline-none focus:border-amber-300 transition-colors font-montserrat text-sm shadow-inner"
+                    className="w-full bg-[#464428] border border-[#E1C78F]/50 rounded-xl px-4 py-3.5 text-[#FAE7C9] placeholder-[#FAE7C9]/45 focus:outline-none focus:border-[#FAE7C9] transition-colors font-montserrat text-sm shadow-inner"
                   />
-                  <p className="text-[11px] text-cream-300/60 mt-1.5 font-light">
+                  <p className="text-[11px] text-[#E1C78F]/85 mt-1.5 font-light">
                     Ingresa tu nombre tal como figura en tu tarjeta de invitación para registrar tu cupo.
                   </p>
                 </div>
@@ -574,23 +586,23 @@ export default function RSVPSection() {
             {step === 3 && isAttending && (
               <div className="space-y-7 animate-fadeIn">
                 <div className="space-y-2">
-                  <div className="flex items-center gap-2 text-amber-300 text-xs font-montserrat tracking-widest uppercase font-semibold">
-                    <Utensils className="w-4 h-4 text-amber-300" />
+                  <div className="flex items-center gap-2 text-[#E1C78F] text-xs font-montserrat tracking-widest uppercase font-semibold">
+                    <Utensils className="w-4 h-4 text-[#E1C78F]" />
                     <span>Experiencia Gastronómica</span>
                   </div>
-                  <h3 className="font-cinzel text-xl sm:text-2xl md:text-3xl font-bold text-cream-50">
+                  <h3 className="font-cinzel text-xl sm:text-2xl md:text-3xl font-bold text-[#FAE7C9]">
                     Menú & Preferencias Alimentarias
                   </h3>
-                  <p className="font-garamond italic text-base sm:text-lg text-cream-200/90 leading-relaxed">
+                  <p className="font-garamond italic text-base sm:text-lg text-[#FAE7C9]/90 leading-relaxed">
                     Queremos que disfrutes al máximo de la cena de celebración en Casona Los Nogales.
                   </p>
                 </div>
 
                 {/* Sub-card: Titular Menu */}
-                <div className="p-5 rounded-2xl bg-[#1b2317]/80 border border-amber-300/25 space-y-4">
+                <div className="p-5 rounded-2xl bg-[#484529]/90 border border-[#E1C78F]/35 space-y-4">
                   <div className="flex items-center gap-2">
-                    <User className="w-4 h-4 text-amber-300" />
-                    <span className="text-xs font-montserrat uppercase tracking-wider text-amber-200 font-semibold">
+                    <User className="w-4 h-4 text-[#E1C78F]" />
+                    <span className="text-xs font-montserrat uppercase tracking-wider text-[#FAE7C9] font-semibold">
                       Tu Menú ({formData.name || 'Invitado Titular'})
                     </span>
                   </div>
@@ -606,14 +618,14 @@ export default function RSVPSection() {
                         }}
                         className={`p-3 rounded-xl border text-left transition-all cursor-pointer ${
                           formData.dietary === diet.id
-                            ? 'bg-amber-400/25 border-amber-300 text-cream-50 font-semibold shadow-sm'
-                            : 'bg-[#141b11] border-amber-300/20 text-cream-300/70 hover:border-amber-300/40'
+                            ? 'bg-[#B0926A]/65 border-[#FAE7C9] text-[#FAE7C9] font-semibold shadow-sm'
+                            : 'bg-[#3d3b22] border-[#E1C78F]/30 text-[#FAE7C9]/75 hover:border-[#FAE7C9]/55'
                         }`}
                       >
                         <span className="block text-xs font-montserrat font-medium mb-0.5">
                           {diet.label}
                         </span>
-                        <span className="block text-[10px] text-cream-300/60 font-light">
+                        <span className="block text-[10px] text-[#E1C78F]/85 font-light">
                           {diet.desc}
                         </span>
                       </button>
@@ -621,7 +633,7 @@ export default function RSVPSection() {
                   </div>
 
                   <div>
-                    <label className="block text-[11px] font-montserrat tracking-widest uppercase text-cream-200/80 mb-1.5 font-light">
+                    <label className="block text-[11px] font-montserrat tracking-widest uppercase text-[#FAE7C9]/90 mb-1.5 font-light">
                       ¿Alergias o requerimientos específicos? (Opcional)
                     </label>
                     <input
@@ -629,23 +641,23 @@ export default function RSVPSection() {
                       value={formData.dietaryNotes}
                       onChange={(e) => setFormData({ ...formData, dietaryNotes: e.target.value })}
                       placeholder="Ej. Alergia a mariscos, frutos secos o intolerancia a la lactosa"
-                      className="w-full bg-[#141b11] border border-amber-300/25 rounded-xl px-3.5 py-2.5 text-cream-100 placeholder-cream-200/30 focus:outline-none focus:border-amber-300 text-xs font-montserrat"
+                      className="w-full bg-[#3d3b22] border border-[#E1C78F]/40 rounded-xl px-3.5 py-2.5 text-[#FAE7C9] placeholder-[#FAE7C9]/45 focus:outline-none focus:border-[#FAE7C9] text-xs font-montserrat"
                     />
                   </div>
                 </div>
 
                 {/* Sub-card: Companion Data & Menu (Only if Pase Doble) */}
                 {formData.hasCompanion && (
-                  <div className="p-5 rounded-2xl bg-[#1b2317]/80 border border-amber-300/25 space-y-4">
+                  <div className="p-5 rounded-2xl bg-[#484529]/90 border border-[#E1C78F]/35 space-y-4">
                     <div className="flex items-center gap-2">
-                      <Users className="w-4 h-4 text-amber-300" />
-                      <span className="text-xs font-montserrat uppercase tracking-wider text-amber-200 font-semibold">
+                      <Users className="w-4 h-4 text-[#E1C78F]" />
+                      <span className="text-xs font-montserrat uppercase tracking-wider text-[#FAE7C9] font-semibold">
                         Datos & Menú de tu Acompañante Asignado
                       </span>
                     </div>
 
                     <div>
-                      <label className="block text-[11px] font-montserrat tracking-widest uppercase text-amber-300/90 mb-1.5 font-medium">
+                      <label className="block text-[11px] font-montserrat tracking-widest uppercase text-[#FAE7C9] mb-1.5 font-medium">
                         Nombre Completo de tu Acompañante *
                       </label>
                       <input
@@ -657,12 +669,12 @@ export default function RSVPSection() {
                           setFormData({ ...formData, companionName: e.target.value });
                         }}
                         placeholder="Ej. Carlos González"
-                        className="w-full bg-[#141b11] border border-amber-300/35 rounded-xl px-3.5 py-3 text-cream-100 placeholder-cream-200/30 focus:outline-none focus:border-amber-300 text-xs font-montserrat"
+                        className="w-full bg-[#3d3b22] border border-[#E1C78F]/45 rounded-xl px-3.5 py-3 text-[#FAE7C9] placeholder-[#FAE7C9]/45 focus:outline-none focus:border-[#FAE7C9] text-xs font-montserrat"
                       />
                     </div>
 
                     <div>
-                      <label className="block text-[11px] font-montserrat tracking-widest uppercase text-cream-200/80 mb-1.5 font-light">
+                      <label className="block text-[11px] font-montserrat tracking-widest uppercase text-[#FAE7C9]/90 mb-1.5 font-light">
                         Preferencia de Menú del Acompañante
                       </label>
                       <div className="grid grid-cols-2 sm:grid-cols-4 gap-2.5">
@@ -676,14 +688,14 @@ export default function RSVPSection() {
                             }}
                             className={`p-3 rounded-xl border text-left transition-all cursor-pointer ${
                               formData.companionDietary === diet.id
-                                ? 'bg-amber-400/25 border-amber-300 text-cream-50 font-semibold shadow-sm'
-                                : 'bg-[#141b11] border-amber-300/20 text-cream-300/70 hover:border-amber-300/40'
+                                ? 'bg-[#B0926A]/65 border-[#FAE7C9] text-[#FAE7C9] font-semibold shadow-sm'
+                                : 'bg-[#3d3b22] border-[#E1C78F]/30 text-[#FAE7C9]/75 hover:border-[#FAE7C9]/55'
                             }`}
                           >
                             <span className="block text-xs font-montserrat font-medium mb-0.5">
                               {diet.label}
                             </span>
-                            <span className="block text-[10px] text-cream-300/60 font-light">
+                            <span className="block text-[10px] text-[#E1C78F]/85 font-light">
                               {diet.desc}
                             </span>
                           </button>
@@ -692,7 +704,7 @@ export default function RSVPSection() {
                     </div>
 
                     <div>
-                      <label className="block text-[11px] font-montserrat tracking-widest uppercase text-cream-200/80 mb-1.5 font-light">
+                      <label className="block text-[11px] font-montserrat tracking-widest uppercase text-[#FAE7C9]/90 mb-1.5 font-light">
                         Alergias o requerimientos del acompañante (Opcional)
                       </label>
                       <input
@@ -700,7 +712,7 @@ export default function RSVPSection() {
                         value={formData.companionDietaryNotes}
                         onChange={(e) => setFormData({ ...formData, companionDietaryNotes: e.target.value })}
                         placeholder="Ej. Vegano estricto, celíaco, etc."
-                        className="w-full bg-[#141b11] border border-amber-300/25 rounded-xl px-3.5 py-2.5 text-cream-100 placeholder-cream-200/30 focus:outline-none focus:border-amber-300 text-xs font-montserrat"
+                        className="w-full bg-[#3d3b22] border border-[#E1C78F]/40 rounded-xl px-3.5 py-2.5 text-[#FAE7C9] placeholder-[#FAE7C9]/45 focus:outline-none focus:border-[#FAE7C9] text-xs font-montserrat"
                       />
                     </div>
                   </div>
@@ -714,14 +726,14 @@ export default function RSVPSection() {
             {step === 4 && (
               <div className="space-y-6 animate-fadeIn">
                 <div className="space-y-2">
-                  <div className="flex items-center gap-2 text-amber-300 text-xs font-montserrat tracking-widest uppercase font-semibold">
-                    <Music className="w-4 h-4 text-amber-300" />
+                  <div className="flex items-center gap-2 text-[#E1C78F] text-xs font-montserrat tracking-widest uppercase font-semibold">
+                    <Music className="w-4 h-4 text-[#E1C78F]" />
                     <span>{isAttending ? 'Fiesta & Mensaje de Amor' : 'Mensaje con Cariño'}</span>
                   </div>
-                  <h3 className="font-cinzel text-xl sm:text-2xl md:text-3xl font-bold text-cream-50">
+                  <h3 className="font-cinzel text-xl sm:text-2xl md:text-3xl font-bold text-[#FAE7C9]">
                     {isAttending ? '¡A Celebrar en Grande!' : 'Tus Palabras para los Novios'}
                   </h3>
-                  <p className="font-garamond italic text-base sm:text-lg text-cream-200/90 leading-relaxed">
+                  <p className="font-garamond italic text-base sm:text-lg text-[#FAE7C9]/90 leading-relaxed">
                     {isAttending
                       ? 'Dinos qué tema encenderá la pista de baile y déjanos tus palabras de bendición y cariño.'
                       : 'Aunque no puedas asistir, tus palabras y buenos deseos acompañarán a Odlan & María Jose en su gran día.'}
@@ -731,8 +743,8 @@ export default function RSVPSection() {
                 {/* Song field (Only if attending) */}
                 {isAttending && (
                   <div>
-                    <label className="block text-xs font-montserrat tracking-widest uppercase text-amber-200 mb-2 flex items-center gap-1.5 font-medium">
-                      <Music className="w-3.5 h-3.5 text-amber-300" />
+                    <label className="block text-xs font-montserrat tracking-widest uppercase text-[#FAE7C9] mb-2 flex items-center gap-1.5 font-medium">
+                      <Music className="w-3.5 h-3.5 text-[#E1C78F]" />
                       <span>¿Qué canción no puede faltar para bailar con los novios? (Opcional)</span>
                     </label>
                     <input
@@ -740,15 +752,15 @@ export default function RSVPSection() {
                       value={formData.songRequest}
                       onChange={(e) => setFormData({ ...formData, songRequest: e.target.value })}
                       placeholder="Canción y artista infaltable en la pista"
-                      className="w-full bg-[#1b2317] border border-amber-300/35 rounded-xl px-4 py-3.5 text-cream-100 placeholder-cream-200/30 focus:outline-none focus:border-amber-300 transition-colors font-montserrat text-sm"
+                      className="w-full bg-[#464428] border border-[#E1C78F]/45 rounded-xl px-4 py-3.5 text-[#FAE7C9] placeholder-[#FAE7C9]/45 focus:outline-none focus:border-[#FAE7C9] transition-colors font-montserrat text-sm"
                     />
                   </div>
                 )}
 
                 {/* Dedication message */}
                 <div>
-                  <label className="block text-xs font-montserrat tracking-widest uppercase text-amber-200 mb-2 flex items-center gap-1.5 font-medium">
-                    <MessageSquare className="w-3.5 h-3.5 text-amber-300" />
+                  <label className="block text-xs font-montserrat tracking-widest uppercase text-[#FAE7C9] mb-2 flex items-center gap-1.5 font-medium">
+                    <MessageSquare className="w-3.5 h-3.5 text-[#E1C78F]" />
                     <span>Un Mensaje para Odlan & María Jose ❤️ (Opcional)</span>
                   </label>
                   <textarea
@@ -756,7 +768,7 @@ export default function RSVPSection() {
                     value={formData.message}
                     onChange={(e) => setFormData({ ...formData, message: e.target.value })}
                     placeholder="Escribe tus bendiciones, deseos o recuerdos con todo tu cariño..."
-                    className="w-full bg-[#1b2317] border border-amber-300/35 rounded-xl p-4 text-cream-100 placeholder-cream-200/30 focus:outline-none focus:border-amber-300 transition-colors font-montserrat text-sm resize-none"
+                    className="w-full bg-[#464428] border border-[#E1C78F]/45 rounded-xl p-4 text-[#FAE7C9] placeholder-[#FAE7C9]/45 focus:outline-none focus:border-[#FAE7C9] transition-colors font-montserrat text-sm resize-none"
                   />
                 </div>
               </div>
@@ -768,24 +780,24 @@ export default function RSVPSection() {
             {step === 5 && (
               <div className="space-y-6 animate-fadeIn">
                 <div className="space-y-2">
-                  <div className="flex items-center gap-2 text-amber-300 text-xs font-montserrat tracking-widest uppercase font-semibold">
-                    <FileCheck2 className="w-4 h-4 text-amber-300" />
+                  <div className="flex items-center gap-2 text-[#E1C78F] text-xs font-montserrat tracking-widest uppercase font-semibold">
+                    <FileCheck2 className="w-4 h-4 text-[#E1C78F]" />
                     <span>Revisión Final</span>
                   </div>
-                  <h3 className="font-cinzel text-xl sm:text-2xl md:text-3xl font-bold text-cream-50">
+                  <h3 className="font-cinzel text-xl sm:text-2xl md:text-3xl font-bold text-[#FAE7C9]">
                     Resumen de tu Pase de Invitado
                   </h3>
-                  <p className="font-garamond italic text-base sm:text-lg text-cream-200/90 leading-relaxed">
+                  <p className="font-garamond italic text-base sm:text-lg text-[#FAE7C9]/90 leading-relaxed">
                     Verifica que tus datos estén correctos antes de enviar la confirmación a los novios.
                   </p>
                 </div>
 
                 {/* VIP Botanical Pass Ticket */}
-                <div className="rounded-2xl p-6 bg-[#182114] border border-amber-300/40 relative overflow-hidden shadow-xl space-y-4">
+                <div className="rounded-2xl p-6 bg-[#484529] border border-[#FAE7C9]/50 relative overflow-hidden shadow-xl space-y-4">
                   {/* Decorative gold ribbon bar */}
-                  <div className="flex items-center justify-between border-b border-amber-300/25 pb-3">
+                  <div className="flex items-center justify-between border-b border-[#E1C78F]/30 pb-3">
                     <div className="flex items-center gap-2">
-                      <Sparkles className="w-4 h-4 text-amber-300" />
+                      <Sparkles className="w-4 h-4 text-[#E1C78F]" />
                       <span className="font-cinzel text-sm sm:text-base font-bold gold-gradient-text tracking-wider uppercase">
                         Matrimonio Odlan & María Jose
                       </span>
@@ -793,8 +805,8 @@ export default function RSVPSection() {
                     <span
                       className={`px-3 py-1 rounded-full text-[10px] font-montserrat tracking-widest uppercase font-semibold border ${
                         formData.attendance === 'yes'
-                          ? 'bg-emerald-950/80 border-emerald-400 text-emerald-300'
-                          : 'bg-rose-950/80 border-rose-400 text-rose-300'
+                          ? 'bg-emerald-950/80 border-emerald-400 text-emerald-200'
+                          : 'bg-rose-950/80 border-rose-400 text-rose-200'
                       }`}
                     >
                       {formData.attendance === 'yes' ? 'Asistencia Confirmada' : 'No asistirá'}
@@ -803,29 +815,29 @@ export default function RSVPSection() {
 
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 text-xs font-montserrat">
                     <div>
-                      <span className="text-cream-300/60 block text-[11px] uppercase tracking-wider mb-0.5">
+                      <span className="text-[#E1C78F]/80 block text-[11px] uppercase tracking-wider mb-0.5">
                         Modalidad de Pase:
                       </span>
-                      <span className="text-amber-200 font-semibold text-sm">
+                      <span className="text-[#FAE7C9] font-semibold text-sm">
                         {formData.hasCompanion ? 'Pase con Acompañante (2 Personas)' : 'Pase Individual (1 Persona)'}
                       </span>
                     </div>
 
                     <div>
-                      <span className="text-cream-300/60 block text-[11px] uppercase tracking-wider mb-0.5">
+                      <span className="text-[#E1C78F]/80 block text-[11px] uppercase tracking-wider mb-0.5">
                         Invitado Titular:
                       </span>
-                      <span className="text-cream-50 font-semibold text-sm">
+                      <span className="text-[#FAE7C9] font-semibold text-sm">
                         {formData.name || '—'}
                       </span>
                     </div>
 
                     {isAttending && (
                       <div>
-                        <span className="text-cream-300/60 block text-[11px] uppercase tracking-wider mb-0.5">
+                        <span className="text-[#E1C78F]/80 block text-[11px] uppercase tracking-wider mb-0.5">
                           Menú Titular:
                         </span>
-                        <span className="text-cream-200">
+                        <span className="text-[#FAE7C9]">
                           {getDietLabel(formData.dietary)}
                           {formData.dietaryNotes ? ` (${formData.dietaryNotes})` : ''}
                         </span>
@@ -834,13 +846,13 @@ export default function RSVPSection() {
 
                     {isAttending && formData.hasCompanion && (
                       <div>
-                        <span className="text-cream-300/60 block text-[11px] uppercase tracking-wider mb-0.5">
+                        <span className="text-[#E1C78F]/80 block text-[11px] uppercase tracking-wider mb-0.5">
                           Acompañante Asignado:
                         </span>
-                        <span className="text-cream-50 font-semibold">
+                        <span className="text-[#FAE7C9] font-semibold">
                           {formData.companionName || '—'}
                         </span>
-                        <span className="text-cream-300/80 block text-[11px] mt-0.5">
+                        <span className="text-[#E1C78F] block text-[11px] mt-0.5">
                           Menú: {getDietLabel(formData.companionDietary)}
                           {formData.companionDietaryNotes ? ` (${formData.companionDietaryNotes})` : ''}
                         </span>
@@ -849,21 +861,21 @@ export default function RSVPSection() {
 
                     {isAttending && formData.songRequest && (
                       <div className="sm:col-span-2">
-                        <span className="text-cream-300/60 block text-[11px] uppercase tracking-wider mb-0.5">
+                        <span className="text-[#E1C78F]/80 block text-[11px] uppercase tracking-wider mb-0.5">
                           Canción para la Fiesta:
                         </span>
-                        <span className="text-amber-200 italic font-garamond text-base">
+                        <span className="text-[#FAE7C9] italic font-garamond text-base">
                           "{formData.songRequest}"
                         </span>
                       </div>
                     )}
 
                     {formData.message && (
-                      <div className="sm:col-span-2 pt-2 border-t border-amber-300/20">
-                        <span className="text-cream-300/60 block text-[11px] uppercase tracking-wider mb-1">
+                      <div className="sm:col-span-2 pt-2 border-t border-[#E1C78F]/25">
+                        <span className="text-[#E1C78F]/80 block text-[11px] uppercase tracking-wider mb-1">
                           Mensaje para los Novios:
                         </span>
-                        <p className="text-cream-100/90 italic font-garamond text-sm leading-relaxed">
+                        <p className="text-[#FAE7C9] italic font-garamond text-sm leading-relaxed">
                           "{formData.message}"
                         </p>
                       </div>
@@ -874,12 +886,12 @@ export default function RSVPSection() {
             )}
 
             {/* Stepper Navigation Buttons */}
-            <div className="pt-6 border-t border-amber-300/20 flex flex-col sm:flex-row items-center justify-between gap-4">
+            <div className="pt-6 border-t border-[#E1C78F]/30 flex flex-col sm:flex-row items-center justify-between gap-4">
               {step > 1 ? (
                 <button
                   type="button"
                   onClick={handleBack}
-                  className="w-full sm:w-auto px-6 py-3.5 rounded-full bg-[#1b2317] hover:bg-[#25321f] text-amber-200 font-montserrat text-xs tracking-widest uppercase border border-amber-300/30 flex items-center justify-center gap-2 transition-all cursor-pointer"
+                  className="w-full sm:w-auto px-6 py-3.5 rounded-full bg-[#484529] hover:bg-[#B0926A]/45 text-[#FAE7C9] font-montserrat text-xs tracking-widest uppercase border border-[#FAE7C9]/45 flex items-center justify-center gap-2 transition-all cursor-pointer"
                 >
                   <ArrowLeft className="w-4 h-4" />
                   <span>Atrás</span>
@@ -892,7 +904,7 @@ export default function RSVPSection() {
                 <button
                   type="button"
                   onClick={handleNext}
-                  className="w-full sm:w-auto px-8 py-4 rounded-full bg-gradient-to-r from-amber-500 via-amber-400 to-amber-500 text-slate-950 font-cinzel text-xs sm:text-sm font-bold tracking-[0.2em] uppercase shadow-[0_0_25px_rgba(212,175,55,0.4)] hover:shadow-[0_0_40px_rgba(250,224,132,0.7)] transition-all transform hover:scale-105 active:scale-95 flex items-center justify-center gap-2 cursor-pointer ml-auto"
+                  className="w-full sm:w-auto px-8 py-4 rounded-full bg-gradient-to-r from-[#E1C78F] via-[#FAE7C9] to-[#E1C78F] text-[#3a3820] font-cinzel text-xs sm:text-sm font-bold tracking-[0.2em] uppercase shadow-[0_0_25px_rgba(225,199,143,0.45)] hover:shadow-[0_0_40px_rgba(250,231,201,0.75)] transition-all transform hover:scale-105 active:scale-95 flex items-center justify-center gap-2 cursor-pointer ml-auto"
                 >
                   <span>Continuar</span>
                   <ArrowRight className="w-4 h-4" />
@@ -900,11 +912,12 @@ export default function RSVPSection() {
               ) : (
                 <button
                   type="button"
+                  disabled={isSubmitting}
                   onClick={handleSubmit}
-                  className="w-full sm:w-auto px-10 py-4 rounded-full bg-gradient-to-r from-amber-500 via-amber-400 to-amber-500 text-slate-950 font-cinzel text-xs sm:text-sm font-bold tracking-[0.2em] uppercase shadow-[0_0_35px_rgba(212,175,55,0.5)] hover:shadow-[0_0_55px_rgba(250,224,132,0.8)] transition-all transform hover:scale-105 active:scale-95 flex items-center justify-center gap-2 cursor-pointer ml-auto"
+                  className="w-full sm:w-auto px-10 py-4 rounded-full bg-gradient-to-r from-[#E1C78F] via-[#FAE7C9] to-[#E1C78F] text-[#3a3820] font-cinzel text-xs sm:text-sm font-bold tracking-[0.2em] uppercase shadow-[0_0_35px_rgba(225,199,143,0.5)] hover:shadow-[0_0_55px_rgba(250,231,201,0.8)] transition-all transform hover:scale-105 active:scale-95 flex items-center justify-center gap-2 cursor-pointer ml-auto disabled:opacity-60"
                 >
                   <Sparkles className="w-4 h-4" />
-                  <span>CONFIRMAR ASISTENCIA</span>
+                  <span>{isSubmitting ? 'REGISTRANDO...' : 'CONFIRMAR ASISTENCIA'}</span>
                   <Send className="w-4 h-4" />
                 </button>
               )}

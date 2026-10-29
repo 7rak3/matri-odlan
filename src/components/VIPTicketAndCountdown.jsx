@@ -74,27 +74,27 @@ export default function VIPTicketAndCountdown() {
       <section id="fecha-lugar" className="scroll-mt-24 text-center">
         {/* Eyebrow Header */}
         <div className="max-w-2xl mx-auto mb-10">
-          <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-[#46573c]/50 border border-amber-300/30 text-amber-200 text-xs tracking-[0.25em] uppercase mb-4 shadow-sm">
-            <Sparkles className="w-3.5 h-3.5 text-amber-300" />
+          <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-[#B0926A]/35 border border-[#FAE7C9]/45 text-[#FAE7C9] text-xs tracking-[0.25em] uppercase mb-4 shadow-sm">
+            <Sparkles className="w-3.5 h-3.5 text-[#E1C78F]" />
             <span>SAVE THE DATE • RESERVA LA FECHA</span>
-            <Sparkles className="w-3.5 h-3.5 text-amber-300" />
+            <Sparkles className="w-3.5 h-3.5 text-[#E1C78F]" />
           </div>
 
           <h2 className="font-cinzel text-3xl sm:text-4xl md:text-5xl font-bold tracking-wider gold-gradient-text uppercase mb-3">
             Fecha & Lugar
           </h2>
 
-          <div className="w-20 h-0.5 mx-auto bg-gradient-to-r from-transparent via-amber-300/70 to-transparent mb-4" />
+          <div className="w-20 h-0.5 mx-auto bg-gradient-to-r from-transparent via-[#E1C78F] to-transparent mb-4" />
 
-          <p className="font-garamond italic text-lg md:text-xl text-cream-100/90 leading-relaxed">
+          <p className="font-garamond italic text-lg md:text-xl text-[#FAE7C9]/95 leading-relaxed">
             Nuestra historia continúa y nos encantaría que seas parte de este día tan especial.
           </p>
         </div>
 
         {/* Countdown Timer Display Card */}
-        <div className="max-w-3xl mx-auto rounded-3xl p-6 sm:p-10 bg-[#2b3724]/90 border border-amber-300/35 shadow-[0_20px_50px_rgba(8,12,6,0.8)] backdrop-blur-xl">
-          <div className="flex items-center justify-center gap-2 text-xs sm:text-sm font-montserrat uppercase tracking-[0.25em] text-amber-200 mb-6 font-medium">
-            <Clock className="w-4 h-4 text-amber-300 animate-pulse" />
+        <div className="max-w-3xl mx-auto rounded-3xl p-6 sm:p-10 bg-[#575432]/90 border border-[#FAE7C9]/45 shadow-[0_20px_50px_rgba(45,42,20,0.45)] backdrop-blur-xl">
+          <div className="flex items-center justify-center gap-2 text-xs sm:text-sm font-montserrat uppercase tracking-[0.25em] text-[#E1C78F] mb-6 font-medium">
+            <Clock className="w-4 h-4 text-[#FAE7C9] animate-pulse" />
             <span>Tiempo restante para nuestro matrimonio</span>
           </div>
 
@@ -107,19 +107,19 @@ export default function VIPTicketAndCountdown() {
             ].map((unit) => (
               <div
                 key={unit.label}
-                className="flex flex-col items-center justify-center p-3 sm:p-6 rounded-2xl bg-[#1b2317]/95 border border-amber-300/25 shadow-inner"
+                className="flex flex-col items-center justify-center p-3 sm:p-6 rounded-2xl bg-[#484529]/95 border border-[#E1C78F]/40 shadow-inner"
               >
                 <span className="font-cinzel text-2xl sm:text-5xl md:text-6xl font-bold gold-gradient-text leading-none">
                   {String(unit.value).padStart(2, '0')}
                 </span>
-                <span className="text-[9px] sm:text-xs font-montserrat tracking-widest text-cream-200/80 mt-2 uppercase font-medium">
+                <span className="text-[9px] sm:text-xs font-montserrat tracking-widest text-[#FAE7C9]/90 mt-2 uppercase font-medium">
                   {unit.label}
                 </span>
               </div>
             ))}
           </div>
 
-          <p className="font-montserrat text-xs sm:text-sm md:text-base text-amber-200 font-semibold mt-8 tracking-[0.2em] uppercase">
+          <p className="font-montserrat text-xs sm:text-sm md:text-base text-[#FAE7C9] font-semibold mt-8 tracking-[0.2em] uppercase">
             ✨ SÁBADO 20 DE FEBRERO DE 2027 • SANTIAGO DE CHILE ✨
           </p>
         </div>
@@ -131,17 +131,17 @@ export default function VIPTicketAndCountdown() {
             target="_blank"
             rel="noopener noreferrer"
             onClick={() => cosmicAudio.playChime(1.3)}
-            className="inline-flex items-center gap-2 px-6 py-3.5 rounded-full bg-[#2a3622] border border-amber-300/40 text-cream-100 text-xs font-montserrat tracking-widest uppercase hover:bg-[#38492e] hover:border-amber-200 transition-all duration-300 shadow-md font-medium"
+            className="inline-flex items-center gap-2 px-6 py-3.5 rounded-full bg-[#575432] border border-[#FAE7C9]/50 text-[#FAE7C9] text-xs font-montserrat tracking-widest uppercase hover:bg-[#B0926A]/55 hover:border-[#FAE7C9] transition-all duration-300 shadow-md font-medium"
           >
-            <Calendar className="w-4 h-4 text-amber-300" />
+            <Calendar className="w-4 h-4 text-[#E1C78F]" />
             <span>Añadir a Google Calendar</span>
           </a>
 
           <button
             onClick={downloadIcs}
-            className="inline-flex items-center gap-2 px-6 py-3.5 rounded-full bg-[#2a3622] border border-amber-300/40 text-cream-100 text-xs font-montserrat tracking-widest uppercase hover:bg-[#38492e] hover:border-amber-200 transition-all duration-300 shadow-md cursor-pointer font-medium"
+            className="inline-flex items-center gap-2 px-6 py-3.5 rounded-full bg-[#575432] border border-[#FAE7C9]/50 text-[#FAE7C9] text-xs font-montserrat tracking-widest uppercase hover:bg-[#B0926A]/55 hover:border-[#FAE7C9] transition-all duration-300 shadow-md cursor-pointer font-medium"
           >
-            <Download className="w-4 h-4 text-amber-300" />
+            <Download className="w-4 h-4 text-[#E1C78F]" />
             <span>Descargar Recordatorio (.ICS)</span>
           </button>
         </div>
@@ -151,22 +151,22 @@ export default function VIPTicketAndCountdown() {
       <section id="ubicacion" className="scroll-mt-24">
         <div className="grid grid-cols-1 md:grid-cols-12 gap-8 items-stretch">
           {/* Venue Card (7 cols) */}
-          <div className="md:col-span-7 rounded-3xl p-6 sm:p-8 bg-[#2b3724]/90 border border-amber-300/35 shadow-[0_15px_40px_rgba(8,12,6,0.7)] text-left flex flex-col justify-between">
+          <div className="md:col-span-7 rounded-3xl p-6 sm:p-8 bg-[#575432]/90 border border-[#FAE7C9]/45 shadow-[0_15px_40px_rgba(45,42,20,0.45)] text-left flex flex-col justify-between">
             <div>
-              <div className="flex items-center gap-2 text-xs font-montserrat tracking-widest text-amber-300 uppercase mb-3 font-semibold">
-                <MapPin className="w-4 h-4 text-amber-300" />
+              <div className="flex items-center gap-2 text-xs font-montserrat tracking-widest text-[#E1C78F] uppercase mb-3 font-semibold">
+                <MapPin className="w-4 h-4 text-[#E1C78F]" />
                 <span>Lugar de Nuestra Celebración</span>
               </div>
 
-              <h3 className="font-cinzel text-2xl sm:text-4xl font-bold text-cream-50 mb-2">
+              <h3 className="font-cinzel text-2xl sm:text-4xl font-bold text-[#FAE7C9] mb-2">
                 Casona Los Nogales
               </h3>
 
-              <p className="font-garamond italic text-lg text-amber-200/90 mb-4">
+              <p className="font-garamond italic text-lg text-[#E1C78F] mb-4">
                 Santiago de Chile
               </p>
 
-              <p className="font-montserrat text-xs sm:text-sm text-cream-200/90 leading-relaxed mb-6 font-light">
+              <p className="font-montserrat text-xs sm:text-sm text-[#FAE7C9]/90 leading-relaxed mb-6 font-light">
                 {address}
               </p>
             </div>
@@ -178,9 +178,9 @@ export default function VIPTicketAndCountdown() {
                 target="_blank"
                 rel="noopener noreferrer"
                 onClick={() => cosmicAudio.playChime(1.2)}
-                className="w-full flex items-center justify-center gap-2 py-3.5 px-4 rounded-xl bg-gradient-to-r from-amber-500/25 via-amber-400/35 to-amber-500/25 border border-amber-300/70 text-cream-50 hover:text-white hover:border-amber-200 transition-all font-montserrat text-xs tracking-widest uppercase font-semibold shadow-md cursor-pointer"
+                className="w-full flex items-center justify-center gap-2 py-3.5 px-4 rounded-xl bg-gradient-to-r from-[#B0926A]/65 via-[#E1C78F]/55 to-[#B0926A]/65 border border-[#FAE7C9]/70 text-[#FAE7C9] hover:text-white hover:border-white transition-all font-montserrat text-xs tracking-widest uppercase font-semibold shadow-md cursor-pointer"
               >
-                <MapPin className="w-4 h-4 text-amber-300" />
+                <MapPin className="w-4 h-4 text-[#FAE7C9]" />
                 <span>Abrir en Google Maps</span>
               </a>
 
@@ -189,32 +189,32 @@ export default function VIPTicketAndCountdown() {
                 target="_blank"
                 rel="noopener noreferrer"
                 onClick={() => cosmicAudio.playChime(1.2)}
-                className="w-full flex items-center justify-center gap-2 py-3.5 px-4 rounded-xl bg-[#1b2317] border border-amber-300/30 text-amber-200 hover:text-white hover:border-amber-300 transition-all font-montserrat text-xs tracking-widest uppercase font-semibold shadow-md cursor-pointer"
+                className="w-full flex items-center justify-center gap-2 py-3.5 px-4 rounded-xl bg-[#484529] border border-[#E1C78F]/45 text-[#FAE7C9] hover:text-white hover:border-[#FAE7C9] transition-all font-montserrat text-xs tracking-widest uppercase font-semibold shadow-md cursor-pointer"
               >
-                <Navigation className="w-4 h-4 text-cyan-300" />
+                <Navigation className="w-4 h-4 text-[#E1C78F]" />
                 <span>Navegar con Waze</span>
               </a>
             </div>
           </div>
 
           {/* Loving Dress Note Card (5 cols) — ONLY this was requested */}
-          <div className="md:col-span-5 rounded-3xl p-6 sm:p-8 bg-[#2b3724]/90 border border-amber-300/35 shadow-[0_15px_40px_rgba(8,12,6,0.7)] text-left flex flex-col justify-center">
-            <div className="p-6 rounded-2xl bg-[#1d2618]/90 border border-amber-300/30 text-center space-y-4">
-              <div className="w-12 h-12 rounded-full bg-amber-400/15 border border-amber-300/40 flex items-center justify-center mx-auto shadow-sm">
-                <Heart className="w-6 h-6 text-amber-300 fill-amber-300/30 animate-pulse" />
+          <div className="md:col-span-5 rounded-3xl p-6 sm:p-8 bg-[#575432]/90 border border-[#FAE7C9]/45 shadow-[0_15px_40px_rgba(45,42,20,0.45)] text-left flex flex-col justify-center">
+            <div className="p-6 rounded-2xl bg-[#484529]/95 border border-[#E1C78F]/40 text-center space-y-4">
+              <div className="w-12 h-12 rounded-full bg-[#B0926A]/35 border border-[#FAE7C9]/50 flex items-center justify-center mx-auto shadow-sm">
+                <Heart className="w-6 h-6 text-[#FAE7C9] fill-[#E1C78F]/40 animate-pulse" />
               </div>
 
               <h4 className="font-cinzel text-lg sm:text-xl font-bold gold-gradient-text uppercase tracking-wider">
                 Nota con Cariño
               </h4>
 
-              <div className="w-12 h-0.5 mx-auto bg-amber-300/40" />
+              <div className="w-12 h-0.5 mx-auto bg-[#E1C78F]/60" />
 
-              <p className="font-garamond italic text-lg sm:text-xl text-cream-100 leading-relaxed">
+              <p className="font-garamond italic text-lg sm:text-xl text-[#FAE7C9] leading-relaxed">
                 "El blanco y el marfil están reservados exclusivamente para la novia."
               </p>
 
-              <p className="font-montserrat text-xs text-amber-200/80 tracking-wide font-light">
+              <p className="font-montserrat text-xs text-[#E1C78F] tracking-wide font-light">
                 ¡Gracias por acompañarnos con tanto amor y complicidad!
               </p>
             </div>

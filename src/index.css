@@ -6,26 +6,32 @@
   --font-sans: 'Montserrat', system-ui, sans-serif;
   --font-script: 'Great Vibes', cursive;
 
-  --color-gold-200: #fef08a;
-  --color-gold-300: #fae084;
-  --color-gold-400: #e6c86e;
-  --color-gold-500: #d4af37;
-  --color-gold-600: #b89125;
-  --color-gold-700: #8c6c14;
-  
-  --color-olive-950: #141a10;
-  --color-olive-900: #1d2518;
-  --color-olive-850: #26311f;
-  --color-olive-800: #313e28;
-  --color-olive-700: #3e4f33;
-  --color-olive-600: #4d613f;
-  --color-olive-500: #5c744c;
-  --color-olive-card: #45553a;
+  /* Paleta solicitada por los novios */
+  --color-crema: #FAE7C9;
+  --color-caramel: #E1C78F;
+  --color-arabica: #B0926A;
+  --color-olive-bg: #6e6b41;
 
-  --color-cream-50: #fbfaf6;
-  --color-cream-100: #f6f3eb;
-  --color-cream-200: #ece6d8;
-  --color-cream-300: #ded5c2;
+  --color-gold-200: #FAE7C9;
+  --color-gold-300: #E1C78F;
+  --color-gold-400: #d8b878;
+  --color-gold-500: #B0926A;
+  --color-gold-600: #9a7c54;
+  --color-gold-700: #7d623f;
+  
+  --color-olive-950: #464428;
+  --color-olive-900: #525030;
+  --color-olive-850: #5b5936;
+  --color-olive-800: #6e6b41;
+  --color-olive-700: #7c794c;
+  --color-olive-600: #8b8858;
+  --color-olive-500: #9b9868;
+  --color-olive-card: #5a5735;
+
+  --color-cream-50: #fffaf0;
+  --color-cream-100: #FAE7C9;
+  --color-cream-200: #f3dbb6;
+  --color-cream-300: #E1C78F;
 }
 
 :root {
@@ -35,8 +41,8 @@
 body {
   margin: 0;
   padding: 0;
-  background-color: #171d13;
-  color: #f7f4ec;
+  background-color: #6e6b41;
+  color: #FAE7C9;
   font-family: 'Montserrat', sans-serif;
   overflow-x: hidden;
 }
@@ -58,21 +64,21 @@ body {
   font-family: 'Montserrat', sans-serif;
 }
 
-/* Metallic Gold Gradients */
+/* Crema, Caramel & Arabica Gradients */
 .gold-gradient-text {
-  background: linear-gradient(135deg, #ffffff 0%, #fdf2cd 30%, #e6ca6e 65%, #c89c36 100%);
+  background: linear-gradient(135deg, #fffdf9 0%, #FAE7C9 35%, #E1C78F 70%, #B0926A 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
 }
 
 .gold-gradient-text-subtle {
-  background: linear-gradient(135deg, #ffffff 0%, #f7ecd2 50%, #d8b76c 100%);
+  background: linear-gradient(135deg, #fffdf9 0%, #FAE7C9 50%, #E1C78F 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
 }
 
 .cream-gradient-text {
-  background: linear-gradient(180deg, #ffffff 0%, #fbf9f3 50%, #ede6d6 100%);
+  background: linear-gradient(180deg, #ffffff 0%, #FAE7C9 55%, #E1C78F 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
 }
@@ -80,50 +86,50 @@ body {
 /* Glassmorphism Botanical Cards */
 .cosmic-glass,
 .botanical-glass {
-  background: rgba(36, 46, 29, 0.78);
+  background: rgba(84, 81, 49, 0.82);
   backdrop-filter: blur(16px);
   -webkit-backdrop-filter: blur(16px);
-  border: 1px solid rgba(220, 205, 160, 0.22);
-  box-shadow: 0 15px 35px -10px rgba(10, 14, 8, 0.75), 0 0 25px -5px rgba(212, 175, 55, 0.08);
+  border: 1px solid rgba(250, 231, 201, 0.35);
+  box-shadow: 0 15px 35px -10px rgba(45, 43, 24, 0.55), 0 0 25px -5px rgba(225, 199, 143, 0.18);
 }
 
 .botanical-card-solid {
-  background: #3f4e35;
-  border: 1px solid rgba(245, 241, 230, 0.25);
-  box-shadow: 0 20px 45px -12px rgba(10, 15, 8, 0.85);
+  background: #5a5735;
+  border: 1px solid rgba(250, 231, 201, 0.38);
+  box-shadow: 0 20px 45px -12px rgba(45, 43, 24, 0.6);
 }
 
 .cosmic-glass-interactive,
 .botanical-glass-interactive {
-  background: rgba(42, 54, 34, 0.82);
+  background: rgba(90, 87, 53, 0.85);
   backdrop-filter: blur(18px);
   -webkit-backdrop-filter: blur(18px);
-  border: 1px solid rgba(220, 205, 160, 0.28);
+  border: 1px solid rgba(225, 199, 143, 0.4);
   transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .cosmic-glass-interactive:hover,
 .botanical-glass-interactive:hover {
-  border-color: rgba(230, 202, 110, 0.6);
-  box-shadow: 0 15px 35px -10px rgba(10, 15, 8, 0.9), 0 0 30px 2px rgba(212, 175, 55, 0.2);
+  border-color: rgba(250, 231, 201, 0.75);
+  box-shadow: 0 15px 35px -10px rgba(45, 43, 24, 0.65), 0 0 30px 2px rgba(225, 199, 143, 0.28);
   transform: translateY(-3px);
 }
 
 /* Golden & Botanical Glows */
 .gold-glow {
-  box-shadow: 0 0 35px rgba(212, 175, 55, 0.35);
+  box-shadow: 0 0 35px rgba(225, 199, 143, 0.4);
 }
 
 .gold-glow-lg {
-  box-shadow: 0 0 60px rgba(212, 175, 55, 0.4), 0 0 100px rgba(212, 175, 55, 0.15);
+  box-shadow: 0 0 60px rgba(225, 199, 143, 0.45), 0 0 100px rgba(250, 231, 201, 0.2);
 }
 
 .olive-glow {
-  box-shadow: 0 0 40px rgba(92, 116, 76, 0.45);
+  box-shadow: 0 0 40px rgba(176, 146, 106, 0.45);
 }
 
 .text-gold-glow {
-  text-shadow: 0 0 18px rgba(245, 207, 83, 0.45);
+  text-shadow: 0 0 18px rgba(250, 231, 201, 0.5);
 }
 
 /* Animations */
@@ -134,7 +140,7 @@ body {
 
 @keyframes pulse-ring {
   0% { transform: scale(0.96); opacity: 0.85; }
-  50% { transform: scale(1.04); opacity: 1; filter: drop-shadow(0 0 12px rgba(212,175,55,0.6)); }
+  50% { transform: scale(1.04); opacity: 1; filter: drop-shadow(0 0 12px rgba(225,199,143,0.65)); }
   100% { transform: scale(0.96); opacity: 0.85; }
 }
 
@@ -170,13 +176,13 @@ body {
   width: 8px;
 }
 ::-webkit-scrollbar-track {
-  background: #151b11;
+  background: #575533;
 }
 ::-webkit-scrollbar-thumb {
-  background: #35422b;
+  background: #B0926A;
   border-radius: 4px;
-  border: 1px solid rgba(212, 175, 55, 0.2);
+  border: 1px solid rgba(250, 231, 201, 0.35);
 }
 ::-webkit-scrollbar-thumb:hover {
-  background: #d4af37;
+  background: #E1C78F;
 }

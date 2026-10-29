@@ -63,10 +63,10 @@ export default function AudioControlBar() {
       className="fixed bottom-4 right-4 sm:bottom-6 sm:right-6 z-50 select-none max-w-[calc(100vw-2rem)]"
     >
       <div
-        className={`flex items-center gap-2 sm:gap-3 px-3.5 sm:px-4 py-2 sm:py-2.5 rounded-full backdrop-blur-xl border transition-all duration-300 shadow-[0_10px_35px_rgba(0,0,0,0.8)] ${
+        className={`flex items-center gap-2 sm:gap-3 px-3.5 sm:px-4 py-2 sm:py-2.5 rounded-full backdrop-blur-xl border transition-all duration-300 shadow-[0_10px_35px_rgba(40,38,18,0.55)] ${
           isActive
-            ? 'border-amber-300/60 shadow-[0_0_25px_rgba(212,175,55,0.25)] bg-[#24301f]/95'
-            : 'border-amber-300/20 bg-[#192215]/90 text-cream-300/60'
+            ? 'border-[#FAE7C9]/70 shadow-[0_0_25px_rgba(250,231,201,0.3)] bg-[#575432]/95'
+            : 'border-[#E1C78F]/35 bg-[#484529]/90 text-[#FAE7C9]/70'
         }`}
       >
         {/* Forest Icon & Equalizer */}
@@ -74,11 +74,11 @@ export default function AudioControlBar() {
           <div className="relative flex items-center justify-center">
             <Trees
               className={`w-6 h-6 transition-colors ${
-                isActive ? 'text-amber-300 animate-pulse' : 'text-slate-600'
+                isActive ? 'text-[#FAE7C9] animate-pulse' : 'text-[#E1C78F]/50'
               }`}
             />
             {isActive && (
-              <span className="absolute w-1.5 h-1.5 rounded-full bg-amber-200 animate-ping" />
+              <span className="absolute w-1.5 h-1.5 rounded-full bg-[#FAE7C9] animate-ping" />
             )}
           </div>
 
@@ -90,9 +90,9 @@ export default function AudioControlBar() {
                 className={`w-0.5 sm:w-1 rounded-full transition-all duration-150 ${
                   isActive
                     ? kickPulse
-                      ? 'bg-amber-300 h-4 scale-y-125'
-                      : 'bg-amber-400 h-2'
-                    : 'bg-slate-700 h-1'
+                      ? 'bg-[#FAE7C9] h-4 scale-y-125'
+                      : 'bg-[#E1C78F] h-2'
+                    : 'bg-[#B0926A]/50 h-1'
                 }`}
                 style={{
                   transitionDelay: `${i * 35}ms`,
@@ -104,23 +104,23 @@ export default function AudioControlBar() {
 
         {/* Track Info */}
         <div className="text-left min-w-[105px] sm:min-w-[135px] max-w-[130px] sm:max-w-[170px] overflow-hidden">
-          <div className="flex items-center gap-1.5 text-[9px] sm:text-[10px] font-montserrat uppercase tracking-wider text-amber-300/90 font-medium">
-            <span className="px-1.5 py-0.2 rounded bg-amber-400/15 border border-amber-400/30 text-amber-300 font-bold">
+          <div className="flex items-center gap-1.5 text-[9px] sm:text-[10px] font-montserrat uppercase tracking-wider text-[#E1C78F] font-medium">
+            <span className="px-1.5 py-0.2 rounded bg-[#B0926A]/45 border border-[#FAE7C9]/45 text-[#FAE7C9] font-bold">
               {audioState.currentTrackIndex + 1}/{audioState.totalTracks}
             </span>
             <span className="truncate">{audioState.bpm} BPM</span>
           </div>
-          <div className="text-[11px] sm:text-xs font-cinzel text-white font-semibold truncate leading-tight mt-0.5">
+          <div className="text-[11px] sm:text-xs font-cinzel text-[#FAE7C9] font-semibold truncate leading-tight mt-0.5">
             {audioState.title}
           </div>
         </div>
 
         {/* Playback Controls (Prev, Play/Pause, Next) */}
-        <div className="flex items-center gap-1 sm:gap-1.5 border-l border-r border-amber-400/20 px-1 sm:px-2">
+        <div className="flex items-center gap-1 sm:gap-1.5 border-l border-r border-[#FAE7C9]/25 px-1 sm:px-2">
           {/* Previous Track */}
           <button
             onClick={handlePrevTrack}
-            className="p-1.5 rounded-full text-slate-300 hover:text-amber-300 hover:bg-amber-400/10 transition-all cursor-pointer active:scale-90"
+            className="p-1.5 rounded-full text-[#FAE7C9] hover:text-white hover:bg-[#FAE7C9]/15 transition-all cursor-pointer active:scale-90"
             title="Pista anterior"
             aria-label="Pista anterior"
           >
@@ -132,8 +132,8 @@ export default function AudioControlBar() {
             onClick={handleTogglePlay}
             className={`p-2 rounded-full transition-all transform active:scale-95 cursor-pointer shadow-md ${
               audioState.isPlaying
-                ? 'bg-gradient-to-r from-amber-400 to-amber-500 text-slate-950 hover:brightness-110 shadow-[0_0_15px_rgba(250,224,132,0.4)]'
-                : 'bg-slate-800 text-amber-300 hover:bg-slate-700'
+                ? 'bg-gradient-to-r from-[#E1C78F] to-[#FAE7C9] text-[#3a3820] hover:brightness-110 shadow-[0_0_15px_rgba(250,231,201,0.45)]'
+                : 'bg-[#464428] text-[#FAE7C9] hover:bg-[#B0926A]/55'
             }`}
             title={audioState.isPlaying ? 'Pausar música' : 'Reproducir música'}
             aria-label={audioState.isPlaying ? 'Pausar música' : 'Reproducir música'}
@@ -148,7 +148,7 @@ export default function AudioControlBar() {
           {/* Next Track */}
           <button
             onClick={handleNextTrack}
-            className="p-1.5 rounded-full text-slate-300 hover:text-amber-300 hover:bg-amber-400/10 transition-all cursor-pointer active:scale-90"
+            className="p-1.5 rounded-full text-[#FAE7C9] hover:text-white hover:bg-[#FAE7C9]/15 transition-all cursor-pointer active:scale-90"
             title="Pista siguiente"
             aria-label="Pista siguiente"
           >
@@ -161,8 +161,8 @@ export default function AudioControlBar() {
           onClick={handleToggleMute}
           className={`p-1.5 rounded-full transition-colors cursor-pointer ${
             audioState.isMuted
-              ? 'text-rose-400 hover:text-rose-300 bg-rose-500/10'
-              : 'text-amber-200 hover:text-white bg-white/5'
+              ? 'text-rose-300 hover:text-rose-200 bg-rose-500/15'
+              : 'text-[#FAE7C9] hover:text-white bg-white/10'
           }`}
           title={audioState.isMuted ? 'Activar sonido' : 'Silenciar sonido'}
           aria-label={audioState.isMuted ? 'Activar sonido' : 'Silenciar sonido'}
